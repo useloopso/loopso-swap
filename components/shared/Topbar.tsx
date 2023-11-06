@@ -35,12 +35,10 @@ const Topbar = () => {
             <div className="flex items-center gap-4">
                 <ConnectWallet />
                 <DropdownMenu>
-                    <DropdownMenuTrigger>
-                        <Button>
-                            <MoreHorizontal />
-                        </Button>
+                    <DropdownMenuTrigger className='bg-[#85A0FF] text-white hover:bg-primary/10 hover:text-[#000000] rounded-lg'>
+                        <MoreHorizontal className='w-10 h-10 p-2'/>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent>
+                    <DropdownMenuContent className='mr-5'>
                         <DropdownMenuItem className='px-5 gap-3 font-semibold'><Github />Github</DropdownMenuItem>
                         <DropdownMenuItem className='px-5  gap-3 font-semibold'><FileText />Docs</DropdownMenuItem>
                         <DropdownMenuItem className='px-5  gap-3 font-semibold'><Twitter />Twitter</DropdownMenuItem>
