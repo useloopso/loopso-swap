@@ -13,8 +13,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
+import { useState } from 'react';
 
 const Topbar = () => {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    const openNewTab = (url: any) => {
+        window.open(url, '_blank');
+    };
 
     return (
         <nav className="topbar px-5 py-5">
@@ -39,9 +45,9 @@ const Topbar = () => {
                         <MoreHorizontal className='w-10 h-10 p-2'/>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className='mr-5'>
-                        <DropdownMenuItem className='px-5 gap-3 font-semibold'><Github />Github</DropdownMenuItem>
-                        <DropdownMenuItem className='px-5  gap-3 font-semibold'><FileText />Docs</DropdownMenuItem>
-                        <DropdownMenuItem className='px-5  gap-3 font-semibold'><Twitter />Twitter</DropdownMenuItem>
+                        <DropdownMenuItem className='px-5 gap-3 font-semibold cursor-pointer' onClick={() => openNewTab('https://github.com/useloopso')}><Github />Github</DropdownMenuItem>
+                        <DropdownMenuItem className='px-5  gap-3 font-semibold cursor-pointer'><FileText />Docs</DropdownMenuItem>
+                        <DropdownMenuItem className='px-5  gap-3 font-semibold cursor-pointer'><Twitter />Twitter</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
