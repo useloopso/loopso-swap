@@ -90,7 +90,7 @@ const SwapWidget = () => {
           </div>
           <div className="h-2"></div>
           <div className='items-center justify-center flex'>
-            <MoveDown className='bg-[#85A0FF]/60 rounded-lg p-2 h-8 w-8'/>
+            <MoveDown className='bg-[#85A0FF]/60 rounded-3xl p-2 h-8 w-8 border border-slate'/>
           </div>
           <div className="h-2"></div>
           <div className='swapcontent'>
