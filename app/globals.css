@@ -73,14 +73,38 @@
   body {
     @apply bg-background text-foreground;
   }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
 
 @layer components {
-  .main-container {
-    @apply flex min-h-screen flex-1 flex-col items-center px-6 pb-10 pt-28 max-md:pb-32 sm:px-10 bg-[#E1E1FF];
+  .topbar {
+    @apply fixed top-0 z-30 flex w-full items-center justify-between px-6 py-3;
   }
 
-  .topbar {
-    @apply fixed top-0 z-30 flex w-full items-center justify-between px-6 py-3 bg-[#E1E1FF];
+  .main-container {
+    @apply flex min-h-screen flex-1 flex-col items-center px-6 pb-10 pt-16 max-md:pb-32 sm:px-10 bg-[#E1E1FF] circles;
   }
+
+  .widgetwrapper{ 
+    @apply w-screen flex items-center justify-center mt-14;
+  }
+
+  .widgetcontent{
+    @apply w-[38rem] rounded-2xl p-4 circles border border-white;
+  }
+
+  .swapcontent{
+    @apply w-[36rem] rounded-2xl p-6 bg-[#85A0FF]/30 h-40 border border-white;
+  }
+}
+
+.circles {
+  background-color: #e5e5f7;
+  opacity: 1;
+  background-image: radial-gradient(circle at center center, #E1E1FF, #FFFFFF);
+  background-blend-mode: multiply;
 }
