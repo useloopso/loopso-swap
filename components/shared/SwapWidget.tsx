@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import Image from 'next/image'
 
 
 const SwapWidget = () => {
@@ -33,21 +34,54 @@ const SwapWidget = () => {
         <div className="h-3"></div>
         <div>
           <div className='swapcontent'>
-          <Dialog>
-            <DialogTrigger className='p-3 bg-[#78EE9D]/30 rounded-2xl text-black font-light flex'>
-              Open
-              <ChevronDown className='ml-auto'/>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-                <DialogDescription>
-                  This action cannot be undone. This will permanently delete your account
-                  and remove your data from our servers.
-                </DialogDescription>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
+            <div className='flex'>
+              <Dialog>
+                <DialogTrigger className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-36 items-center justify-center'>
+                  <div className='flex items-center justify-center gap-3'>
+                    <Image 
+                      src='/assets/lukso.svg'
+                      alt='Token'
+                      width={20}
+                      height={20}
+                    />
+                    <span>LYX</span>
+                  </div>
+                  <ChevronDown className='ml-auto w-5 h-5'/>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+                    <DialogDescription>
+                      This action cannot be undone. This will permanently delete your account
+                      and remove your data from our servers.
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+              <Dialog>
+                <DialogTrigger className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-40 items-center justify-center ml-auto'>
+                  <div className='flex items-center justify-center gap-3'>
+                    <Image 
+                      src='/assets/lukso.svg'
+                      alt='Network'
+                      width={20}
+                      height={20}
+                    />
+                    <span>Lukso</span>
+                  </div>
+                  <ChevronDown className='ml-auto w-5 h-5'/>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+                    <DialogDescription>
+                      This action cannot be undone. This will permanently delete your account
+                      and remove your data from our servers.
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+            </div>
           <div className="h-5"></div>
             <Input 
               placeholder="0.00" 
@@ -60,6 +94,55 @@ const SwapWidget = () => {
           </div>
           <div className="h-2"></div>
           <div className='swapcontent'>
+            <div className='flex'>
+              <Dialog>
+                <DialogTrigger className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-36 items-center justify-center'>
+                  <div className='flex items-center justify-center gap-3'>
+                    <Image 
+                      src='/assets/usdc.svg'
+                      alt='Token'
+                      width={20}
+                      height={20}
+                    />
+                    <span>USDC</span>
+                  </div>
+                  <ChevronDown className='ml-auto w-5 h-5'/>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+                    <DialogDescription>
+                      This action cannot be undone. This will permanently delete your account
+                      and remove your data from our servers.
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+              <Dialog>
+                  <DialogTrigger className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-40 items-center justify-center ml-auto'>
+                    <div className='flex items-center justify-center gap-3'>
+                      <Image 
+                        src='/assets/eth.svg'
+                        alt='Network'
+                        width={20}
+                        height={20}
+                      />
+                      <span>Ethereum</span>
+                    </div>
+                    <ChevronDown className='ml-auto w-5 h-5'/>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+                      <DialogDescription>
+                        This action cannot be undone. This will permanently delete your account
+                        and remove your data from our servers.
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+            </div>
+            <div className="h-5"></div>
             <Label className='p-1 text-2xl'>0.00</Label>
           </div>
         </div>
