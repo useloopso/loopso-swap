@@ -39,7 +39,7 @@ const Topbar = () => {
             <div className="flex items-center gap-4">
                 <ConnectWallet />
                 <DropdownMenu>
-                    <DropdownMenuTrigger className='bg-[#85A0FF]/70 text-white hover:bg-primary/10 hover:text-[#000000] rounded-lg'>
+                    <DropdownMenuTrigger className='bg-[#85A0FF]/70 text-white hover:bg-primary/10 hover:text-[#000000] rounded-2xl'>
                         <MoreHorizontal className='w-10 h-10 p-2'/>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className='mr-5'>

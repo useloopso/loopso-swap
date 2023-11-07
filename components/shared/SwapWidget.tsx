@@ -1,10 +1,20 @@
 "use client"
 
 import React from 'react'
+import { ChevronDown, MoveDown, Settings } from 'lucide-react'
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { MoveDown, Settings } from 'lucide-react'
-import { Label } from '../ui/label'
+import { Label } from '@/components/ui/label'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 
 const SwapWidget = () => {
 
@@ -20,8 +30,25 @@ const SwapWidget = () => {
               <Settings />
           </div>
         </div>
+        <div className="h-3"></div>
         <div>
           <div className='swapcontent'>
+          <Dialog>
+            <DialogTrigger className='p-3 bg-[#78EE9D]/30 rounded-2xl text-black font-light flex'>
+              Open
+              <ChevronDown className='ml-auto'/>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone. This will permanently delete your account
+                  and remove your data from our servers.
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+          <div className="h-5"></div>
             <Input 
               placeholder="0.00" 
               type='number' 
@@ -33,7 +60,7 @@ const SwapWidget = () => {
           </div>
           <div className="h-2"></div>
           <div className='swapcontent'>
-            <Label className='p-2 text-2xl'>0.00</Label>
+            <Label className='p-1 text-2xl'>0.00</Label>
           </div>
         </div>
         <div className="h-4"></div>
