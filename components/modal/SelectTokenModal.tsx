@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import Image from 'next/image';
 import { ChevronDown, X } from 'lucide-react';
 import { tokenList } from '@/constants/index.js';
+import { Separator } from '../ui/separator';
 
 type Props = {
     token: any;
@@ -40,6 +41,7 @@ const SelectTokenModal = ({ token }: Props) => {
                             Select Token
                             <X className='ml-auto w-4 h-4 cursor-pointer' onClick={closeDialog} />
                         </DialogTitle>
+                        <Separator />
                         <DialogDescription>
                             <div className='modalContent'>
                                 {tokenList?.map((e, i) => (

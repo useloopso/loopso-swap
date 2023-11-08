@@ -102,7 +102,6 @@
   }
 
   .modalContent {
-    border-top: 1px solid #FFFFFF;
     margin-top: 10px;
     display: flex;
     flex-direction: column;

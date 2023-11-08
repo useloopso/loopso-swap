@@ -1,36 +1,29 @@
 "use client"
 
 import React, { useState } from 'react'
-import { ChevronDown, MoveDown, Settings } from 'lucide-react'
+import { MoveDown, Settings2 } from 'lucide-react'
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from '@/components/ui/label'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import Image from 'next/image'
 import { networkList, tokenList } from '@/constants/index.js'
 import SelectTokenModal from '../modal/SelectTokenModal'
 import SelectNetworkModal from '../modal/SelectNetworkModal'
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Separator } from '../ui/separator'
+
 
 const SwapWidget = () => {
   const [tokenOne, setTokenOne] = useState(tokenList[0]);
   const [tokenTwo, setTokenTwo] = useState(tokenList[1]);
   const [networkOne, setNetworkOne] = useState(networkList[0]);
   const [networkTwo, setNetworkTwo] = useState(networkList[1]);
-
-  const switchTokens = () => {
-    const one = tokenOne;
-    const two = tokenTwo;
-    setTokenOne(two);
-    setTokenTwo(one);
-  }
 
   return (
     <div className='widget-wrapper'>
@@ -41,7 +34,34 @@ const SwapWidget = () => {
             <span className='text-xs'>(Powered by Loopso)</span>
           </p>
           <div className='ml-auto'>
-              <Settings />
+              <Popover>
+                <PopoverTrigger>
+                  <Settings2 />
+                </PopoverTrigger>
+                <PopoverContent className='w-auto'>
+                  <div className='font-bold text-base'>
+                    Settings
+                  </div>
+                  <Separator />
+                  <div className='font-semibold text-sm pt-3'>
+                    Slippage Tolerance
+                  </div>
+                  <RadioGroup defaultValue="2.5%" className='pt-2 gap-2'>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="0.5%" id="1" />
+                      <Label htmlFor="0.5%">0.5%</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="2.5%" id="2" />
+                      <Label htmlFor="2.5%">2.5%</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="5.0%" id="3" />
+                      <Label htmlFor="5.0%">5.0%</Label>
+                    </div>
+                  </RadioGroup>
+                </PopoverContent>
+              </Popover>
           </div>
         </div>
         <div className="h-3"></div>
@@ -66,8 +86,7 @@ const SwapWidget = () => {
           <div className="h-2"></div>
           <div className='items-center justify-center flex'>
             <MoveDown 
-              className='bg-[#85A0FF]/70 hover:bg-primary/10 hover:text-black rounded-xl p-2 h-9 w-9 border-2 border-slate cursor-pointer' 
-              onClick={switchTokens}/>
+              className='bg-[#85A0FF]/70 rounded-xl p-2 h-9 w-9 border-2 border-slate' />
           </div>
           <div className="h-2"></div>
           <div className='swap-content'>
