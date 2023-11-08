@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import { ChevronDown, MoveDown, Settings } from 'lucide-react'
 
 import { Button } from "@/components/ui/button"
@@ -15,9 +15,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import Image from 'next/image'
-
+import { tokenList } from '@/constants/index.js'
 
 const SwapWidget = () => {
+  const [tokenOne, setTokenOne] = useState(tokenList[0]);
+  const [tokenTwo, setTokenTwo] = useState(tokenList[1]);
+
+  const switchTokens = () => {
+    const one = tokenOne;
+    const two = tokenTwo;
+    setTokenOne(two);
+    setTokenTwo(one);
+  }
 
   return (
     <div className='widgetwrapper'>
@@ -39,12 +48,12 @@ const SwapWidget = () => {
                 <DialogTrigger className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-36 items-center justify-center'>
                   <div className='flex items-center justify-center gap-3'>
                     <Image 
-                      src='/assets/lukso.svg'
+                      src={tokenOne.img}
                       alt='Token'
                       width={20}
                       height={20}
                     />
-                    <span>LYX</span>
+                    <span>{tokenOne.ticker}</span>
                   </div>
                   <ChevronDown className='ml-auto w-5 h-5'/>
                 </DialogTrigger>
@@ -90,7 +99,9 @@ const SwapWidget = () => {
           </div>
           <div className="h-2"></div>
           <div className='items-center justify-center flex'>
-            <MoveDown className='bg-[#85A0FF]/60 rounded-3xl p-2 h-8 w-8 border border-slate'/>
+            <MoveDown 
+              className='bg-[#85A0FF]/70 hover:bg-primary/10 hover:text-black rounded-xl p-2 h-9 w-9 border-2 border-slate cursor-pointer' 
+              onClick={switchTokens}/>
           </div>
           <div className="h-2"></div>
           <div className='swapcontent'>
@@ -98,13 +109,13 @@ const SwapWidget = () => {
               <Dialog>
                 <DialogTrigger className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-36 items-center justify-center'>
                   <div className='flex items-center justify-center gap-3'>
-                    <Image 
-                      src='/assets/usdc.svg'
+                  <Image 
+                      src={tokenTwo.img}
                       alt='Token'
                       width={20}
                       height={20}
                     />
-                    <span>USDC</span>
+                    <span>{tokenTwo.ticker}</span>
                   </div>
                   <ChevronDown className='ml-auto w-5 h-5'/>
                 </DialogTrigger>

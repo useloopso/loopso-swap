@@ -98,7 +98,7 @@
   }
 
   .swapcontent{
-    @apply w-[36rem] rounded-2xl p-6 bg-[#85A0FF]/30 h-40 border border-white;
+    @apply w-[36rem] rounded-2xl p-6 bg-[#85A0FF]/30 h-40 border-2 border-white;
   }
 }
 
