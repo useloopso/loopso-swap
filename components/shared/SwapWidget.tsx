@@ -15,12 +15,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import Image from 'next/image'
-import { tokenList } from '@/constants/index.js'
+import { networkList, tokenList } from '@/constants/index.js'
 import SelectTokenModal from '../modal/SelectTokenModal'
+import SelectNetworkModal from '../modal/SelectNetworkModal'
 
 const SwapWidget = () => {
   const [tokenOne, setTokenOne] = useState(tokenList[0]);
   const [tokenTwo, setTokenTwo] = useState(tokenList[1]);
+  const [networkOne, setNetworkOne] = useState(networkList[0]);
+  const [networkTwo, setNetworkTwo] = useState(networkList[1]);
 
   const switchTokens = () => {
     const one = tokenOne;
@@ -48,29 +51,11 @@ const SwapWidget = () => {
               <SelectTokenModal 
                 token={tokenOne}
               />
-              <Dialog>
-                <DialogTrigger className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-40 items-center justify-center ml-auto'>
-                  <div className='flex items-center justify-center gap-3'>
-                    <Image 
-                      src='/assets/lukso.svg'
-                      alt='Network'
-                      width={20}
-                      height={20}
-                    />
-                    <span>Lukso</span>
-                  </div>
-                  <ChevronDown className='ml-auto w-5 h-5'/>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-                    <DialogDescription>
-                      This action cannot be undone. This will permanently delete your account
-                      and remove your data from our servers.
-                    </DialogDescription>
-                  </DialogHeader>
-                </DialogContent>
-              </Dialog>
+              <div className='ml-auto'>
+                <SelectNetworkModal 
+                  network={networkOne}
+                />
+              </div>
             </div>
           <div className="h-5"></div>
             <Input 
@@ -90,29 +75,11 @@ const SwapWidget = () => {
               <SelectTokenModal 
                 token={tokenTwo}
               />
-              <Dialog>
-                  <DialogTrigger className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-40 items-center justify-center ml-auto'>
-                    <div className='flex items-center justify-center gap-3'>
-                      <Image 
-                        src='/assets/eth.svg'
-                        alt='Network'
-                        width={10}
-                        height={10}
-                      />
-                      <span>Ethereum</span>
-                    </div>
-                    <ChevronDown className='ml-auto w-5 h-5'/>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-                      <DialogDescription>
-                        This action cannot be undone. This will permanently delete your account
-                        and remove your data from our servers.
-                      </DialogDescription>
-                    </DialogHeader>
-                  </DialogContent>
-                </Dialog>
+              <div className='ml-auto'>
+                <SelectNetworkModal 
+                  network={networkTwo}
+                />
+              </div>
             </div>
             <div className="h-5"></div>
             <Label className='p-1 text-2xl'>0.00</Label>

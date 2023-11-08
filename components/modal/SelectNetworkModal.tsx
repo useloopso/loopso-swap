@@ -1,38 +1,62 @@
-import React from 'react'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
-import Image from 'next/image'
-import { ChevronDown } from 'lucide-react'
+import React, { useState } from 'react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
+import Image from 'next/image';
+import { ChevronDown, X } from 'lucide-react';
+import { networkList } from '@/constants/index.js';
 
-type Props = {}
+type Props = {
+    network: any;
+};
 
-const SelectNetworkModal = (props: Props) => {
-  return (
-    <div>
-         <Dialog>
-            <DialogTrigger className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-40 items-center justify-center ml-auto'>
-                <div className='flex items-center justify-center gap-3'>
-                      <Image 
-                        src='/assets/eth.svg'
-                        alt='Network'
-                        width={20}
-                        height={20}
-                      />
-                      <span>Ethereum</span>
+const SelectNetworkModal = ({ network }: Props) => {
+    const [selectedNetwork, setSelectedNetwork] = useState(network);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const closeDialog = () => {
+        setIsOpen(false);
+    };
+
+    const updateNetwork = (i: any) => {
+        setSelectedNetwork(networkList[i]);
+        closeDialog();
+    };
+
+    return (
+        <div>
+            <Dialog open={isOpen}>
+                <DialogTrigger
+                    className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-36 h-12 items-center justify-center'
+                    onClick={() => setIsOpen(true)}
+                >
+                    <div className='flex items-center justify-center gap-3'>
+                        <Image src={selectedNetwork.img} alt='Network' width={20} height={20} />
+                        <span>{selectedNetwork.name}</span>
                     </div>
-                    <ChevronDown className='ml-auto w-5 h-5'/>
-                  </DialogTrigger>
-                  <DialogContent>
+                    <ChevronDown className='ml-auto w-5 h-5' />
+                </DialogTrigger>
+                <DialogContent className='bg-[#E1E1FF]/60'>
                     <DialogHeader>
-                      <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-                      <DialogDescription>
-                        This action cannot be undone. This will permanently delete your account
-                        and remove your data from our servers.
-                      </DialogDescription>
+                        <DialogTitle className='flex justify-center'>
+                            Select Network
+                            <X className='ml-auto w-4 h-4 cursor-pointer' onClick={closeDialog} />
+                        </DialogTitle>
+                        <DialogDescription>
+                            <div className='modalContent'>
+                                {networkList?.map((e, i) => (
+                                    <div className='networkChoice' key={i} onClick={() => updateNetwork(i)}>
+                                        <Image src={e.img} alt={e.name} width={20} height={20} className='networkLogo' />
+                                        <div className='networkChoiceNames'>
+                                            <div className='networkName'>{e.network}</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </DialogDescription>
                     </DialogHeader>
-                  </DialogContent>
-                </Dialog>
-    </div>
-  )
-}
+                </DialogContent>
+            </Dialog>
+        </div>
+    );
+};
 
-export default SelectNetworkModal
+export default SelectNetworkModal;

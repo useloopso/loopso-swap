@@ -141,6 +141,32 @@
     font-weight: 300;
     color: #000000;
   }
+
+  .networkLogo {
+    height: 40px;
+    width: 40px;
+  }
+
+  .networkChoice {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .networkChoice:hover {
+    cursor: pointer;
+    background-color: #FDDCE8;
+  }
+  
+  .networkName {
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    color:#000000;
+  }
 }
 
 .circles {

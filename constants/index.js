@@ -45,50 +45,50 @@ export const tokenList = [
 
 export const networkList = [
     {
-        "network": "Lukso",
-        "name": "Lukso Testnet",
+        "name": "Lukso",
+        "network": "Lukso Testnet",
         "img": "/assets/lukso.svg",
         "rpc": "https://rpc.testnet.lukso.network",
         "chainId": 4201
     },
     {
-        "network": "Goerli",
-        "name": "Goerli Testnet",
+        "name": "Goerli",
+        "network": "Goerli Testnet",
         "img": "/assets/eth.svg",
         "rpc": "https://eth-goerli.g.alchemy.com/v2/demo",
         "chainId": 5
     },
     {
-        "network": "Sepolia",
-        "name": "Sepolia Testnet",
+        "name": "Sepolia",
+        "network": "Sepolia Testnet",
         "img": "/assets/eth.svg",
         "rpc": "https://eth-sepolia.g.alchemy.com/v2/demo",
         "chainId": 11155111
     },
     {
-        "network": "Polygon",
-        "name": "Polygon Mumbai Testnet",
+        "name": "Polygon",
+        "network": "Polygon Mumbai Testnet",
         "img": "/assets/matic.svg",
         "rpc": "https://rpc-mumbai.maticvigil.com",
         "chainId": 80001
     },
     {
-        "network": "Ethereum",
-        "name": "Ethereum Mainnet",
+        "name": "Ethereum",
+        "network": "Ethereum Mainnet",
         "img": "/assets/eth.svg",
         "rpc": "https://mainnet.infura.io/v3/",
         "chainId": 1
     },
     {
-        "network": "Lukso",
-        "name": "Lukso Mainnet",
+        "name": "Lukso",
+        "network": "Lukso Mainnet",
         "img": "/assets/lukso.svg",
         "rpc": "https://rpc.mainnet.lukso.network",
         "chainId": 42
     },
     {
-        "network": "Polygon",
-        "name": "Polygon Mainnet",
+        "name": "Polygon",
+        "network": "Polygon Mainnet",
         "img": "/assets/matic.svg",
         "rpc": "https://polygon.llamarpc.com",
         "chainId": 137
