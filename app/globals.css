@@ -89,16 +89,57 @@
     @apply flex min-h-screen flex-1 flex-col items-center px-6 pb-10 pt-16 max-md:pb-32 sm:px-10 bg-[#E1E1FF] circles;
   }
 
-  .widgetwrapper{ 
+  .widget-wrapper{ 
     @apply w-screen flex items-center justify-center mt-14;
   }
 
-  .widgetcontent{
+  .widget-content{
     @apply w-[38rem] rounded-2xl p-4 circles border border-white;
   }
 
-  .swapcontent{
+  .swap-content{
     @apply w-[36rem] rounded-2xl p-6 bg-[#85A0FF]/30 h-40 border-2 border-white;
+  }
+
+  .modalContent {
+    border-top: 1px solid #FFFFFF;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+  }
+
+  .tokenLogo {
+    height: 40px;
+    width: 40px;
+  }
+
+  .tokenChoice {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .tokenChoice:hover {
+    cursor: pointer;
+    background-color: #FDDCE8;
+  }
+  
+  .tokenName {
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    color:#000000;
+  }
+  
+  .tokenTicker {
+    margin-left: 10px;
+    font-size: 13px;
+    font-weight: 300;
+    color: #000000;
   }
 }
 

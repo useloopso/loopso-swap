@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog"
 import Image from 'next/image'
 import { tokenList } from '@/constants/index.js'
+import SelectTokenModal from '../modal/SelectTokenModal'
 
 const SwapWidget = () => {
   const [tokenOne, setTokenOne] = useState(tokenList[0]);
@@ -29,8 +30,8 @@ const SwapWidget = () => {
   }
 
   return (
-    <div className='widgetwrapper'>
-      <div className='widgetcontent blue-pink-gradient'>
+    <div className='widget-wrapper'>
+      <div className='widget-content blue-pink-gradient'>
         <div className='flex p-4'>
           <p>
             <span className='font-semibold'>Swap&nbsp;</span> 
@@ -42,31 +43,11 @@ const SwapWidget = () => {
         </div>
         <div className="h-3"></div>
         <div>
-          <div className='swapcontent'>
+          <div className='swap-content'>
             <div className='flex'>
-              <Dialog>
-                <DialogTrigger className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-36 items-center justify-center'>
-                  <div className='flex items-center justify-center gap-3'>
-                    <Image 
-                      src={tokenOne.img}
-                      alt='Token'
-                      width={20}
-                      height={20}
-                    />
-                    <span>{tokenOne.ticker}</span>
-                  </div>
-                  <ChevronDown className='ml-auto w-5 h-5'/>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-                    <DialogDescription>
-                      This action cannot be undone. This will permanently delete your account
-                      and remove your data from our servers.
-                    </DialogDescription>
-                  </DialogHeader>
-                </DialogContent>
-              </Dialog>
+              <SelectTokenModal 
+                token={tokenOne}
+              />
               <Dialog>
                 <DialogTrigger className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-40 items-center justify-center ml-auto'>
                   <div className='flex items-center justify-center gap-3'>
@@ -104,39 +85,19 @@ const SwapWidget = () => {
               onClick={switchTokens}/>
           </div>
           <div className="h-2"></div>
-          <div className='swapcontent'>
+          <div className='swap-content'>
             <div className='flex'>
-              <Dialog>
-                <DialogTrigger className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-36 items-center justify-center'>
-                  <div className='flex items-center justify-center gap-3'>
-                  <Image 
-                      src={tokenTwo.img}
-                      alt='Token'
-                      width={20}
-                      height={20}
-                    />
-                    <span>{tokenTwo.ticker}</span>
-                  </div>
-                  <ChevronDown className='ml-auto w-5 h-5'/>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-                    <DialogDescription>
-                      This action cannot be undone. This will permanently delete your account
-                      and remove your data from our servers.
-                    </DialogDescription>
-                  </DialogHeader>
-                </DialogContent>
-              </Dialog>
+              <SelectTokenModal 
+                token={tokenTwo}
+              />
               <Dialog>
                   <DialogTrigger className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-40 items-center justify-center ml-auto'>
                     <div className='flex items-center justify-center gap-3'>
                       <Image 
                         src='/assets/eth.svg'
                         alt='Network'
-                        width={20}
-                        height={20}
+                        width={10}
+                        height={10}
                       />
                       <span>Ethereum</span>
                     </div>
