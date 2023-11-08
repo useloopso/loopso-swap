@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import Image from 'next/image';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, X } from 'lucide-react';
 import { tokenList } from '@/constants/index.js';
 
 type Props = {
@@ -36,7 +36,10 @@ const SelectTokenModal = ({ token }: Props) => {
                 </DialogTrigger>
                 <DialogContent className='bg-[#E1E1FF]/60'>
                     <DialogHeader>
-                        <DialogTitle>Select Token</DialogTitle>
+                        <DialogTitle className='flex justify-center'>
+                            Select Token
+                            <X className='ml-auto w-4 h-4 cursor-pointer' onClick={closeDialog} />
+                        </DialogTitle>
                         <DialogDescription>
                             <div className='modalContent'>
                                 {tokenList?.map((e, i) => (
