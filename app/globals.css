@@ -94,7 +94,7 @@
   }
 
   .widget-content{
-    @apply w-[38rem] rounded-2xl p-4 circles border border-white;
+    @apply w-[38rem] rounded-2xl p-4 circles;
   }
 
   .swap-content{
