@@ -1,10 +1,23 @@
+export const navbarLinks = [
+    {
+      imgURL: "/assets/swap.svg",
+      route: "/",
+      label: "Token Swap",
+    },
+    {
+      imgURL: "/assets/nftbridge.svg",
+      route: "/bridge",
+      label: "NFT Bridge",
+    },
+];
+
 export const tokenList = [
     {
         "ticker": "LYXT",
-        "img": "/assets/lukso.svg",
+        "img": "/assets/luksot.svg",
         "name": "Lukso Testnet Token",
         "address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-        "decimals": 8
+        "decimals": 18
     },
     {
         "ticker": "USDC",
@@ -32,7 +45,7 @@ export const tokenList = [
         "img": "/assets/lukso.svg",
         "name": "Lukso Mainnet Token",
         "address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-        "decimals": 8
+        "decimals": 18
     },
     {
         "ticker": "MATIC",
@@ -48,7 +61,7 @@ export const networkList = [
         "name": "Lukso",
         "network": "Lukso Testnet",
         "img": "/assets/lukso.svg",
-        "rpc": "https://rpc.testnet.lukso.network",
+        "rpc": "https://lukso-testnet.rpc.thirdweb.com",
         "chainId": 4201
     },
     {
@@ -83,7 +96,7 @@ export const networkList = [
         "name": "Lukso",
         "network": "Lukso Mainnet",
         "img": "/assets/lukso.svg",
-        "rpc": "https://rpc.mainnet.lukso.network",
+        "rpc": "https://lukso.rpc.thirdweb.com",
         "chainId": 42
     },
     {

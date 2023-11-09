@@ -29,16 +29,16 @@ function ConnectWallet() {
     <div>
       {connectedWallet ? (
         <div className='flex gap-4 justify-center text-center'>
-            <p className='font-semibold  pt-2 text-xs flex gap-2'>
+            {/* <p className='font-semibold  pt-2 text-xs flex gap-2'>
                 <Wallet className='w-6 h-6 text-[#000000]'/>
                 <span className='text-[#000000] uppercase pt-1'>{connectedWallet.label}</span>
-            </p>
-          <Button onClick={handleDisconnect}>Disconnect</Button>
+            </p> */}
+          <Button onClick={handleDisconnect} className='w-32'>Disconnect</Button>
           {/* <Button onClick={() => handleChangeChain('1')}>Switch to Mainnet</Button>
           <Button onClick={() => handleChangeChain('2')}>Switch to Testnet</Button> */}
         </div>
       ) : (
-        <Button onClick={handleConnect}>Connect Wallet</Button>
+        <Button onClick={handleConnect} className='w-32'>Connect Wallet</Button>
       )}
     </div>
   );

@@ -19,7 +19,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Separator } from '../ui/separator'
 
 
-const SwapWidget = () => {
+const BridgeWidget = () => {
   const [tokenOne, setTokenOne] = useState(tokenList[0]);
   const [tokenTwo, setTokenTwo] = useState(tokenList[1]);
   const [networkOne, setNetworkOne] = useState(networkList[0]);
@@ -30,39 +30,9 @@ const SwapWidget = () => {
       <div className='widget-content blue-pink-gradient'>
         <div className='flex p-4'>
           <p>
-            <span className='font-semibold'>Swap Tokens&nbsp;</span> 
+            <span className='font-semibold'>Bridge NFTs&nbsp;</span> 
             <span className='text-xs'>(Powered by Loopso)</span>
           </p>
-          <div className='ml-auto'>
-              <Popover>
-                <PopoverTrigger>
-                  <Settings2 />
-                </PopoverTrigger>
-                <PopoverContent className='w-auto'>
-                  <div className='font-bold text-base'>
-                    Settings
-                  </div>
-                  <Separator />
-                  <div className='font-semibold text-sm pt-3'>
-                    Slippage Tolerance
-                  </div>
-                  <RadioGroup defaultValue="2.5%" className='pt-2 gap-2'>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="0.5%" id="1" />
-                      <Label htmlFor="0.5%">0.5%</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="2.5%" id="2" />
-                      <Label htmlFor="2.5%">2.5%</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="5.0%" id="3" />
-                      <Label htmlFor="5.0%">5.0%</Label>
-                    </div>
-                  </RadioGroup>
-                </PopoverContent>
-              </Popover>
-          </div>
         </div>
         <div className="h-3"></div>
         <div>
@@ -116,4 +86,4 @@ const SwapWidget = () => {
   )
 }
 
-export default SwapWidget
+export default BridgeWidget

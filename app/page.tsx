@@ -1,5 +1,5 @@
 import SwapWidget from '@/components/shared/SwapWidget'
-import Image from 'next/image'
+import Circles from '@/components/Circles'
 
 export default function Home() {
   return (
