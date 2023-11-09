@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
-import { MoveDown, Settings2 } from 'lucide-react'
+import { ArrowRightLeft, MoveDown, Settings2 } from 'lucide-react'
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -106,7 +106,10 @@ const SwapWidget = () => {
         </div>
         <div className="h-4"></div>
         <div className='items-center justify-center flex'>
-          <Button type="submit" className='w-[100%] text-md'>Swap</Button>
+          <Button type="submit" className='w-[100%] text-md flex items-center justify-center gap-3'>
+            <ArrowRightLeft className='h-4 w-4'/>
+            Swap
+          </Button>
         </div>
       </div>
     </div>

@@ -45,7 +45,7 @@ const Topbar = () => {
                     <DropdownMenuContent className='mr-5'>
                         <DropdownMenuItem className='px-5 gap-3 font-semibold cursor-pointer' onClick={() => openNewTab('https://github.com/useloopso')}><Github />Github</DropdownMenuItem>
                         <DropdownMenuItem className='px-5  gap-3 font-semibold cursor-pointer'><FileText />Docs</DropdownMenuItem>
-                        <DropdownMenuItem className='px-5  gap-3 font-semibold cursor-pointer'><Twitter />Twitter</DropdownMenuItem>
+                        <DropdownMenuItem className='px-5  gap-3 font-semibold cursor-pointer'onClick={() => openNewTab('https://twitter.com/loopso_xyz')}><Twitter />Twitter</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
