@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { ChevronDown, X } from 'lucide-react';
 import { networkList } from '@/constants/index.js';
 import { Separator } from '../ui/separator';
+import useWeb3Onboard from '../web3-onboard';
 
 type Props = {
     network: any;
@@ -12,12 +13,13 @@ type Props = {
 const SelectNetworkModal = ({ network }: Props) => {
     const [selectedNetwork, setSelectedNetwork] = useState(network);
     const [isOpen, setIsOpen] = useState(false);
+    const { setChainId } = useWeb3Onboard();
 
     const closeDialog = () => {
         setIsOpen(false);
     };
 
-    const updateNetwork = (i: any) => {
+    const updateNetwork = async (i: any) => {
         setSelectedNetwork(networkList[i]);
         closeDialog();
     };

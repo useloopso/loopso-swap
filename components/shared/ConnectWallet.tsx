@@ -21,9 +21,9 @@ function ConnectWallet() {
     setConnectedWallet(null);
   };
 
-//   const handleChangeChain = async (chainId: string) => {
-//     await setChainId(chainId);
-//   };
+  const handleChangeChain = async (chainId: string) => {
+    await setChainId(chainId);
+  };
 
   return (
     <div>
@@ -34,8 +34,8 @@ function ConnectWallet() {
                 <span className='text-[#000000] uppercase pt-1'>{connectedWallet.label}</span>
             </p> */}
           <Button onClick={handleDisconnect} className='w-32'>Disconnect</Button>
-          {/* <Button onClick={() => handleChangeChain('1')}>Switch to Mainnet</Button>
-          <Button onClick={() => handleChangeChain('2')}>Switch to Testnet</Button> */}
+          {/* <Button onClick={() => handleChangeChain('42')}>Switch to Mainnet</Button>
+          <Button onClick={() => handleChangeChain('4201')}>Switch to Testnet</Button> */}
         </div>
       ) : (
         <Button onClick={handleConnect} className='w-32'>Connect Wallet</Button>

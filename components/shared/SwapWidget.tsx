@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label'
 import { networkList, tokenList } from '@/constants/index.js'
 import SelectTokenModal from '../modal/SelectTokenModal'
 import SelectNetworkModal from '../modal/SelectNetworkModal'
+import useWeb3Onboard from '@/components/web3-onboard';
 
 import {
   Popover,
@@ -24,6 +25,8 @@ const SwapWidget = () => {
   const [tokenTwo, setTokenTwo] = useState(tokenList[1]);
   const [networkOne, setNetworkOne] = useState(networkList[0]);
   const [networkTwo, setNetworkTwo] = useState(networkList[1]);
+
+  
 
   return (
     <div className='widget-wrapper'>

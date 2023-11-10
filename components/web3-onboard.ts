@@ -25,16 +25,46 @@ const wallets = [injected]
 
 const chains = [
   {
-    id: 1,
+    id: 4201,
+    token: 'LYXt',
+    label: 'LUKSO Testnet',
+    rpcUrl: 'https://rpc.testnet.lukso.network',
+  },
+  {
+    id: 5,
+    token: 'GoerliETH',
+    label: 'Goerli Testnet',
+    rpcUrl: 'https://rpc.ankr.com/eth_goerli',
+  },
+  {
+    id: 11155111,
+    token: 'SepoliaETH',
+    label: 'Sepolia Testnet',
+    rpcUrl: 'https://sepolia.infura.io/v3/',
+  },
+  {
+    id: 80001,
+    token: 'MATIC',
+    label: 'Mumbai Testnet',
+    rpcUrl: 'https://rpc-mumbai.maticvigil.com',
+  },
+  {
+    id: 42,
     token: 'LYX',
     label: 'LUKSO Mainnet',
     rpcUrl: 'https://rpc.mainnet.lukso.network/',
   },
   {
-    id: 2,
-    token: 'LYXt',
-    label: 'LUKSO Testnet',
-    rpcUrl: 'https://rpc.testnet.lukso.network',
+    id: 1,
+    token: 'ETH',
+    label: 'Ethereum Mainnet',
+    rpcUrl: 'https://mainnet.infura.io/v3/',
+  },
+  {
+    id: 137,
+    token: 'MATIC',
+    label: 'Polygon Mainnet',
+    rpcUrl: 'https://polygon.llamarpc.com',
   },
 ]
 
