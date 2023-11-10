@@ -16,7 +16,7 @@ First install the dependencies with the following command:
 npm install
 ```
 
-Thereafter run the following command to run Zuko locally:
+Thereafter run the following command to run Loopso Swap locally:
 
 ```
 npm run dev
