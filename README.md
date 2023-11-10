@@ -5,7 +5,7 @@
 Clone the repository
 
 ```
-git clone https://github.com/usezuko/zuko-zk.git
+git clone https://github.com/useloopso/loopso-swap.git
 ```
 
 ## Deployment
