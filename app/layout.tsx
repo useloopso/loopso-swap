@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <Web3OnboardProvider web3Onboard={onboard}>
-      <html lang="en" suppressHydrationWarning>
+      <html lang="en">
         <body className={inter.className}>
           <Topbar />
           <main className="main-container">

@@ -39,7 +39,7 @@ const Topbar = () => {
                     {navbarLinks.map((link) => {
                         const isActive = (pathname.includes(link.route) && link.route.length > 1) || pathname === link.route;
                         return (
-                            <Link href={link.route} key={link.label} className={`navbar_link hover:bg-primary/10 hover:rounded-2xl hover:text-black ${isActive && 'bg-primary/10 rounded-2xl text-black'}`}>
+                            <Link href={link.route} key={link.label} className={`navbar_link hover:bg-primary/10 hover:rounded-2xl hover:text-black ${isActive && 'bg-primary/10 rounded-2xl text-black border border-white'}`}>
                                 <Image src={link.imgURL} alt={link.label} width={20} height={24}/>
                                 <p className="text-light-1 max-lg:hidden">{link.label}</p>
                             </Link>

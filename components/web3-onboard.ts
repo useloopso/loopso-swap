@@ -23,49 +23,52 @@ const injected = injectedModule({
 
 const wallets = [injected]
 
+const INFURA_KEY = process.env.INFURA_API_KEY
+const BLOCKNATIVE_KEY = process.env.BLOCKNATIVE_API_KEY
+
 export const chains = [
   {
     id: 4201,
     token: 'LYXt',
     label: 'Lukso Testnet',
-    rpcUrl: 'https://rpc.testnet.lukso.network',
+    rpcUrl: "https://rpc.testnet.lukso.network",
   },
   {
     id: 5,
     token: 'GoerliETH',
     label: 'Goerli Testnet',
-    rpcUrl: 'https://rpc.ankr.com/eth_goerli',
+    rpcUrl: `https://goerli.infura.io/v3/${INFURA_KEY}`,
   },
   {
     id: 11155111,
     token: 'SepoliaETH',
     label: 'Sepolia Testnet',
-    rpcUrl: 'https://sepolia.infura.io/v3/',
+    rpcUrl: `https://sepolia.infura.io/v3/${INFURA_KEY}`,
   },
   {
     id: 80001,
     token: 'MATIC',
     label: 'Mumbai Testnet',
-    rpcUrl: 'https://rpc-mumbai.maticvigil.com',
+    rpcUrl: `https://polygon-mumbai.infura.io/v3/${INFURA_KEY}`,
   },
   {
     id: 42,
     token: 'LYX',
     label: 'Lukso Mainnet',
-    rpcUrl: 'https://rpc.mainnet.lukso.network/',
+    rpcUrl: "https://rpc.mainnet.lukso.network/",
   },
   {
     id: 1,
     token: 'ETH',
     label: 'Ethereum Mainnet',
-    rpcUrl: 'https://mainnet.infura.io/v3/',
+    rpcUrl: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
 
   },
   {
     id: 137,
     token: 'MATIC',
     label: 'Polygon Mainnet',
-    rpcUrl: 'https://polygon.llamarpc.com',
+    rpcUrl: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
   },
 ]
 
@@ -91,6 +94,7 @@ const connect: ConnectModalOptions = {
 }
 
 export const onboard = Onboard({
+  apiKey: BLOCKNATIVE_KEY,
   wallets,
   chains,
   appMetadata,

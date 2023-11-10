@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+
+
+import React, { useEffect, useState } from 'react';
 import useWeb3Onboard from '@/components/web3-onboard';
 import { Button } from '../ui/button';
 import { useWallets } from '@web3-onboard/react';
@@ -11,6 +13,12 @@ function ConnectWallet() {
   const [connectedWallet, setConnectedWallet] = useState<WalletState | null>(null);
   const { connectWallet, disconnectWallet } = useWeb3Onboard();
   const connectedWallets = useWallets()
+
+  useEffect(() => {
+    if (connectedWallets.length) {
+      setConnectedWallet(connectedWallets[0]);
+    }
+  }, [connectedWallets]);
 
   const handleConnect = async () => {
     const wallet = await connectWallet();
