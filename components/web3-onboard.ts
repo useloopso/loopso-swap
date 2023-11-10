@@ -23,7 +23,7 @@ const injected = injectedModule({
 
 const wallets = [injected]
 
-const chains = [
+export const chains = [
   {
     id: 4201,
     token: 'LYXt',
@@ -59,6 +59,7 @@ const chains = [
     token: 'ETH',
     label: 'Ethereum Mainnet',
     rpcUrl: 'https://mainnet.infura.io/v3/',
+
   },
   {
     id: 137,
@@ -111,10 +112,16 @@ const setChainId = async (chainHex: string): Promise<void> => {
   await onboard.setChain({ chainId: chainHex })
 }
 
+const isWalletConnected = (): boolean => {
+  const currentState = onboard.state.get();
+  return Boolean(currentState.wallets && currentState.wallets.length > 0);
+};
+
 export default function useWeb3Onboard() {
   return {
     disconnect,
     setChainId,
     setupWeb3Onboard,
+    isWalletConnected,
   }
 }

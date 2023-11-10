@@ -21,9 +21,9 @@ function ConnectWallet() {
     setConnectedWallet(null);
   };
 
-  const handleChangeChain = async (chainId: string) => {
-    await setChainId(chainId);
-  };
+  // const handleChangeChain = async (chainId: string) => {
+  //   await setChainId(chainId);
+  // };
 
   return (
     <div>

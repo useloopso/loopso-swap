@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import Image from 'next/image';
 import { ChevronDown, X } from 'lucide-react';
-import { networkList } from '@/constants/index.js';
+import { chains } from '@/components/web3-onboard';
 import { Separator } from '../ui/separator';
 import useWeb3Onboard from '../web3-onboard';
 
@@ -19,21 +19,27 @@ const SelectNetworkModal = ({ network }: Props) => {
         setIsOpen(false);
     };
 
-    const updateNetwork = async (i: any) => {
-        setSelectedNetwork(networkList[i]);
-        closeDialog();
-    };
+    const switchNetwork = async (chainId: number) => {
+        try {
+          const chainHex = `0x${chainId.toString(16)}`;
+          await setChainId(chainHex);
+          setSelectedNetwork(chains.find((c) => c.id === chainId));
+          closeDialog();
+        } catch (error) {
+          console.error('Error switching network:', error);
+        }
+      };
 
     return (
         <div>
             <Dialog open={isOpen}>
                 <DialogTrigger
-                    className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-36 h-12 items-center justify-center'
+                    className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-52 h-12 items-center justify-center'
                     onClick={() => setIsOpen(true)}
                 >
                     <div className='flex items-center justify-center gap-3'>
-                        <Image src={selectedNetwork.img} alt='Network' width={20} height={20} />
-                        <span>{selectedNetwork.name}</span>
+                        {/* <Image src={selectedNetwork.img} alt='Network' width={20} height={20} /> */}
+                        <span>{selectedNetwork.label}</span>
                     </div>
                     <ChevronDown className='ml-auto w-5 h-5' />
                 </DialogTrigger>
@@ -46,11 +52,11 @@ const SelectNetworkModal = ({ network }: Props) => {
                         <Separator />
                         <DialogDescription>
                             <div className='modalContent'>
-                                {networkList?.map((e, i) => (
-                                    <div className='networkChoice' key={i} onClick={() => updateNetwork(i)}>
-                                        <Image src={e.img} alt={e.name} width={20} height={20} className='networkLogo' />
+                                {chains?.map((e) => (
+                                    <div className='networkChoice' key={e.id} onClick={() => switchNetwork(e.id)}>
+                                        {/* <Image src={e.img} alt={e.name} width={20} height={20} className='networkLogo' /> */}
                                         <div className='networkChoiceNames'>
-                                            <div className='networkName'>{e.network}</div>
+                                            <div className='networkName'>{e.label}</div>
                                         </div>
                                     </div>
                                 ))}
