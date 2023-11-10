@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
-import Image from 'next/image';
 import { ChevronDown, X } from 'lucide-react';
 import { chains } from '@/components/web3-onboard';
 import { Separator } from '../ui/separator';
 import useWeb3Onboard from '../web3-onboard';
+import { useWallets } from '@web3-onboard/react';
+import Image from 'next/image';
+import { networkList } from '@/constants';
 
 type Props = {
     network: any;
@@ -13,6 +15,8 @@ type Props = {
 const SelectNetworkModal = ({ network }: Props) => {
     const [selectedNetwork, setSelectedNetwork] = useState(network);
     const [isOpen, setIsOpen] = useState(false);
+    const connectedWallets = useWallets()
+    const { connectWallet } = useWeb3Onboard();
     const { setChainId } = useWeb3Onboard();
 
     const closeDialog = () => {
@@ -21,14 +25,19 @@ const SelectNetworkModal = ({ network }: Props) => {
 
     const switchNetwork = async (chainId: number) => {
         try {
-          const chainHex = `0x${chainId.toString(16)}`;
-          await setChainId(chainHex);
-          setSelectedNetwork(chains.find((c) => c.id === chainId));
-          closeDialog();
+            if (!connectedWallets.length) {
+                closeDialog();
+                await connectWallet();
+              } else {
+                const chainHex = `0x${chainId.toString(16)}`;
+                await setChainId(chainHex);
+                setSelectedNetwork(networkList.find((e) => e.chainId === chainId));
+                closeDialog();
+              }
         } catch (error) {
           console.error('Error switching network:', error);
         }
-      };
+    };
 
     return (
         <div>
@@ -38,8 +47,8 @@ const SelectNetworkModal = ({ network }: Props) => {
                     onClick={() => setIsOpen(true)}
                 >
                     <div className='flex items-center justify-center gap-3'>
-                        {/* <Image src={selectedNetwork.img} alt='Network' width={20} height={20} /> */}
-                        <span>{selectedNetwork.label}</span>
+                        <Image src={selectedNetwork.img} alt='NetworkImage' width={20} height={20} />
+                        <span>{selectedNetwork.network}</span>
                     </div>
                     <ChevronDown className='ml-auto w-5 h-5' />
                 </DialogTrigger>
@@ -52,11 +61,11 @@ const SelectNetworkModal = ({ network }: Props) => {
                         <Separator />
                         <DialogDescription>
                             <div className='modalContent'>
-                                {chains?.map((e) => (
-                                    <div className='networkChoice' key={e.id} onClick={() => switchNetwork(e.id)}>
-                                        {/* <Image src={e.img} alt={e.name} width={20} height={20} className='networkLogo' /> */}
+                                {networkList?.map((e) => (
+                                    <div className='networkChoice' key={e.chainId} onClick={() => switchNetwork(e.chainId)}>
+                                        <Image src={e.img} alt={e.network} width={20} height={20} className='networkLogo' />
                                         <div className='networkChoiceNames'>
-                                            <div className='networkName'>{e.label}</div>
+                                            <div className='networkName'>{e.network}</div>
                                         </div>
                                     </div>
                                 ))}

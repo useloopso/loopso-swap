@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Button } from '../ui/button';
 import {FileText, Github, MoreHorizontal, Twitter} from 'lucide-react';
 import ConnectWallet from './ConnectWallet';
 import {

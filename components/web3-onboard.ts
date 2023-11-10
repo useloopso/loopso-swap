@@ -27,7 +27,7 @@ export const chains = [
   {
     id: 4201,
     token: 'LYXt',
-    label: 'LUKSO Testnet',
+    label: 'Lukso Testnet',
     rpcUrl: 'https://rpc.testnet.lukso.network',
   },
   {
@@ -51,7 +51,7 @@ export const chains = [
   {
     id: 42,
     token: 'LYX',
-    label: 'LUKSO Mainnet',
+    label: 'Lukso Mainnet',
     rpcUrl: 'https://rpc.mainnet.lukso.network/',
   },
   {
@@ -90,20 +90,20 @@ const connect: ConnectModalOptions = {
   removeWhereIsMyWalletWarning: true,
 }
 
-let onboard: OnboardAPI
+export const onboard = Onboard({
+  wallets,
+  chains,
+  appMetadata,
+  connect,
+})
 
-const setupWeb3Onboard = async () => {
-  onboard = Onboard({
-    wallets,
-    chains,
-    appMetadata,
-    connect,
-  })
-  const connectedWallets = await onboard.connectWallet()
-  return connectedWallets[0]
+const connectWallet = async () => {
+  const wallets = await onboard.connectWallet()
+  console.log(wallets)
+  return wallets[0]
 }
 
-const disconnect = async (): Promise<void> => {
+const disconnectWallet = async (): Promise<void> => {
   const [primaryWallet] = onboard.state.get().wallets
   await onboard.disconnectWallet({ label: primaryWallet.label })
 }
@@ -114,8 +114,8 @@ const setChainId = async (chainHex: string): Promise<void> => {
 
 export default function useWeb3Onboard() {
   return {
-    disconnect,
+    connectWallet,
+    disconnectWallet,
     setChainId,
-    setupWeb3Onboard,
   }
 }

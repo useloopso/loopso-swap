@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useWeb3Onboard from '@/components/web3-onboard';
 import { Button } from '../ui/button';
-import { Wallet } from 'lucide-react';
+import { useWallets } from '@web3-onboard/react';
 
 interface WalletState {
   label: string;
@@ -9,33 +9,24 @@ interface WalletState {
 
 function ConnectWallet() {
   const [connectedWallet, setConnectedWallet] = useState<WalletState | null>(null);
-  const { setupWeb3Onboard, disconnect, setChainId } = useWeb3Onboard();
+  const { connectWallet, disconnectWallet } = useWeb3Onboard();
+  const connectedWallets = useWallets()
 
   const handleConnect = async () => {
-    const wallet = await setupWeb3Onboard();
+    const wallet = await connectWallet();
     setConnectedWallet(wallet);
   };
 
   const handleDisconnect = async () => {
-    await disconnect();
+    await disconnectWallet();
     setConnectedWallet(null);
   };
-
-  // const handleChangeChain = async (chainId: string) => {
-  //   await setChainId(chainId);
-  // };
 
   return (
     <div>
       {connectedWallet ? (
         <div className='flex gap-4 justify-center text-center'>
-            {/* <p className='font-semibold  pt-2 text-xs flex gap-2'>
-                <Wallet className='w-6 h-6 text-[#000000]'/>
-                <span className='text-[#000000] uppercase pt-1'>{connectedWallet.label}</span>
-            </p> */}
           <Button onClick={handleDisconnect} className='w-32'>Disconnect</Button>
-          {/* <Button onClick={() => handleChangeChain('42')}>Switch to Mainnet</Button>
-          <Button onClick={() => handleChangeChain('4201')}>Switch to Testnet</Button> */}
         </div>
       ) : (
         <Button onClick={handleConnect} className='w-32'>Connect Wallet</Button>

@@ -58,49 +58,42 @@ export const tokenList = [
 
 export const networkList = [
     {
-        "name": "Lukso",
         "network": "Lukso Testnet",
         "img": "/assets/lukso.svg",
         "rpc": "https://lukso-testnet.rpc.thirdweb.com",
         "chainId": 4201
     },
     {
-        "name": "Goerli",
         "network": "Goerli Testnet",
         "img": "/assets/eth.svg",
         "rpc": "https://eth-goerli.g.alchemy.com/v2/demo",
         "chainId": 5
     },
     {
-        "name": "Sepolia",
         "network": "Sepolia Testnet",
         "img": "/assets/eth.svg",
         "rpc": "https://eth-sepolia.g.alchemy.com/v2/demo",
         "chainId": 11155111
     },
     {
-        "name": "Polygon",
-        "network": "Polygon Mumbai Testnet",
+        "network": "Mumbai Testnet",
         "img": "/assets/matic.svg",
         "rpc": "https://rpc-mumbai.maticvigil.com",
         "chainId": 80001
     },
     {
-        "name": "Ethereum",
-        "network": "Ethereum Mainnet",
-        "img": "/assets/eth.svg",
-        "rpc": "https://mainnet.infura.io/v3/",
-        "chainId": 1
-    },
-    {
-        "name": "Lukso",
         "network": "Lukso Mainnet",
         "img": "/assets/lukso.svg",
         "rpc": "https://lukso.rpc.thirdweb.com",
         "chainId": 42
     },
     {
-        "name": "Polygon",
+        "network": "Ethereum Mainnet",
+        "img": "/assets/eth.svg",
+        "rpc": "https://mainnet.infura.io/v3/",
+        "chainId": 1
+    },
+    {
         "network": "Polygon Mainnet",
         "img": "/assets/matic.svg",
         "rpc": "https://polygon.llamarpc.com",

@@ -1,11 +1,15 @@
+"use client"
+
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Topbar from '@/components/shared/Topbar'
+import { Web3OnboardProvider } from '@web3-onboard/react'
+import { onboard } from '@/components/web3-onboard'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'Loopso Swap',
   description: 'Loop into the New Creative Economy',
 }
@@ -16,7 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-      <html lang="en">
+    <Web3OnboardProvider web3Onboard={onboard}>
+      <html lang="en" suppressHydrationWarning>
         <body className={inter.className}>
           <Topbar />
           <main className="main-container">
@@ -24,5 +29,6 @@ export default function RootLayout({
           </main>
         </body>
       </html>
+    </Web3OnboardProvider>
   );
 }
