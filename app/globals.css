@@ -82,15 +82,15 @@
 
 @layer components {
   .topbar {
-    @apply fixed top-0 z-30 flex w-full items-center justify-between px-6 py-3;
+    @apply fixed top-0 flex w-full items-center justify-between px-6 py-3;
   }
 
   .navbar_link {
-    @apply relative flex justify-start gap-4 p-3 pl-4 pr-4 font-semibold text-sm bg-[#E1E1FF] rounded-2xl;
+    @apply relative flex gap-4 p-3 pl-4 pr-4 font-semibold text-sm w-24 items-center justify-center;
   }
 
   .main-container {
-    @apply flex min-h-screen flex-1 flex-col items-center px-6 pb-10 pt-16 max-md:pb-32 sm:px-10 bg-[#E1E1FF] circles;
+    @apply flex min-h-screen flex-col items-center px-6 pb-10 pt-16 max-md:pb-32 sm:px-10 bg-[#E1E1FF] circles;
   }
 
   .widget-wrapper{ 
@@ -98,11 +98,11 @@
   }
 
   .widget-content{
-    @apply w-[38rem] rounded-2xl p-4 circles;
+    @apply w-[38rem] rounded-2xl p-4 circles border;
   }
 
   .swap-content{
-    @apply w-[36rem] rounded-2xl p-6 bg-[#85A0FF]/30 h-40 border-2 border-white;
+    @apply w-[36rem] rounded-2xl pt-3 pl-6 pr-6 bg-[#85A0FF]/30 h-32;
   }
 
   .modalContent {
@@ -175,6 +175,6 @@
 .circles {
   background-color: #e5e5f7;
   opacity: 1;
-  background-image: radial-gradient(circle at center center, #E1E1FF, #FFFFFF);
-  background-blend-mode: multiply;
+  background-image: radial-gradient(circle at center center, #85A0FF,#E1E1FF);
+  background-blend-mode: darken;
 }

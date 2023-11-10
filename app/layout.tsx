@@ -3,9 +3,9 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Topbar from '@/components/shared/Topbar'
 import { Web3OnboardProvider } from '@web3-onboard/react'
 import { onboard } from '@/components/web3-onboard'
+import Navbar from '@/components/shared/Navbar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,7 +23,7 @@ export default function RootLayout({
     <Web3OnboardProvider web3Onboard={onboard}>
       <html lang="en">
         <body className={inter.className}>
-          <Topbar />
+          <Navbar />
           <main className="main-container">
             {children}
           </main>
