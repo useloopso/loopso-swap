@@ -34,14 +34,14 @@ const Navbar = () => {
                     <DropdownMenuTrigger className='bg-[#85A0FF]/70 text-white hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70 rounded-3xl'>
                         <MoreHorizontal className='w-10 h-10 p-2'/>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className='mr-5'>
+                    <DropdownMenuContent className='bg-[#E1E1FF]'>
                         <DropdownMenuItem className='px-5 gap-3 font-semibold cursor-pointer' onClick={() => openNewTab('https://github.com/useloopso')}><GithubIcon />Github</DropdownMenuItem>
                         <DropdownMenuItem className='px-5  gap-3 font-semibold cursor-pointer'><FileText />Docs</DropdownMenuItem>
                         <DropdownMenuItem className='px-5  gap-3 font-semibold cursor-pointer'onClick={() => openNewTab('https://twitter.com/loopso_xyz')}><TwitterIcon />Twitter</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 bg-[#E1E1FF] p-1 rounded-3xl" id="navbar-sticky">
+            <div className="items-center justify-between ml-10 hidden w-full md:flex md:w-auto md:order-1 bg-[#E1E1FF] p-1 rounded-3xl" id="navbar-sticky">
                 <div className='flex items-center justify-center gap-4 w-full'>
                     {navbarLinks.map((link) => {
                         const isActive = (pathname.includes(link.route) && link.route.length > 1) || pathname === link.route;
