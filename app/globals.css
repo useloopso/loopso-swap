@@ -178,3 +178,10 @@
   background-image: radial-gradient(circle at center center, #85A0FF,#E1E1FF);
   background-blend-mode: darken;
 }
+
+.circlesDialog {
+  background-color: #e5e5f7;
+  opacity: 1;
+  background-image: radial-gradient(circle at center center, #85A0FF, #E1E1FF, #FFFFFF);
+  background-blend-mode: darken;
+}

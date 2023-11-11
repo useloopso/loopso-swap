@@ -1,11 +1,10 @@
 "use client"
 
 import React, { useState } from 'react'
-import { ArrowRightLeft, BadgeInfo, InfinityIcon, MoveDown } from 'lucide-react'
+import { BadgeInfo, InfinityIcon, MoveDown, Repeat2 } from 'lucide-react'
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from '@/components/ui/label'
 import { networkList, tokenList } from '@/constants/index.js'
 import SelectTokenModal from '../modal/SelectTokenModal'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
@@ -39,6 +38,7 @@ const SwapWidget = () => {
                 <Input 
                   placeholder="0.00" 
                   type='number' 
+                  className='placeholder:hover:text-[#85A0FF]/70'
                 />
                 <SelectTokenModal 
                   token={tokenOne}
@@ -82,7 +82,7 @@ const SwapWidget = () => {
         <div className="h-4"></div>
         <div className='items-center justify-center flex'>
           <Button type="submit" className='w-[100%] text-md flex items-center justify-center gap-3'>
-            <ArrowRightLeft className='h-4 w-4'/>
+            <Repeat2 className='h-5 w-5'/>
             Swap
           </Button>
         </div>

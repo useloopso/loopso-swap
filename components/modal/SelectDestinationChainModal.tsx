@@ -44,28 +44,27 @@ const SelectDestinationChainModal = ({ network }: Props) => {
                     onClick={() => setIsOpen(true)}
                 >
                     <div className='flex items-center justify-center gap-1'>
-                        <div className='flex items-center pl-2 gap-2 w-40'>
+                        <div className='flex items-center pl-3 gap-2 w-40'>
                             <Image src={selectedNetwork.img} alt='NetworkImage' width={12} height={12} />
                             <span>{selectedNetwork.network}</span>
                         </div>
                         <ChevronDown className='ml-auto w-6 h-6 pr-2' />
                     </div>
                 </DialogTrigger>
-                <DialogContent className='bg-[#E1E1FF]/60'>
-                    <DialogHeader>
-                        <DialogTitle className='flex justify-center'>
-                            Select Network
+                <DialogContent className='circlesDialog'>
+                    <DialogHeader className='flex items-center justify-center gap-3'>
+                        <DialogTitle className='flex ml-auto'>
                             <X className='ml-auto w-4 h-4 cursor-pointer' onClick={closeDialog} />
                         </DialogTitle>
-                        <Separator />
+                        <DialogTitle>
+                            ⬇️&nbsp; Select Destination Chain &nbsp;⬇️
+                        </DialogTitle>
                         <DialogDescription>
-                            <div className='modalContent'>
+                            <div className='grid grid-cols-2 items-center justify-center p-4 gap-x-8 gap-y-2'>
                                 {networkList?.map((e) => (
-                                    <div className='networkChoice' key={e.chainId} onClick={() => switchNetwork(e.chainId)}>
-                                        <Image src={e.img} alt={e.network} width={20} height={20} className='networkLogo' />
-                                        <div className='networkChoiceNames'>
-                                            <div className='networkName'>{e.network}</div>
-                                        </div>
+                                    <div className='flex items-center justify-center w-48 h-16 gap-3 rounded-3xl cursor-pointer bg-[#85A0FF]/70 hover:bg-[#E1E1FF] text-sm font-semibold text-white hover:text-[#85A0FF]/70 hover:rounded-3xl hover:border hover:border-white' key={e.chainId} onClick={() => switchNetwork(e.chainId)}>
+                                        <Image src={e.img} alt={e.network} width={20} height={20} />
+                                        {e.network}
                                     </div>
                                 ))}
                             </div>

@@ -35,21 +35,22 @@ const SelectTokenModal = ({ token }: Props) => {
                     </div>
                     <ChevronDown className='ml-auto w-5 h-5' />
                 </DialogTrigger>
-                <DialogContent className='bg-[#E1E1FF]/60'>
-                    <DialogHeader>
-                        <DialogTitle className='flex justify-center'>
-                            Select Token
+                <DialogContent className='circlesDialog'>
+                    <DialogHeader className='flex items-center justify-center gap-3'>
+                        <DialogTitle className='flex ml-auto'>
                             <X className='ml-auto w-4 h-4 cursor-pointer' onClick={closeDialog} />
                         </DialogTitle>
-                        <Separator />
+                        <DialogTitle>
+                            ⬇️&nbsp; Select Token &nbsp;⬇️
+                        </DialogTitle>
                         <DialogDescription>
-                            <div className='modalContent'>
-                                {tokenList?.map((e, i) => (
-                                    <div className='tokenChoice' key={i} onClick={() => updateToken(i)}>
-                                        <Image src={e.img} alt={e.ticker} width={20} height={20} className='tokenLogo' />
-                                        <div className='tokenChoiceNames'>
-                                            <div className='tokenName'>{e.name}</div>
-                                            <div className='tokenTicker'>{e.ticker}</div>
+                            <div className='grid grid-cols-2 items-center justify-center p-4 gap-x-8 gap-y-2'>
+                                 {tokenList?.map((e, i) => (
+                                    <div className='flex items-center w-52 h-16 gap-3 rounded-3xl cursor-pointer pl-4 bg-[#85A0FF]/70 hover:bg-[#E1E1FF] text-sm text-white hover:text-[#85A0FF]/70 hover:rounded-3xl hover:border hover:border-white' key={i} onClick={() => updateToken(i)}>
+                                        <Image src={e.img} alt={e.ticker} width={20} height={20} />
+                                        <div className=''>
+                                            <div className='font-semibold'>{e.name}</div>
+                                            <div className='text-xs'>{e.ticker}</div>
                                         </div>
                                     </div>
                                 ))}
