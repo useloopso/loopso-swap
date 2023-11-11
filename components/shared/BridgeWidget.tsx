@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { networkList, tokenList } from '@/constants/index.js'
 import SelectDestinationChainModal from '../modal/SelectDestinationChainModal'
 import SelectBridgeSourceChainModal from '../modal/SelectBridgeSourceChainModal'
-import EvmNftList from '../lists/EvmNftList'
+import NftList from '../lists/NftList'
 
 const BridgeWidget = () => {
   const [tokenOne, setTokenOne] = useState(tokenList[0]);
@@ -30,9 +30,7 @@ const BridgeWidget = () => {
           <SelectBridgeSourceChainModal network={networkOne} />
         </div>
         <div className="h-4"></div>
-          <div className='swap-content'>
-            
-          </div>
+          <NftList />
           <div className="h-2"></div>
           <div className='items-center justify-center flex'>
             <MoveDown className='bg-[#E1E1FF]/50 rounded-3xl p-2 h-9 w-9' />
@@ -55,7 +53,6 @@ const BridgeWidget = () => {
           </Button>
         </div>
       </div>
-      <EvmNftList />
     </div>
   )
 }
