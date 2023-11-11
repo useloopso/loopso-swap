@@ -35,7 +35,7 @@ const EvmNftList: React.FC = () => {
     };
 
     initializeMoralis();
-  }, []); // Empty dependency array to run the effect only once
+  }, []); 
 
   return (
     <div>
