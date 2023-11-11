@@ -50,9 +50,9 @@ const SwapWidget = () => {
             <MoveDown className='bg-[#E1E1FF]/50 rounded-3xl p-2 h-9 w-9' />
           </div>
           <div className="h-2"></div>
-          <div className='flex items-center gap-5 pl-2'>
+          <div className='flex items-center gap-6 pl-2'>
             <InfinityIcon />
-            <p className='font-semibold text-sm pr-1'>To</p>
+            <p className='font-semibold text-sm'>To</p>
             <SelectDestinationChainModal network={networkTwo} />
           </div>
           <div className="h-4"></div>
