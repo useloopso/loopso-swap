@@ -11,7 +11,7 @@ type Props = {
     network: any;
 };
 
-const SelectSourceChainModal = ({ network }: Props) => {
+const SelectBridgeSourceChainModal = ({ network }: Props) => {
     const [selectedNetwork, setSelectedNetwork] = useState(network);
     const [isOpen, setIsOpen] = useState(false);
     const connectedWallets = useWallets()
@@ -78,4 +78,4 @@ const SelectSourceChainModal = ({ network }: Props) => {
     );
 };
 
-export default SelectSourceChainModal;
+export default SelectBridgeSourceChainModal;

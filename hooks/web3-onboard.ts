@@ -23,8 +23,8 @@ const injected = injectedModule({
 
 const wallets = [injected]
 
-const INFURA_KEY = process.env.INFURA_API_KEY
-const BLOCKNATIVE_KEY = process.env.BLOCKNATIVE_API_KEY
+const INFURA_KEY = process.env.NEXT_PUBLIC_INFURA_API_KEY
+const BLOCKNATIVE_KEY = process.env.NEXT_PUBLIC_BLOCKNATIVE_API_KEY
 
 export const chains = [
   {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import useWeb3Onboard from '@/components/web3-onboard';
+import useWeb3Onboard from '@/hooks/web3-onboard';
 import { Button } from '../ui/button';
 import { useWallets } from '@web3-onboard/react';
 import Image from 'next/image';

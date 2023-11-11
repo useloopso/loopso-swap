@@ -4,12 +4,10 @@ import React, { useState } from 'react'
 import { BadgeInfo, ImageDown, InfinityIcon, MoveDown } from 'lucide-react'
 
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { networkList, tokenList } from '@/constants/index.js'
-import SelectTokenModal from '../modal/SelectTokenModal'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
-import SelectSourceChainModal from '../modal/SelectSourceChainModal'
 import SelectDestinationChainModal from '../modal/SelectDestinationChainModal'
+import SelectBridgeSourceChainModal from '../modal/SelectBridgeSourceChainModal'
+import EvmNftList from '../lists/EvmNftList'
 
 const BridgeWidget = () => {
   const [tokenOne, setTokenOne] = useState(tokenList[0]);
@@ -29,20 +27,11 @@ const BridgeWidget = () => {
         <div className='flex items-center mt-5 gap-3 pl-2'>
           <InfinityIcon />
           <p className='font-semibold text-sm pr-1'>From</p>
-          <SelectSourceChainModal network={networkOne} />
+          <SelectBridgeSourceChainModal network={networkOne} />
         </div>
         <div className="h-4"></div>
           <div className='swap-content'>
-            <p className='font-semibold text-xs pl-1 pt-3'>Send:</p>
-            <div className='flex items-center pt-3'>
-                <Input 
-                  placeholder="0.00" 
-                  type='number' 
-                />
-                <SelectTokenModal 
-                  token={tokenOne}
-                />
-              </div>
+            
           </div>
           <div className="h-2"></div>
           <div className='items-center justify-center flex'>
@@ -56,27 +45,7 @@ const BridgeWidget = () => {
           </div>
           <div className="h-4"></div>
           <div className='swap-content'>
-            <div className='flex items-center pl-1 pt-3 gap-1'>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger><BadgeInfo className='w-4 h-4' /></TooltipTrigger>
-                  <TooltipContent>
-                    <p>This amount is estimated based on the current bridge rate and fees.</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              <p className='font-semibold text-xs'>Receive (estimated):</p>
-            </div>
-            <div className='flex items-center pt-3'>
-                <Input 
-                  placeholder="0.00" 
-                  type='number' 
-                  disabled={true}
-                />
-                <SelectTokenModal 
-                  token={tokenTwo}
-                />
-            </div>
+            
           </div>
         <div className="h-4"></div>
         <div className='items-center justify-center flex'>
@@ -86,6 +55,7 @@ const BridgeWidget = () => {
           </Button>
         </div>
       </div>
+      <EvmNftList />
     </div>
   )
 }
