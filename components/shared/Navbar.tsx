@@ -1,9 +1,9 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from '../ui/button'
 import ConnectWallet from './ConnectWallet'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
-import { FileText, GithubIcon, MoreHorizontal, TwitterIcon } from 'lucide-react'
+import { FileText, GithubIcon, Menu, MoreHorizontal, TwitterIcon } from 'lucide-react'
 import { navbarLinks } from '@/constants'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -11,6 +11,7 @@ import { usePathname, useRouter } from 'next/navigation'
 const Navbar = () => {
     const router = useRouter();
     const pathname = usePathname();
+    const [isOpen, setIsOpen] = useState(false);
 
     const openNewTab = (url: any) => {
         window.open(url, '_blank');
@@ -46,7 +47,7 @@ const Navbar = () => {
                         const isActive = (pathname.includes(link.route) && link.route.length > 1) || pathname === link.route;
                         return (
                             <Link href={link.route} key={link.label} className={`navbar_link ${isActive && 'bg-[#85A0FF]/70 rounded-3xl text-white'} ${!isActive && 'hover:text-[#85A0FF]/70 '}`}>
-                                <p className="text-light-1 max-lg:hidden">{link.label}</p>
+                                <p className="text-light-1">{link.label}</p>
                             </Link>
                         )}
                     )}

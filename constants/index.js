@@ -1,9 +1,11 @@
 export const navbarLinks = [
     {
+      imgURL: "/assets/swap.svg",
       route: "/swap",
       label: "Swap",
     },
     {
+      imgURL: "/assets/nftbridge.svg",
       route: "/bridge",
       label: "Bridge",
     },

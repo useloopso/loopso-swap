@@ -26,7 +26,7 @@ const SelectTokenModal = ({ token }: Props) => {
         <div>
             <Dialog open={isOpen}>
                 <DialogTrigger
-                    className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-36 h-12 items-center justify-center'
+                    className='p-3 bg-[#85A0FF]/60 rounded-2xl text-white text-sm font-semibold flex w-36 h-12 items-center justify-center hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70'
                     onClick={() => setIsOpen(true)}
                 >
                     <div className='flex items-center justify-center gap-3'>

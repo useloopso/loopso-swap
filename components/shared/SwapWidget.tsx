@@ -8,8 +8,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from '@/components/ui/label'
 import { networkList, tokenList } from '@/constants/index.js'
 import SelectTokenModal from '../modal/SelectTokenModal'
-import SelectNetworkModal from '../modal/SelectNetworkModal'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
+import SelectSourceChainModal from '../modal/SelectSourceChainModal'
+import SelectDestinationChainModal from '../modal/SelectDestinationChainModal'
 
 const SwapWidget = () => {
   const [tokenOne, setTokenOne] = useState(tokenList[0]);
@@ -26,12 +27,12 @@ const SwapWidget = () => {
             <span className='text-xs'>(Powered by Loopso)</span>
           </p>
         </div>
-        <div className='flex items-center mt-5 gap-2'>
-          <p className='font-semibold text-sm'>From</p>
+        <div className='flex items-center mt-5 gap-3 pl-2'>
           <InfinityIcon />
-          <SelectNetworkModal network={networkOne} />
+          <p className='font-semibold text-sm pr-1'>From</p>
+          <SelectSourceChainModal network={networkOne} />
         </div>
-        <div className="h-5"></div>
+        <div className="h-4"></div>
           <div className='swap-content'>
             <p className='font-semibold text-xs pl-1 pt-3'>Send:</p>
             <div className='flex items-center pt-3'>
@@ -46,15 +47,15 @@ const SwapWidget = () => {
           </div>
           <div className="h-2"></div>
           <div className='items-center justify-center flex'>
-            <MoveDown className='bg-[#E1E1FF]/50 rounded-3xl p-2 h-9 w-9 border-slate' />
+            <MoveDown className='bg-[#E1E1FF]/50 rounded-3xl p-2 h-9 w-9' />
           </div>
           <div className="h-2"></div>
-          <div className='flex items-center gap-2'>
-            <p className='font-semibold text-sm'>To</p>
+          <div className='flex items-center gap-3 pl-2'>
             <InfinityIcon />
-            <SelectNetworkModal network={networkTwo} />
+            <p className='font-semibold text-sm pr-1'>To</p>
+            <SelectDestinationChainModal network={networkTwo} />
           </div>
-          <div className="h-5"></div>
+          <div className="h-4"></div>
           <div className='swap-content'>
             <div className='flex items-center pl-1 pt-3 gap-1'>
               <TooltipProvider>
@@ -71,9 +72,10 @@ const SwapWidget = () => {
                 <Input 
                   placeholder="0.00" 
                   type='number' 
+                  disabled={true}
                 />
                 <SelectTokenModal 
-                  token={tokenOne}
+                  token={tokenTwo}
                 />
             </div>
           </div>

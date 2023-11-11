@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { ChevronDown, X } from 'lucide-react';
-import { chains } from '@/components/web3-onboard';
 import { Separator } from '../ui/separator';
 import useWeb3Onboard from '../web3-onboard';
 import { useWallets } from '@web3-onboard/react';
@@ -12,7 +11,7 @@ type Props = {
     network: any;
 };
 
-const SelectNetworkModal = ({ network }: Props) => {
+const SelectSourceChainModal = ({ network }: Props) => {
     const [selectedNetwork, setSelectedNetwork] = useState(network);
     const [isOpen, setIsOpen] = useState(false);
     const connectedWallets = useWallets()
@@ -43,14 +42,16 @@ const SelectNetworkModal = ({ network }: Props) => {
         <div>
             <Dialog open={isOpen}>
                 <DialogTrigger
-                    className='p-3 bg-[#85A0FF]/60 rounded-2xl text-black text-sm font-semibold flex w-52 h-12 items-center justify-center'
+                    className='p-3 bg-[#E1E1FF] rounded-2xl text-black text-sm font-semibold flex w-48 h-10 items-center justify-center hover:bg-[#85A0FF]/10 hover:text-white hover:border hover:border-[#E1E1FF]'
                     onClick={() => setIsOpen(true)}
                 >
-                    <div className='flex items-center justify-center gap-3'>
-                        <Image src={selectedNetwork.img} alt='NetworkImage' width={20} height={20} />
-                        <span>{selectedNetwork.network}</span>
+                    <div className='flex items-center justify-center gap-1'>
+                        <div className='flex items-center pl-2 gap-2 w-40'>
+                            <Image src={selectedNetwork.img} alt='NetworkImage' width={12} height={12} />
+                            <span>{selectedNetwork.network}</span>
+                        </div>
+                        <ChevronDown className='ml-auto w-6 h-6 pr-2' />
                     </div>
-                    <ChevronDown className='ml-auto w-5 h-5' />
                 </DialogTrigger>
                 <DialogContent className='bg-[#E1E1FF]/60'>
                     <DialogHeader>
@@ -78,4 +79,4 @@ const SelectNetworkModal = ({ network }: Props) => {
     );
 };
 
-export default SelectNetworkModal;
+export default SelectSourceChainModal;
