@@ -11,19 +11,15 @@ import Image from "next/image";
 import { ChevronDown, X } from "lucide-react";
 import { tokenList } from "@/constants/index.js";
 import { Separator } from "../ui/separator";
+import { Token } from "@/lib/types";
 
-type Token = {
-  ticker: string;
-  img: string;
-  name: string;
-  address: string;
-  decimals: number;
-};
+interface SelectTokenModalProps {
+  selectedToken: Token | undefined;
+  setSelectedToken: (network: Token | undefined) => void;
+}
 
-const SelectTokenModal = () => {
-  const [selectedToken, setSelectedToken] = useState<Token | undefined>(
-    undefined
-  );
+const SelectTokenModal = (props: SelectTokenModalProps) => {
+  const { setSelectedToken, selectedToken } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   const closeDialog = () => {

@@ -13,17 +13,18 @@ import useWeb3Onboard from "../../hooks/web3-onboard";
 import { useWallets } from "@web3-onboard/react";
 import Image from "next/image";
 import { networkList } from "@/constants";
+import { Network } from "@/lib/types";
 
-type Network = {
-  network: string;
-  chainId: number;
-  img: string;
-};
+interface SelectDestinationChainModalProps {
+  selectedNetwork: Network | undefined;
+  setSelectedNetwork: (network: Network | undefined) => void;
+}
 
-const SelectDestinationChainModal = () => {
-  const [selectedNetwork, setSelectedNetwork] = useState<Network | undefined>(
-    undefined
-  );
+const SelectDestinationChainModal = (
+  props: SelectDestinationChainModalProps
+) => {
+  const { setSelectedNetwork, selectedNetwork } = props;
+
   const [isOpen, setIsOpen] = useState(false);
   const connectedWallets = useWallets();
   const { connectWallet } = useWeb3Onboard();

@@ -15,26 +15,65 @@ import {
 } from "../ui/tooltip";
 import SelectSourceChainModal from "../modal/SelectSourceChainModal";
 import SelectDestinationChainModal from "../modal/SelectDestinationChainModal";
-
-type Network = {
-  network: string;
-  chainId: number;
-  img: string;
-};
+import { Network, Token } from "@/lib/types";
+import useWeb3Onboard from "@/hooks/web3-onboard";
+import { useConnectWallet } from "@web3-onboard/react";
+import { ethers } from "ethers";
+import { providers } from "web3";
 
 const SwapWidget = () => {
-  const [selectedNetwork, setSelectedNetwork] = useState<Network | undefined>(
-    undefined
+  const [selectedSourceChainNetwork, setSelectedSourceChainNetwork] = useState<
+    Network | undefined
+  >(undefined);
+  const [selectedDestinationChainNetwork, setSelectedDestinationChainNetwork] =
+    useState<Network | undefined>(undefined);
+  const [selectedSourceToken, setSelectedSourceToken] = useState<
+    Token | undefined
+  >(undefined);
+  const [selectedDestinationToken, setSelectedDestinationToken] = useState<
+    Token | undefined
+  >(undefined);
+  const [amount, setAmount] = useState<string>("");
+
+  const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+
+  console.log(
+    selectedSourceChainNetwork,
+    "Source chain",
+    selectedSourceToken,
+    "Source token"
+  );
+  console.log(
+    selectedDestinationChainNetwork,
+    "Dst chain",
+    selectedDestinationToken,
+    "Dst token"
   );
 
-  const [tokenOne, setTokenOne] = useState(tokenList[0]);
-  const [tokenTwo, setTokenTwo] = useState(tokenList[1]);
-
-  console.log(tokenOne, "wats tokenOne?", tokenTwo, "TOKENTWO???");
-
   const handleSubmitAndBridge = async () => {
-    const txHash = await bridgeTokens();
-    console.log(txHash);
+    let ethersProvider;
+
+    //TODO: how to handle if the wallet is from Lukso UP wallet?
+    if (wallet && selectedSourceToken && selectedSourceChainNetwork &&  selectedDestinationChainNetwork) {
+      ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
+          const txHash = await bridgeTokens(
+        selectedSourceChainNetwork.loopsoContractAddress
+        ethersProvider, 
+        selectedSourceToken.address,
+        selectedSourceChainNetwork.chainId
+        amount, 
+        "connectedAddress", 
+        selectedDestinationChainNetwork.chainId
+
+
+        
+      ); 
+    }
+
+    /*     const txHash = await bridgeTokens(
+      selectedSourceChainNetwork?.loopsoContractAddress
+    ); */
+    //console.log(txHash);
   };
 
   return (
@@ -50,8 +89,8 @@ const SwapWidget = () => {
           <InfinityIcon />
           <p className="font-semibold text-sm pr-1">From</p>
           <SelectSourceChainModal
-            setSelectedNetwork={setSelectedNetwork}
-            selectedNetwork={selectedNetwork}
+            setSelectedNetwork={setSelectedSourceChainNetwork}
+            selectedNetwork={selectedSourceChainNetwork}
           />
         </div>
         <div className="h-4"></div>
@@ -62,10 +101,12 @@ const SwapWidget = () => {
               placeholder="0.00"
               type="number"
               className="placeholder:hover:text-[#85A0FF]/70"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
             />
             <SelectTokenModal
-            /*                   token={tokenOne}
-             */
+              selectedToken={selectedSourceToken}
+              setSelectedToken={setSelectedSourceToken}
             />
           </div>
         </div>
@@ -77,7 +118,10 @@ const SwapWidget = () => {
         <div className="flex items-center gap-6 pl-2">
           <InfinityIcon />
           <p className="font-semibold text-sm">To</p>
-          <SelectDestinationChainModal />
+          <SelectDestinationChainModal
+            setSelectedNetwork={setSelectedDestinationChainNetwork}
+            selectedNetwork={selectedDestinationChainNetwork}
+          />
         </div>
         <div className="h-4"></div>
         <div className="swap-content">
@@ -99,7 +143,10 @@ const SwapWidget = () => {
           </div>
           <div className="flex items-center pt-3">
             <Input placeholder="0.00" type="number" disabled={true} />
-            <SelectTokenModal /* token={tokenTwo}  */ />
+            <SelectTokenModal
+              selectedToken={selectedDestinationToken}
+              setSelectedToken={setSelectedDestinationToken}
+            />
           </div>
         </div>
         <div className="h-4"></div>

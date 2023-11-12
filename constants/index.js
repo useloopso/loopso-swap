@@ -73,35 +73,42 @@ export const networkList = [
     network: "Lukso Testnet",
     img: "/assets/lukso.svg",
     chainId: 4201,
+    loopsoContractAddress: ADDRESSES.LOOPSO_LUKSO_CONTRACT_ADDRESS,
   },
   {
     network: "Goerli Testnet",
     img: "/assets/eth.svg",
     chainId: 5,
+    loopsoContractAddress: "Not yet supported",
   },
   {
     network: "Sepolia Testnet",
     img: "/assets/eth.svg",
     chainId: 11155111,
+    loopsoContractAddress: "Not yet supported",
   },
   {
     network: "Mumbai Testnet",
     img: "/assets/matic.svg",
     chainId: 80001,
+    loopsoContractAddress: ADDRESSES.LOOPSO_MUMBAI_CONTRACT_ADDRESS,
   },
   {
     network: "Lukso Mainnet",
     img: "/assets/lukso.svg",
     chainId: 42,
+    loopsoContractAddress: "Not yet supported",
   },
   {
     network: "Ethereum Mainnet",
     img: "/assets/eth.svg",
     chainId: 1,
+    loopsoContractAddress: "Not yet supported",
   },
   {
     network: "Polygon Mainnet",
     img: "/assets/matic.svg",
     chainId: 137,
+    loopsoContractAddress: "Not yet supported",
   },
 ];
