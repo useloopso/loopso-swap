@@ -86,7 +86,7 @@
   }
 
   .navbar_link {
-    @apply relative flex gap-4 p-3 pl-4 pr-4 font-semibold text-sm w-24 items-center justify-center;
+    @apply relative flex gap-4 p-3 pl-4 pr-4 font-semibold text-sm w-32 items-center justify-center;
   }
 
   .main-container {

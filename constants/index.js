@@ -2,12 +2,12 @@ export const navbarLinks = [
     {
       imgURL: "/assets/repeat2.svg",
       route: "/swap",
-      label: "Swap",
+      label: "Token Swap",
     },
     {
       imgURL: "/assets/imagedown.svg",
       route: "/bridge",
-      label: "Bridge",
+      label: "NFT Bridge",
     },
 ];
 
