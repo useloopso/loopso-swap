@@ -13,7 +13,7 @@ const MoralisService = {
             normalizeMetadata: true,
           });
     
-          goerliNFTs.push(response);
+          goerliNFTs.push(response.result);
     
           return goerliNFTs;
         } catch (error) {
@@ -32,7 +32,7 @@ const MoralisService = {
             normalizeMetadata: true,
           });
     
-          sepoliaNFTs.push(response);
+          sepoliaNFTs.push(response.result);
     
           return sepoliaNFTs;
         } catch (error) {
@@ -51,7 +51,7 @@ const MoralisService = {
             normalizeMetadata: true,
           });
     
-          mumbaiNFTs.push(response);
+          mumbaiNFTs.push(response.result);
     
           return mumbaiNFTs;
         } catch (error) {
@@ -70,7 +70,7 @@ const MoralisService = {
             normalizeMetadata: true,
           });
     
-          ethereumNFTs.push(response);
+          ethereumNFTs.push(response.result);
     
           return ethereumNFTs;
         } catch (error) {
@@ -89,7 +89,7 @@ const MoralisService = {
             normalizeMetadata: true,
           });
     
-          polygonNFTs.push(response);
+          polygonNFTs.push(response.result);
     
           return polygonNFTs;
         } catch (error) {

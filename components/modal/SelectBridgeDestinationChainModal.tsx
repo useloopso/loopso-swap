@@ -11,7 +11,7 @@ type Props = {
     network: any;
 };
 
-const SelectBridgeSourceChainModal = ({ network }: Props) => {
+const SelectDestinationChainModal = ({ network }: Props) => {
     const [selectedNetwork, setSelectedNetwork] = useState(network);
     const [isOpen, setIsOpen] = useState(false);
     const connectedWallets = useWallets()
@@ -28,8 +28,6 @@ const SelectBridgeSourceChainModal = ({ network }: Props) => {
                 closeDialog();
                 await connectWallet();
               } else {
-                const chainHex = `0x${chainId.toString(16)}`;
-                await setChainId(chainHex);
                 setSelectedNetwork(networkList.find((e) => e.chainId === chainId));
                 closeDialog();
               }
@@ -42,7 +40,7 @@ const SelectBridgeSourceChainModal = ({ network }: Props) => {
         <div>
             <Dialog open={isOpen}>
                 <DialogTrigger
-                    className='p-3 bg-[#E1E1FF] rounded-2xl text-black text-base font-semibold flex w-full h-16 items-center hover:bg-[#85A0FF]/10 hover:text-white hover:border hover:border-[#E1E1FF]'
+                    className='p-3 bg-[#E1E1FF] rounded-2xl text-black text-base font-semibold flex w-full h-16 items-center justify-center hover:bg-[#85A0FF]/10 hover:text-white hover:border hover:border-[#E1E1FF]'
                     onClick={() => setIsOpen(true)}
                 >
                     <div className='flex items-center justify-center pl-3 gap-3'>
@@ -50,7 +48,7 @@ const SelectBridgeSourceChainModal = ({ network }: Props) => {
                         <span>{selectedNetwork.network}</span>
                     </div>
                     <div className='flex items-center justify-between gap-1 ml-auto'>
-                            <ChevronDown className='ml-auto w-6 h-6 pr-2' />
+                        <ChevronDown className='ml-auto w-6 h-6 pr-2' />
                     </div>
                 </DialogTrigger>
                 <DialogContent className='circlesDialog'>
@@ -59,7 +57,7 @@ const SelectBridgeSourceChainModal = ({ network }: Props) => {
                             <X className='ml-auto w-4 h-4 cursor-pointer' onClick={closeDialog} />
                         </DialogTitle>
                         <DialogTitle>
-                            ⬇️&nbsp; Select Source Chain &nbsp;⬇️
+                            ⬇️&nbsp; Select Destination Chain &nbsp;⬇️
                         </DialogTitle>
                         <DialogDescription>
                             <div className='grid grid-cols-2 items-center justify-center p-4 gap-x-8 gap-y-2'>
@@ -78,4 +76,4 @@ const SelectBridgeSourceChainModal = ({ network }: Props) => {
     );
 };
 
-export default SelectBridgeSourceChainModal;
+export default SelectDestinationChainModal;

@@ -9,7 +9,7 @@ interface WalletState {
   label: string;
 }
 
-function ConnectWallet() {
+function ConnectWalletButton() {
   const [connectedWallet, setConnectedWallet] = useState<WalletState | null>(null);
   const { connectWallet, disconnectWallet } = useWeb3Onboard();
   const connectedWallets = useWallets();
@@ -72,4 +72,4 @@ function ConnectWallet() {
   );
 }
 
-export default ConnectWallet;
+export default ConnectWalletButton;

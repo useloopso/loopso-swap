@@ -1,12 +1,11 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
-import { Button } from '../ui/button'
-import ConnectWallet from './ConnectWallet'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { FileText, GithubIcon, Menu, MoreHorizontal, TwitterIcon } from 'lucide-react'
 import { navbarLinks } from '@/constants'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+import ConnectWalletButton from './ConnectWalletButton'
 
 const Navbar = () => {
     const router = useRouter();
@@ -29,7 +28,7 @@ const Navbar = () => {
                 />
             </a>
             <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-1">
-                <ConnectWallet />
+                <ConnectWalletButton />
                 <DropdownMenu>
                     <DropdownMenuTrigger className='bg-[#85A0FF]/70 text-white hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70 rounded-3xl'>
                         <MoreHorizontal className='w-10 h-10 p-2'/>
