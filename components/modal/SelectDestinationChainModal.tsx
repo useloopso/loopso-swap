@@ -7,12 +7,14 @@ import { useWallets } from '@web3-onboard/react';
 import Image from 'next/image';
 import { networkList } from '@/constants';
 
-type Props = {
-    network: any;
+type Network = {
+    network: string;
+    chainId: number;
+    img: string
 };
 
-const SelectDestinationChainModal = ({ network }: Props) => {
-    const [selectedNetwork, setSelectedNetwork] = useState(network);
+const SelectDestinationChainModal = () => {
+    const [selectedNetwork, setSelectedNetwork] = useState<Network | undefined>(undefined);
     const [isOpen, setIsOpen] = useState(false);
     const connectedWallets = useWallets()
     const { connectWallet } = useWeb3Onboard();
@@ -45,8 +47,14 @@ const SelectDestinationChainModal = ({ network }: Props) => {
                 >
                     <div className='flex items-center justify-center gap-1'>
                         <div className='flex items-center pl-3 gap-2 w-40'>
-                            <Image src={selectedNetwork.img} alt='NetworkImage' width={12} height={12} />
-                            <span>{selectedNetwork.network}</span>
+                            {selectedNetwork ? (
+                            <>
+                                <Image src={selectedNetwork.img} alt='NetworkImage' width={15} height={15} />
+                                <span>{selectedNetwork.network}</span>
+                            </>
+                            ) : (
+                                <span>Select Network</span>
+                            )}
                         </div>
                         <ChevronDown className='ml-auto w-6 h-6 pr-2' />
                     </div>

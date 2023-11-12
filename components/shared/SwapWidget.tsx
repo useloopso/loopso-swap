@@ -14,8 +14,6 @@ import SelectDestinationChainModal from '../modal/SelectDestinationChainModal'
 const SwapWidget = () => {
   const [tokenOne, setTokenOne] = useState(tokenList[0]);
   const [tokenTwo, setTokenTwo] = useState(tokenList[1]);
-  const [networkOne, setNetworkOne] = useState(networkList[0]);
-  const [networkTwo, setNetworkTwo] = useState(networkList[1]);
 
   return (
     <div className='widget-wrapper'>
@@ -29,7 +27,7 @@ const SwapWidget = () => {
         <div className='flex items-center mt-5 gap-3 pl-2'>
           <InfinityIcon />
           <p className='font-semibold text-sm pr-1'>From</p>
-          <SelectSourceChainModal network={networkOne} />
+          <SelectSourceChainModal />
         </div>
         <div className="h-4"></div>
           <div className='swap-content'>
@@ -53,7 +51,7 @@ const SwapWidget = () => {
           <div className='flex items-center gap-6 pl-2'>
             <InfinityIcon />
             <p className='font-semibold text-sm'>To</p>
-            <SelectDestinationChainModal network={networkTwo} />
+            <SelectDestinationChainModal />
           </div>
           <div className="h-4"></div>
           <div className='swap-content'>

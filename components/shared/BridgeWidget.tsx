@@ -1,18 +1,14 @@
 "use client"
 
-import React, { useState } from 'react'
-import { BadgeInfo, ImageDown, InfinityIcon, MoveDown } from 'lucide-react'
+import React from 'react'
+import { ImageDown, InfinityIcon, MoveDown } from 'lucide-react'
 
 import { Button } from "@/components/ui/button"
-import { networkList, tokenList } from '@/constants/index.js'
 import SelectBridgeSourceChainModal from '../modal/SelectBridgeSourceChainModal'
 import NftList from '../lists/NftList'
 import SelectBridgeDestinationChainModal from '../modal/SelectBridgeDestinationChainModal'
 
 const BridgeWidget = () => {
-  const [networkOne, setNetworkOne] = useState(networkList[0]);
-  const [networkTwo, setNetworkTwo] = useState(networkList[1]);
-
   return (
     <div className='widget-wrapper'>
       <div className='widget-content blue-pink-gradient'>
@@ -27,7 +23,7 @@ const BridgeWidget = () => {
           <p className='font-semibold text-sm pr-1'>Choose Source Chain</p>  
         </div>
         <div className="h-2"></div>
-        <SelectBridgeSourceChainModal network={networkOne} />
+        <SelectBridgeSourceChainModal />
         <div className="h-4"></div>
           <NftList />
           <div className="h-2"></div>
@@ -40,7 +36,7 @@ const BridgeWidget = () => {
             <p className='font-semibold text-sm'>Choose Destination Chain</p>
           </div>
           <div className="h-2"></div>
-          <SelectBridgeDestinationChainModal network={networkTwo} />
+          <SelectBridgeDestinationChainModal />
           <div className="h-4"></div>
         <div className="h-4"></div>
         <div className='items-center justify-center flex'>
