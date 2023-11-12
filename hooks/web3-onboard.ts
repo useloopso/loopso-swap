@@ -91,6 +91,8 @@ const connect: ConnectModalOptions = {
   iDontHaveAWalletLink:
     'https://chrome.google.com/webstore/detail/universal-profiles/abpickdkkbnbcoepogfhkhennhfhehfn?hl=en',
   removeWhereIsMyWalletWarning: true,
+  autoConnectLastWallet: true,
+  autoConnectAllPreviousWallet: true,
 }
 
 export const onboard = Onboard({
@@ -103,7 +105,6 @@ export const onboard = Onboard({
 
 const connectWallet = async () => {
   const wallets = await onboard.connectWallet()
-  console.log(wallets)
   return wallets[0]
 }
 

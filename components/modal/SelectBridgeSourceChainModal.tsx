@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { ChevronDown, X } from 'lucide-react';
-import { Separator } from '../ui/separator';
 import useWeb3Onboard from '../../hooks/web3-onboard';
 import { useWallets } from '@web3-onboard/react';
 import Image from 'next/image';
@@ -15,8 +14,7 @@ const SelectBridgeSourceChainModal = ({ network }: Props) => {
     const [selectedNetwork, setSelectedNetwork] = useState(network);
     const [isOpen, setIsOpen] = useState(false);
     const connectedWallets = useWallets()
-    const { connectWallet } = useWeb3Onboard();
-    const { setChainId } = useWeb3Onboard();
+    const { connectWallet, setChainId } = useWeb3Onboard();
 
     const closeDialog = () => {
         setIsOpen(false);
