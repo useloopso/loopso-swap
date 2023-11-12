@@ -5,19 +5,23 @@ import { ChevronDown, X } from 'lucide-react';
 import { tokenList } from '@/constants/index.js';
 import { Separator } from '../ui/separator';
 
-type Props = {
-    token: any;
+type Token = {
+    ticker: string;
+    img: string;
+    name: string;
+    address: string;
+    decimals: number;
 };
 
-const SelectTokenModal = ({ token }: Props) => {
-    const [selectedToken, setSelectedToken] = useState(token);
+const SelectTokenModal = () => {
+    const [selectedToken, setSelectedToken] = useState<Token | undefined>(undefined);
     const [isOpen, setIsOpen] = useState(false);
 
     const closeDialog = () => {
         setIsOpen(false);
     };
 
-    const updateToken = (i: any) => {
+    const switchToken = (i: any) => {
         setSelectedToken(tokenList[i]);
         closeDialog();
     };
@@ -26,12 +30,18 @@ const SelectTokenModal = ({ token }: Props) => {
         <div>
             <Dialog open={isOpen}>
                 <DialogTrigger
-                    className='p-3 bg-[#85A0FF]/60 rounded-2xl text-white text-sm font-semibold flex w-36 h-12 items-center justify-center hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70'
+                    className='p-3 bg-[#85A0FF]/60 rounded-2xl text-white text-sm font-semibold flex w-40 h-12 items-center justify-center hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70'
                     onClick={() => setIsOpen(true)}
                 >
                     <div className='flex items-center justify-center gap-3'>
-                        <Image src={selectedToken.img} alt='Token' width={20} height={20} />
-                        <span>{selectedToken.ticker}</span>
+                        {selectedToken ? (
+                            <>
+                                <Image src={selectedToken.img} alt='NetworkImage' width={15} height={15} />
+                                <span>{selectedToken.ticker}</span>
+                            </>
+                            ) : (
+                                <span>Select Network</span>
+                            )}
                     </div>
                     <ChevronDown className='ml-auto w-5 h-5' />
                 </DialogTrigger>
@@ -46,7 +56,7 @@ const SelectTokenModal = ({ token }: Props) => {
                         <DialogDescription>
                             <div className='grid grid-cols-2 items-center justify-center p-4 gap-x-8 gap-y-2'>
                                  {tokenList?.map((e, i) => (
-                                    <div className='flex items-center w-52 h-16 gap-3 rounded-3xl cursor-pointer pl-4 bg-[#85A0FF]/70 hover:bg-[#E1E1FF] text-sm text-white hover:text-[#85A0FF]/70 hover:rounded-3xl hover:border hover:border-white' key={i} onClick={() => updateToken(i)}>
+                                    <div className='flex items-center w-52 h-16 gap-3 rounded-3xl cursor-pointer pl-4 bg-[#85A0FF]/70 hover:bg-[#E1E1FF] text-sm text-white hover:text-[#85A0FF]/70 hover:rounded-3xl hover:border hover:border-white' key={i} onClick={() => switchToken(i)}>
                                         <Image src={e.img} alt={e.ticker} width={20} height={20} />
                                         <div className=''>
                                             <div className='font-semibold'>{e.name}</div>
