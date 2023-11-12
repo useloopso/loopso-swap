@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { BadgeInfo, InfinityIcon, MoveDown, Repeat2 } from "lucide-react";
-
+import { bridgeTokens } from "loopso-bridge-sdk";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { networkList, tokenList } from "@/constants/index.js";
@@ -16,11 +16,26 @@ import {
 import SelectSourceChainModal from "../modal/SelectSourceChainModal";
 import SelectDestinationChainModal from "../modal/SelectDestinationChainModal";
 
+type Network = {
+  network: string;
+  chainId: number;
+  img: string;
+};
+
 const SwapWidget = () => {
+  const [selectedNetwork, setSelectedNetwork] = useState<Network | undefined>(
+    undefined
+  );
+
   const [tokenOne, setTokenOne] = useState(tokenList[0]);
   const [tokenTwo, setTokenTwo] = useState(tokenList[1]);
 
   console.log(tokenOne, "wats tokenOne?", tokenTwo, "TOKENTWO???");
+
+  const handleSubmitAndBridge = async () => {
+    const txHash = await bridgeTokens();
+    console.log(txHash);
+  };
 
   return (
     <div className="widget-wrapper">
@@ -34,7 +49,10 @@ const SwapWidget = () => {
         <div className="flex items-center mt-5 gap-3 pl-2">
           <InfinityIcon />
           <p className="font-semibold text-sm pr-1">From</p>
-          <SelectSourceChainModal />
+          <SelectSourceChainModal
+            setSelectedNetwork={setSelectedNetwork}
+            selectedNetwork={selectedNetwork}
+          />
         </div>
         <div className="h-4"></div>
         <div className="swap-content">
@@ -87,6 +105,7 @@ const SwapWidget = () => {
         <div className="h-4"></div>
         <div className="items-center justify-center flex">
           <Button
+            onClick={handleSubmitAndBridge}
             type="submit"
             className="w-[100%] text-md flex items-center justify-center gap-3"
           >

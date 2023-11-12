@@ -20,6 +20,7 @@ export const tokenList = [
     name: "Lukso Wrapped Lajos Token",
     address: ADDRESSES.LAJOS_TOKEN_ADDRESS_WRAPPED_LUKSO,
     decimals: 18,
+    //chainId:
   },
 
   {
@@ -28,6 +29,7 @@ export const tokenList = [
     name: "Matic Wrapped Lajos Token",
     address: ADDRESSES.LAJOS_TOKEN_ADDRESS_MUMBAI,
     decimals: 18,
+    // chainId:
   },
   {
     ticker: "USDC",
