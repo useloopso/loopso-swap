@@ -42,7 +42,6 @@ const MoralisService = {
     },
     fetchMumbaiNFTs: async (address: string) => {
         try {
-          const mumbaiNFTs = [];
           const chain = EvmChain.MUMBAI;
     
           const response = await Moralis.EvmApi.nft.getWalletNFTs({
@@ -51,9 +50,17 @@ const MoralisService = {
             normalizeMetadata: true,
           });
     
-          mumbaiNFTs.push(response.result);
+          const nfts = response.result.map(nft => ({
+            tokenId: nft.result.tokenId,
+            tokenAddress: nft.result.tokenAddress,
+            tokenUri: nft.result.tokenUri,
+            tokenName: nft.result.name,
+            tokenSymbol: nft.result.symbol,
+            amount: nft.result.amount,
+            metadata: nft.result.metadata,
+          }));
     
-          return mumbaiNFTs;
+          return nfts;
         } catch (error) {
           console.error('Error fetching NFTs:', error);
           throw error; 

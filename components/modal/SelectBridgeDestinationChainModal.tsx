@@ -44,7 +44,7 @@ const SelectDestinationChainModal = ({ network }: Props) => {
                     onClick={() => setIsOpen(true)}
                 >
                     <div className='flex items-center justify-center pl-3 gap-3'>
-                        <Image src={selectedNetwork.img} alt='NetworkImage' width={20} height={20} />
+                        <Image src={selectedNetwork.img} alt='NetworkImage' width={15} height={15} />
                         <span>{selectedNetwork.network}</span>
                     </div>
                     <div className='flex items-center justify-between gap-1 ml-auto'>

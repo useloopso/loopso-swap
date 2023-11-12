@@ -34,7 +34,6 @@ function ConnectWalletButton() {
   };
 
   const formatAddress = (address: string) => {
-    // Customize the address formatting as needed
     const formattedAddress = `${address.substring(0, 5)}...${address.substring(address.length - 5)}`;
     return formattedAddress;
   };

@@ -42,9 +42,6 @@ const BridgeWidget = () => {
           <div className="h-2"></div>
           <SelectBridgeDestinationChainModal network={networkTwo} />
           <div className="h-4"></div>
-          <div className='swap-content'>
-            
-          </div>
         <div className="h-4"></div>
         <div className='items-center justify-center flex'>
           <Button type="submit" className='w-[100%] text-md flex items-center justify-center gap-3'>
