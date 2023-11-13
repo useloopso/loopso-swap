@@ -17,8 +17,7 @@ interface NftMetadata {
 const NftList = () => {
   const connectedWallets = useWallets();
   const [nftCards, setNftCards] = useState<React.ReactNode[]>([]);
-  const [networkSwitched, setNetworkSwitched] = useState<boolean>(false);
-  const [defaultState, setDefaultState] = useState<string>("⬆️ Retrieve NFTs from chosen network ⬆️");
+  const [defaultState, setDefaultState] = useState<string>("⬆️ Retrieve NFTs from selected network ⬆️");
 
   useEffect(() => {
     const initMoralis = async () => {
@@ -87,10 +86,9 @@ const NftList = () => {
       setNftCards(nftCards);
 
       if (nftCards.length === 0) {
-        setNetworkSwitched(true);
         setDefaultState("🚨 No NFTs found on this network 🚨");
       } else {
-        setDefaultState("⬆️ Retrieve NFTs from chosen network ⬆️");
+        setDefaultState("⬆️ Retrieve NFTs from selected network ⬆️");
       }
     } catch (error) {
       console.error('Error fetching NFTs:', error);
