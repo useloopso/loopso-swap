@@ -4,7 +4,6 @@ import { EvmChain } from '@moralisweb3/common-evm-utils';
 const MoralisService = {
     fetchGoerliNFTs: async (address: string) => {
         try {
-          const goerliNFTs = [];
           const chain = EvmChain.GOERLI;
     
           const response = await Moralis.EvmApi.nft.getWalletNFTs({
@@ -13,9 +12,17 @@ const MoralisService = {
             normalizeMetadata: true,
           });
     
-          goerliNFTs.push(response.result);
+          const nfts = response.result.map(nft => ({
+            tokenId: nft.result.tokenId,
+            tokenAddress: nft.result.tokenAddress,
+            tokenUri: nft.result.tokenUri,
+            tokenName: nft.result.name,
+            tokenSymbol: nft.result.symbol,
+            amount: nft.result.amount,
+            metadata: nft.result.metadata,
+          }));
     
-          return goerliNFTs;
+          return nfts;
         } catch (error) {
           console.error('Error fetching NFTs:', error);
           throw error; 
@@ -23,7 +30,6 @@ const MoralisService = {
     },
     fetchSepoliaNFTs: async (address: string) => {
         try {
-          const sepoliaNFTs = [];
           const chain = EvmChain.SEPOLIA;
     
           const response = await Moralis.EvmApi.nft.getWalletNFTs({
@@ -32,9 +38,17 @@ const MoralisService = {
             normalizeMetadata: true,
           });
     
-          sepoliaNFTs.push(response.result);
+          const nfts = response.result.map(nft => ({
+            tokenId: nft.result.tokenId,
+            tokenAddress: nft.result.tokenAddress,
+            tokenUri: nft.result.tokenUri,
+            tokenName: nft.result.name,
+            tokenSymbol: nft.result.symbol,
+            amount: nft.result.amount,
+            metadata: nft.result.metadata,
+          }));
     
-          return sepoliaNFTs;
+          return nfts;
         } catch (error) {
           console.error('Error fetching NFTs:', error);
           throw error; 
@@ -68,7 +82,6 @@ const MoralisService = {
     },
     fetchEthereumNFTs: async (address: string) => {
         try {
-          const ethereumNFTs = [];
           const chain = EvmChain.ETHEREUM;
     
           const response = await Moralis.EvmApi.nft.getWalletNFTs({
@@ -77,9 +90,17 @@ const MoralisService = {
             normalizeMetadata: true,
           });
     
-          ethereumNFTs.push(response.result);
+          const nfts = response.result.map(nft => ({
+            tokenId: nft.result.tokenId,
+            tokenAddress: nft.result.tokenAddress,
+            tokenUri: nft.result.tokenUri,
+            tokenName: nft.result.name,
+            tokenSymbol: nft.result.symbol,
+            amount: nft.result.amount,
+            metadata: nft.result.metadata,
+          }));
     
-          return ethereumNFTs;
+          return nfts;
         } catch (error) {
           console.error('Error fetching NFTs:', error);
           throw error; 
@@ -87,7 +108,6 @@ const MoralisService = {
     },
     fetchPolygonNFTs: async (address: string) => {
         try {
-          const polygonNFTs = [];
           const chain = EvmChain.POLYGON;
     
           const response = await Moralis.EvmApi.nft.getWalletNFTs({
@@ -96,9 +116,17 @@ const MoralisService = {
             normalizeMetadata: true,
           });
     
-          polygonNFTs.push(response.result);
+          const nfts = response.result.map(nft => ({
+            tokenId: nft.result.tokenId,
+            tokenAddress: nft.result.tokenAddress,
+            tokenUri: nft.result.tokenUri,
+            tokenName: nft.result.name,
+            tokenSymbol: nft.result.symbol,
+            amount: nft.result.amount,
+            metadata: nft.result.metadata,
+          }));
     
-          return polygonNFTs;
+          return nfts;
         } catch (error) {
           console.error('Error fetching NFTs:', error);
           throw error; 

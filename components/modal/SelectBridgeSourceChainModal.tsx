@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { ChevronDown, X } from 'lucide-react';
 import useWeb3Onboard from '../../hooks/web3-onboard';

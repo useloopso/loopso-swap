@@ -3,7 +3,6 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import Image from 'next/image';
 import { ChevronDown, X } from 'lucide-react';
 import { tokenList } from '@/constants/index.js';
-import { Separator } from '../ui/separator';
 
 type Token = {
     ticker: string;

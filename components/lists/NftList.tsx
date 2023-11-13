@@ -40,10 +40,9 @@ const NftList = () => {
 
       console.log('fetchedNftList', fetchedNftList);
 
-      // Assuming you want to display all fetched NFTs, you can map through the list
       const nftCards = fetchedNftList.map((nft) => (
         <NftCard
-          key={nft.tokenId.toString()} // Make sure to provide a unique key
+          key={nft.tokenId.toString()}
           tokenId={nft.tokenId.toString()}
           tokenAddress={nft?.tokenAddress?.toJSON?.() || ''}
           tokenUri={nft?.tokenUri?.toString() || ''}
@@ -54,8 +53,6 @@ const NftList = () => {
         />
       ));
 
-      // Set the mapped NFT cards to state or render directly, based on your use case
-      // For simplicity, I'll set it to state here
       setNftCards(nftCards);
     } catch (error) {
       console.error('Error fetching NFTs:', error);

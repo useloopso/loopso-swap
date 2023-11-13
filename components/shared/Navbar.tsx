@@ -8,9 +8,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import ConnectWalletButton from './ConnectWalletButton'
 
 const Navbar = () => {
-    const router = useRouter();
     const pathname = usePathname();
-    const [isOpen, setIsOpen] = useState(false);
 
     const openNewTab = (url: any) => {
         window.open(url, '_blank');

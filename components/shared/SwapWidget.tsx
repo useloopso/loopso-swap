@@ -12,8 +12,6 @@ import SelectSourceChainModal from '../modal/SelectSourceChainModal'
 import SelectDestinationChainModal from '../modal/SelectDestinationChainModal'
 
 const SwapWidget = () => {
-  const [tokenOne, setTokenOne] = useState(tokenList[0]);
-  const [tokenTwo, setTokenTwo] = useState(tokenList[1]);
 
   return (
     <div className='widget-wrapper'>
@@ -38,9 +36,7 @@ const SwapWidget = () => {
                   type='number' 
                   className='placeholder:hover:text-[#85A0FF]/70'
                 />
-                <SelectTokenModal 
-                  token={tokenOne}
-                />
+                <SelectTokenModal />
               </div>
           </div>
           <div className="h-2"></div>
@@ -72,9 +68,7 @@ const SwapWidget = () => {
                   type='number' 
                   disabled={true}
                 />
-                <SelectTokenModal 
-                  token={tokenTwo}
-                />
+                <SelectTokenModal />
             </div>
           </div>
         <div className="h-4"></div>
