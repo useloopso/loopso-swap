@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Moralis from 'moralis';
 import { useWallets } from '@web3-onboard/react';
 import MoralisService from '@/hooks/moralis-nft';
 import { Button } from '../ui/button';
 import NftCard from '../cards/NftCard';
 import { networkList } from '@/constants';
+import { ChevronLeftCircle, ChevronRightCircle } from 'lucide-react';
 
 
 interface NftMetadata {
@@ -16,6 +17,8 @@ interface NftMetadata {
 const NftList = () => {
   const connectedWallets = useWallets();
   const [nftCards, setNftCards] = useState<React.ReactNode[]>([]);
+  const [networkSwitched, setNetworkSwitched] = useState<boolean>(false);
+  const [defaultState, setDefaultState] = useState<string>("⬆️ Retrieve NFTs from chosen network ⬆️");
 
   useEffect(() => {
     const initMoralis = async () => {
@@ -82,20 +85,56 @@ const NftList = () => {
       ));
 
       setNftCards(nftCards);
+
+      if (nftCards.length === 0) {
+        setNetworkSwitched(true);
+        setDefaultState("🚨 No NFTs found on this network 🚨");
+      } else {
+        setDefaultState("⬆️ Retrieve NFTs from chosen network ⬆️");
+      }
     } catch (error) {
       console.error('Error fetching NFTs:', error);
+      setDefaultState("Error fetching NFTs");
     }
   };
 
+  const elementRef=useRef(null);
+
+  const slideRight=(element: any)=>{
+      element.scrollLeft+=500;
+  }
+  const slideLeft=(element: any)=>{
+      element.scrollLeft-=500;
+  }
+
   return (
     <div className='w-full'>
-        <Button onClick={handleFetchNFTs} className='w-full'>
-          Retrieve Assets
-        </Button>
+      <Button onClick={handleFetchNFTs} className='w-full'>
+        Retrieve Assets
+      </Button>
       <div className="h-4"></div>
-      <div className='flex gap-5 overflow-x-auto overflow-scroll scrollbar-hide scroll-smooth'>
-        {nftCards}
-      </div>
+      {nftCards.length === 0 ? (
+        <p className='flex items-center justify-center text-sm font-semibold'>{defaultState}</p>
+      ) : (
+        <div>
+          {nftCards.length > 3 ? (
+            <>
+            <ChevronLeftCircle onClick={()=>slideLeft(elementRef.current)} className='w-8 h-8 absolute top-[65%] cursor-pointer bg-[#85A0FF]/70 rounded-full text-white p-1 hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70' />
+            <div className='flex gap-5 overflow-x-auto overflow-scroll scrollbar-hide scroll-smooth ml-10 mr-10' ref={elementRef}>
+              {nftCards}
+            </div>
+            <ChevronRightCircle onClick={()=>slideRight(elementRef.current)}  className='w-8 h-8 absolute top-[65%] right-[30%] cursor-pointer bg-[#85A0FF]/70 rounded-full text-white p-1 hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70'/>
+
+            </>
+          ) : (
+            <>
+            <div className='flex gap-5 ml-10 mr-10 items-center justify-center'>
+              {nftCards}
+            </div>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 };

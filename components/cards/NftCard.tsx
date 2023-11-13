@@ -31,7 +31,7 @@ const NftCard = ({
     const description = metadata?.description || '';
   
     return (
-        <div className='w-[150px] flex-shrink-0 shadow-md mb-5 rounded-3xl bg-white hover:scale-110 transition-all mt-[20px] cursor-pointer flex flex-col text-black bg-[#FDDCE8]/80 p-3 hover:bg-[#85A0FF]/70 hover:text-white'>
+        <div className='w-[150px] h-[200px] flex-shrink-0 shadow-md mb-5 rounded-3xl bg-white hover:scale-110 transition-all mt-[20px] cursor-pointer flex flex-col text-black bg-[#FDDCE8]/80 p-3 hover:bg-[#85A0FF]/70 hover:text-white'>
             <div className='flex items-center justify-center'>
                 <Image src={imageSrc} alt='NFT' width={110} height={110} className='nftImage rounded-lg' />
             </div>

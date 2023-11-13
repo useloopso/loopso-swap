@@ -14,6 +14,7 @@ const nextConfig = {
           "ipfs.io",
           "bafybeidl4qaedrfyo5mkfove4sjffod43wvxmshlxwtg5zvtkrlcawxjbu.ipfs.localhost",
           "",
+          "claim.basechains.net"
         ],
     },
 }
