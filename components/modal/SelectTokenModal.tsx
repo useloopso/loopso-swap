@@ -30,7 +30,7 @@ const SelectTokenModal = () => {
         <div>
             <Dialog open={isOpen}>
                 <DialogTrigger
-                    className='p-3 bg-[#85A0FF]/60 rounded-2xl text-white text-sm font-semibold flex w-40 h-12 items-center justify-center hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70'
+                    className='p-3 bg-[#85A0FF]/60 rounded-2xl text-white text-sm font-semibold flex w-36 h-12 items-center justify-center hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70'
                     onClick={() => setIsOpen(true)}
                 >
                     <div className='flex items-center justify-center gap-3'>
@@ -40,7 +40,7 @@ const SelectTokenModal = () => {
                                 <span>{selectedToken.ticker}</span>
                             </>
                             ) : (
-                                <span>Select Network</span>
+                                <span>Select Token</span>
                             )}
                     </div>
                     <ChevronDown className='ml-auto w-5 h-5' />
