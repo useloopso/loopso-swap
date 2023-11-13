@@ -36,7 +36,7 @@ const NftList = () => {
   const handleFetchNFTs = async () => {
     try {
       const address = connectedWallets[0]?.accounts[0]?.address;
-      const fetchedNftList = await MoralisService.fetchMumbaiNFTs(address);
+      const fetchedNftList = await MoralisService.fetchSepoliaNFTs(address);
 
       console.log('fetchedNftList', fetchedNftList);
 
@@ -65,7 +65,7 @@ const NftList = () => {
           Retrieve Assets
         </Button>
       <div className="h-4"></div>
-      <div className='flex flex-wrap gap-3 grid-cols-4 items-center justify-center'>
+      <div className='flex gap-5 overflow-x-auto overflow-scroll scrollbar-hide scroll-smooth'>
         {nftCards}
       </div>
     </div>

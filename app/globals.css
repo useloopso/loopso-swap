@@ -185,3 +185,11 @@
   background-image: radial-gradient(circle at center center, #85A0FF, #E1E1FF, #FFFFFF);
   background-blend-mode: darken;
 }
+
+.nftImage {
+  display: block;
+  max-width:125px;
+  max-height:125px;
+  width: auto;
+  height: auto;
+}
