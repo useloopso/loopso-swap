@@ -45,7 +45,7 @@ const SwapWidget = () => {
     amount: number,
     dstAddress: string,
     dstChain: number
-  ): Promise<TransactionResponse> {
+  ): Promise<TransactionResponse | null> {
     const loopsoContract = new ethers.Contract(
       contractAddress,
       LOOPSO_ABI,
@@ -62,19 +62,26 @@ const SwapWidget = () => {
 
     try {
       const approvalTx = await tokenContract.approve(contractAddress, amount);
-      await approvalTx.wait();
       console.log(approvalTx, "ApprovalTX SDK");
+      if (approvalTx) {
+        console.log(
+          tokenAddress,
+          amount,
+          dstAddress,
+          dstChain,
+          "ALL THE ARGUMENTS"
+        );
+        return loopsoContract.bridgeTokens(
+          tokenAddress,
+          amount,
+          dstChain,
+          dstAddress
+        );
+      } else throw new Error("Could not approve contract spending");
     } catch (error) {
       console.log(error, "ÄRROR");
+      return null;
     }
-    if (ERC20_ABI == LOOPSO_ABI) {
-      return loopsoContract.bridgeTokens(
-        tokenAddress,
-        amount,
-        dstAddress,
-        dstChain
-      );
-    } else throw new Error("Could not approve contract spending");
   }
   console.log(
     selectedSourceChainNetwork,
@@ -99,17 +106,18 @@ const SwapWidget = () => {
       selectedDestinationChainNetwork
     ) {
       const ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
+      const signer = await ethersProvider.getSigner();
       console.log("Bräää");
       const txHash = await bridgeTokens(
         selectedSourceChainNetwork.loopsoContractAddress,
-        ethersProvider,
+        signer,
         selectedSourceToken.address,
         selectedSourceChainNetwork.chainId,
         Number(amount),
         wallet?.accounts[0].address,
         selectedDestinationChainNetwork.chainId
       );
-      //console.log(txHash, "TXHASH");
+      console.log(txHash, "TXHASH");
     }
   };
 
