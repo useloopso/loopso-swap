@@ -13,12 +13,8 @@ import useWeb3Onboard from "../../hooks/web3-onboard";
 import { useWallets } from "@web3-onboard/react";
 import Image from "next/image";
 import { networkList } from "@/constants";
+import { Network } from "@/lib/types";
 
-type Network = {
-  network: string;
-  chainId: number;
-  img: string;
-};
 interface SelectSourceChainModalProps {
   selectedNetwork: Network | undefined;
   setSelectedNetwork: (network: Network | undefined) => void;
@@ -92,7 +88,7 @@ const SelectSourceChainModal = (props: SelectSourceChainModalProps) => {
                   <div
                     className="flex items-center justify-center w-48 h-16 gap-3 rounded-3xl cursor-pointer bg-[#85A0FF]/70 hover:bg-[#E1E1FF] text-sm font-semibold text-white hover:text-[#85A0FF]/70 hover:rounded-3xl hover:border hover:border-white"
                     key={e.chainId}
-                    onClick={() => switchNetwork(e.chainId)}
+                    onClick={() => switchNetwork(e.chainId as number)}
                   >
                     <Image src={e.img} alt={e.network} width={20} height={20} />
                     {e.network}

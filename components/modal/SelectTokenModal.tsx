@@ -25,14 +25,11 @@ const SelectTokenModal = (props: SelectTokenModalProps) => {
   const closeDialog = () => {
     setIsOpen(false);
   };
-  console.log("WHAT HAPPENED? öööö");
 
   const switchToken = (i: any) => {
     setSelectedToken(tokenList[i]);
     closeDialog();
   };
-
-  console.log(selectedToken, "wats selected token?");
 
   return (
     <div>

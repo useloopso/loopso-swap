@@ -12,12 +12,7 @@ import useWeb3Onboard from "../../hooks/web3-onboard";
 import { useWallets } from "@web3-onboard/react";
 import Image from "next/image";
 import { networkList } from "@/constants";
-
-type Network = {
-  network: string;
-  chainId: number;
-  img: string;
-};
+import { Network } from "@/lib/types";
 
 const SelectBridgeSourceChainModal = () => {
   const [selectedNetwork, setSelectedNetwork] = useState<Network | undefined>(

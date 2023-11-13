@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { BadgeInfo, InfinityIcon, MoveDown, Repeat2 } from "lucide-react";
-import { bridgeTokens } from "loopso-bridge-sdk";
+import { ERC20_ABI, LOOPSO_ABI } from "loopso-bridge-sdk";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { networkList, tokenList } from "@/constants/index.js";
@@ -18,7 +18,7 @@ import SelectDestinationChainModal from "../modal/SelectDestinationChainModal";
 import { Network, Token } from "@/lib/types";
 import useWeb3Onboard from "@/hooks/web3-onboard";
 import { useConnectWallet } from "@web3-onboard/react";
-import { ethers } from "ethers";
+import { TransactionResponse, ethers } from "ethers";
 import { providers } from "web3";
 
 const SwapWidget = () => {
@@ -37,6 +37,45 @@ const SwapWidget = () => {
 
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
 
+  async function bridgeTokens(
+    contractAddress: string,
+    signerOrProvider: ethers.Signer | ethers.Provider,
+    tokenAddress: string,
+    tokenChain: number,
+    amount: number,
+    dstAddress: string,
+    dstChain: number
+  ): Promise<TransactionResponse> {
+    const loopsoContract = new ethers.Contract(
+      contractAddress,
+      LOOPSO_ABI,
+      signerOrProvider
+    );
+
+    const tokenContract = new ethers.Contract(
+      tokenAddress,
+      ERC20_ABI,
+      signerOrProvider
+    );
+    console.log(tokenContract, "ERC20 token contract SDK");
+    console.log(loopsoContract, "Loopso bridge contract SDK");
+
+    try {
+      const approvalTx = await tokenContract.approve(contractAddress, amount);
+      await approvalTx.wait();
+      console.log(approvalTx, "ApprovalTX SDK");
+    } catch (error) {
+      console.log(error, "ÄRROR");
+    }
+    if (ERC20_ABI == LOOPSO_ABI) {
+      return loopsoContract.bridgeTokens(
+        tokenAddress,
+        amount,
+        dstAddress,
+        dstChain
+      );
+    } else throw new Error("Could not approve contract spending");
+  }
   console.log(
     selectedSourceChainNetwork,
     "Source chain",
@@ -50,30 +89,28 @@ const SwapWidget = () => {
     "Dst token"
   );
 
+  console.log(wallet?.accounts[0].address, "wallet accounts?");
   const handleSubmitAndBridge = async () => {
-    let ethersProvider;
-
-    //TODO: how to handle if the wallet is from Lukso UP wallet?
-    if (wallet && selectedSourceToken && selectedSourceChainNetwork &&  selectedDestinationChainNetwork) {
-      ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
-          const txHash = await bridgeTokens(
-        selectedSourceChainNetwork.loopsoContractAddress
-        ethersProvider, 
+    //TODO: how to handle if the source network is from Lukso UP wallet?
+    if (
+      wallet &&
+      selectedSourceToken &&
+      selectedSourceChainNetwork &&
+      selectedDestinationChainNetwork
+    ) {
+      const ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
+      console.log("Bräää");
+      const txHash = await bridgeTokens(
+        selectedSourceChainNetwork.loopsoContractAddress,
+        ethersProvider,
         selectedSourceToken.address,
-        selectedSourceChainNetwork.chainId
-        amount, 
-        "connectedAddress", 
+        selectedSourceChainNetwork.chainId,
+        Number(amount),
+        wallet?.accounts[0].address,
         selectedDestinationChainNetwork.chainId
-
-
-        
-      ); 
+      );
+      //console.log(txHash, "TXHASH");
     }
-
-    /*     const txHash = await bridgeTokens(
-      selectedSourceChainNetwork?.loopsoContractAddress
-    ); */
-    //console.log(txHash);
   };
 
   return (
