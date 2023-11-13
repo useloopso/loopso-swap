@@ -13,6 +13,7 @@ const nextConfig = {
           "gateway.ipfs.io",
           "ipfs.io",
           "bafybeidl4qaedrfyo5mkfove4sjffod43wvxmshlxwtg5zvtkrlcawxjbu.ipfs.localhost",
+          "",
         ],
     },
 }

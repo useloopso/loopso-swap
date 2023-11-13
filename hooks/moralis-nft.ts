@@ -18,6 +18,7 @@ const MoralisService = {
             tokenUri: nft.result.tokenUri,
             tokenName: nft.result.name,
             tokenSymbol: nft.result.symbol,
+            tokenHash: nft.result.tokenHash,
             amount: nft.result.amount,
             metadata: nft.result.metadata,
           }));
@@ -44,6 +45,7 @@ const MoralisService = {
             tokenUri: nft.result.tokenUri,
             tokenName: nft.result.name,
             tokenSymbol: nft.result.symbol,
+            tokenHash: nft.result.tokenHash,
             amount: nft.result.amount,
             metadata: nft.result.metadata,
           }));
@@ -70,6 +72,7 @@ const MoralisService = {
             tokenUri: nft.result.tokenUri,
             tokenName: nft.result.name,
             tokenSymbol: nft.result.symbol,
+            tokenHash: nft.result.tokenHash,
             amount: nft.result.amount,
             metadata: nft.result.metadata,
           }));
@@ -96,6 +99,7 @@ const MoralisService = {
             tokenUri: nft.result.tokenUri,
             tokenName: nft.result.name,
             tokenSymbol: nft.result.symbol,
+            tokenHash: nft.result.tokenHash,
             amount: nft.result.amount,
             metadata: nft.result.metadata,
           }));
@@ -122,6 +126,7 @@ const MoralisService = {
             tokenUri: nft.result.tokenUri,
             tokenName: nft.result.name,
             tokenSymbol: nft.result.symbol,
+            tokenHash: nft.result.tokenHash,
             amount: nft.result.amount,
             metadata: nft.result.metadata,
           }));

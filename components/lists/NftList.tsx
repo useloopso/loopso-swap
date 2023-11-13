@@ -4,6 +4,7 @@ import { useWallets } from '@web3-onboard/react';
 import MoralisService from '@/hooks/moralis-nft';
 import { Button } from '../ui/button';
 import NftCard from '../cards/NftCard';
+import { networkList } from '@/constants';
 
 
 interface NftMetadata {
@@ -36,14 +37,41 @@ const NftList = () => {
   const handleFetchNFTs = async () => {
     try {
       const address = connectedWallets[0]?.accounts[0]?.address;
-      const fetchedNftList = await MoralisService.fetchSepoliaNFTs(address);
 
-      console.log('fetchedNftList', fetchedNftList);
+      const luksoTestnetChainId = networkList.find((network) => network.network === 'Lukso Testnet')?.chainId;
+      const goerliTestnetChainId = networkList.find((network) => network.network === 'Goerli Testnet')?.chainId;
+      const sepoliaTestnetChainId = networkList.find((network) => network.network === 'Sepolia Testnet')?.chainId;
+      const mumbaiTestnetChainId = networkList.find((network) => network.network === 'Mumbai Testnet')?.chainId;
+      const luksoMainnetChainId = networkList.find((network) => network.network === 'Lukso Mainnet')?.chainId;
+      const ethereumMainnetChainId = networkList.find((network) => network.network === 'Ethereum Mainnet')?.chainId;
+      const polygonMainnetChainId = networkList.find((network) => network.network === 'Polygon Mainnet')?.chainId;
 
-      const nftCards = fetchedNftList.map((nft) => (
+      const promises = connectedWallets.map(async (e) => {
+        if (e.chains[0].id === `0x${goerliTestnetChainId?.toString(16)}`) {
+          return await MoralisService.fetchGoerliNFTs(address); 
+        } 
+        else if (e.chains[0].id === `0x${sepoliaTestnetChainId?.toString(16)}`) {
+          return await MoralisService.fetchSepoliaNFTs(address);
+        }
+        else if (e.chains[0].id === `0x${mumbaiTestnetChainId?.toString(16)}`) {
+          return await MoralisService.fetchMumbaiNFTs(address);
+        }
+        else if (e.chains[0].id === `0x${ethereumMainnetChainId?.toString(16)}`) {
+          return await MoralisService.fetchEthereumNFTs(address);
+        }
+        else if (e.chains[0].id === `0x${polygonMainnetChainId?.toString(16)}`) {
+          return await MoralisService.fetchPolygonNFTs(address);
+        }
+      });
+        
+      const results = await Promise.all(promises);
+
+      console.log('Results:', results);
+
+      const nftCards = results.flat().map((nft) => (
         <NftCard
-          key={nft.tokenId.toString()}
-          tokenId={nft.tokenId.toString()}
+          key={nft?.tokenHash?.toString()}
+          tokenId={nft?.tokenId.toString() || ''}
           tokenAddress={nft?.tokenAddress?.toJSON?.() || ''}
           tokenUri={nft?.tokenUri?.toString() || ''}
           tokenName={nft?.tokenName?.toString() || ''}
