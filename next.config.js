@@ -11,8 +11,10 @@ const nextConfig = {
           "previews.123rf.com",
           "p1.hiclipart.com",
           "gateway.ipfs.io",
+          "ipfs",
           "ipfs.io",
           "bafybeidl4qaedrfyo5mkfove4sjffod43wvxmshlxwtg5zvtkrlcawxjbu.ipfs.localhost",
+          "universalpage.dev",
           "",
           "claim.basechains.net"
         ],

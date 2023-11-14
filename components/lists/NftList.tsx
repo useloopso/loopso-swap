@@ -5,8 +5,7 @@ import MoralisService from '@/hooks/moralis-nft';
 import { Button } from '../ui/button';
 import NftCard from '../cards/NftCard';
 import { networkList } from '@/constants';
-import { ChevronLeftCircle, ChevronRightCircle } from 'lucide-react';
-
+import { ArrowBigLeftDash, ArrowBigRightDash } from 'lucide-react';
 
 interface NftMetadata {
   name: string;
@@ -18,6 +17,12 @@ const NftList = () => {
   const connectedWallets = useWallets();
   const [nftCards, setNftCards] = useState<React.ReactNode[]>([]);
   const [defaultState, setDefaultState] = useState<string>("⬆️ Retrieve NFTs from selected network ⬆️");
+
+  const goerliTestnetChainId = networkList.find((network) => network.network === 'Goerli Testnet')?.chainId;
+  const sepoliaTestnetChainId = networkList.find((network) => network.network === 'Sepolia Testnet')?.chainId;
+  const mumbaiTestnetChainId = networkList.find((network) => network.network === 'Mumbai Testnet')?.chainId;
+  const ethereumMainnetChainId = networkList.find((network) => network.network === 'Ethereum Mainnet')?.chainId;
+  const polygonMainnetChainId = networkList.find((network) => network.network === 'Polygon Mainnet')?.chainId;
 
   useEffect(() => {
     const initMoralis = async () => {
@@ -39,14 +44,6 @@ const NftList = () => {
   const handleFetchNFTs = async () => {
     try {
       const address = connectedWallets[0]?.accounts[0]?.address;
-
-      const luksoTestnetChainId = networkList.find((network) => network.network === 'Lukso Testnet')?.chainId;
-      const goerliTestnetChainId = networkList.find((network) => network.network === 'Goerli Testnet')?.chainId;
-      const sepoliaTestnetChainId = networkList.find((network) => network.network === 'Sepolia Testnet')?.chainId;
-      const mumbaiTestnetChainId = networkList.find((network) => network.network === 'Mumbai Testnet')?.chainId;
-      const luksoMainnetChainId = networkList.find((network) => network.network === 'Lukso Mainnet')?.chainId;
-      const ethereumMainnetChainId = networkList.find((network) => network.network === 'Ethereum Mainnet')?.chainId;
-      const polygonMainnetChainId = networkList.find((network) => network.network === 'Polygon Mainnet')?.chainId;
 
       const promises = connectedWallets.map(async (e) => {
         if (e.chains[0].id === `0x${goerliTestnetChainId?.toString(16)}`) {
@@ -107,6 +104,7 @@ const NftList = () => {
 
   return (
     <div className='w-full'>
+      <div className="h-1"></div>
       <Button onClick={handleFetchNFTs} className='w-full'>
         Retrieve Assets
       </Button>
@@ -117,12 +115,13 @@ const NftList = () => {
         <div>
           {nftCards.length > 3 ? (
             <>
-            <ChevronLeftCircle onClick={()=>slideLeft(elementRef.current)} className='w-8 h-8 absolute top-[65%] cursor-pointer bg-[#85A0FF]/70 rounded-full text-white p-1 hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70' />
-            <div className='flex gap-5 overflow-x-auto overflow-scroll scrollbar-hide scroll-smooth ml-10 mr-10' ref={elementRef}>
+            <div className='flex gap-5 overflow-x-auto overflow-scroll scrollbar-hide scroll-smooth' ref={elementRef}>
               {nftCards}
             </div>
-            <ChevronRightCircle onClick={()=>slideRight(elementRef.current)}  className='w-8 h-8 absolute top-[65%] right-[30%] cursor-pointer bg-[#85A0FF]/70 rounded-full text-white p-1 hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70'/>
-
+            <div className='flex items-center justify-center'>
+              <ArrowBigLeftDash onClick={()=>slideLeft(elementRef.current)} className='w-8 h-8 cursor-pointer bg-[#85A0FF]/70 rounded-full text-white p-1 hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70' />
+              <ArrowBigRightDash onClick={()=>slideRight(elementRef.current)}  className='w-8 h-8 cursor-pointer ml-auto bg-[#85A0FF]/70 rounded-full text-white p-1 hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70'/>
+            </div>
             </>
           ) : (
             <>

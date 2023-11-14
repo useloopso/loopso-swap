@@ -1,32 +1,55 @@
-import type { NextRequest } from 'next/server'
-
-const projectId = '8572d5e16fdd2b31872e9c40c19034e5'
+const API_BASE_URL = 'https://api.universal.page';
 
 export const config = {
-  runtime: 'brave' || 'chrome' || 'edge',
+  runtime: 'edge',
 }
 
-const UniversalPageService = async (req: NextRequest) => {
-  // require only get requests
-  if (req.method !== 'GET') {
-    return new Response(JSON.stringify({ error: 'unsupported method' }), {
-      status: 405,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  }
+const HEADERS = {
+  'Content-Type': 'application/json',
+};
 
-  // resolve path or cid requested. Function is src/pages/api/ipfs/[...path].ts
-  // e.g. /api/ipfs/QmNeJgUiSgAVAUSeuYJvABXLdAN9Q6HE2fqLLXBtncHFyf
-  const url = new URL(req.url)
-  const pathOrCid = url.pathname.replace('/api/ipfs/', '')
+const UniversalPageMethods = {
+  GET: 'GET',
+  POST: 'POST',
+  PUT: 'PUT',
+  DELETE: 'DELETE',
+};
 
-  // proxy to IPFS gateway and return redirect
-  return fetch(`https://api.universal.page/${projectId}/ipfs/${pathOrCid}`, {
+const UniversalPageService = {
+  fetchLSPs: async (ipfsCid: string) => {
+    const projectId = '8572d5e16fdd2b31872e9c40c19034e5';
+    const url = `${API_BASE_URL}/${projectId}/ipfs/${ipfsCid}`;
+    const options = {
+        method: UniversalPageMethods.GET,
+        headers: HEADERS,
+    }
+    
+    const response = await fetch(url, options);
 
-    redirect: 'manual',
-  })
+    console.log('response', response);
+
+    if (response.status === 200) {
+      const data = await response.json();
+
+      const mappedData = {
+        description: data?.LSP4Metadata?.description || '',
+        images: data?.LSP4Metadata?.images?.map((imageArray: any) =>
+          imageArray.map((image: any) => ({
+            url: image?.url || '',
+          }))
+        ) || [],
+      };
+      
+      const flattenedImages = mappedData.images.flat();
+      
+      console.log(flattenedImages);
+      console.log(mappedData);
+
+      return mappedData;
+    } else {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+  },
 }
 
 export default UniversalPageService
