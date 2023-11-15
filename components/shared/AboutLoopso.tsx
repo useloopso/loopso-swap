@@ -1,14 +1,10 @@
 'use client';
 
 import { motion } from 'framer-motion';
-
 import styles from '@/styles';
-import { startingFeatures } from '@/constants';
-
 import { TitleText, TypingText } from '@/components/shared/CustomTexts';
 import { staggerContainer, fadeIn, planetVariants } from '@/utils/motion';
 import Image from 'next/image';
-import StartCard from '../cards/StartCard';
 
 const AboutLoopso = () => (
   <section className={`${styles.paddings} relative z-10`}>
@@ -36,14 +32,8 @@ const AboutLoopso = () => (
         className="flex-[0.75] flex justify-center flex-col mr-10"
       >
         <TitleText title={<>Loop into the New Creative Economy</>} />
-        <div className="mt-[31px] flex flex-col max-w-[370px] gap-[20px]">
-          {startingFeatures.map((feature, index) => (
-            <StartCard
-              key={feature}
-              number={`${index < 10 ? '0' : ''} ${index + 1}`}
-              text={feature}
-            />
-          ))}
+        <div className="mt-[31px] flex flex-col gap-[20px]">
+          <TypingText title="🚀 The First Multichain Bridge for LSPs" />
         </div>
       </motion.div>
     </motion.div>
