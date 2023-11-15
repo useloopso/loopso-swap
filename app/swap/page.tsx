@@ -5,7 +5,7 @@ type Props = {}
 
 const page = (props: Props) => {
   return (
-    <div className="main-container bg-hero-pattern bg-cover bg-no-repeat bg-center min-h-screen min-w-full">
+    <div className="main-container">
         <SwapWidget />
     </div>
   )

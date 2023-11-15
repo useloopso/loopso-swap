@@ -12,9 +12,9 @@ const LspCard = ({
     images,
 }: LspMetadata) => {
     return (
-        <div className='w-[150px] h-[200px] flex-shrink-0 shadow-md mb-5 rounded-3xl bg-white hover:scale-110 transition-all mt-[20px] cursor-pointer flex flex-col text-black bg-[#FDDCE8]/80 p-3 hover:bg-[#85A0FF]/70 hover:text-white'>
+        <div className='w-[150px] h-[225px] flex-shrink-0 shadow-md mb-5 rounded-3xl bg-white hover:scale-110 transition-all mt-[20px] cursor-pointer flex flex-col text-black bg-[#FDDCE8]/80 p-3 hover:bg-[#85A0FF]/70 hover:text-white'>
             <div className='flex items-center justify-center'>
-                <Image src={`https://universalpage.dev/api/ipfs/${images}`} alt='NFT' width={60} height={60} className='nftImage rounded-lg' />
+                <Image src={`https://universalpage.dev/api/ipfs/${images}`} alt='NFT' width={100} height={100} className='nftImage rounded-lg' />
             </div>
             <div className="h-4"></div>
             <Separator />
