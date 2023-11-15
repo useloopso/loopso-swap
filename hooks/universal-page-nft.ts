@@ -2,7 +2,7 @@ const API_BASE_URL = 'https://api.universal.page';
 
 export const config = {
   runtime: 'edge',
-}
+};
 
 const HEADERS = {
   'Content-Type': 'application/json',
@@ -20,10 +20,10 @@ const UniversalPageService = {
     const projectId = '8572d5e16fdd2b31872e9c40c19034e5';
     const url = `${API_BASE_URL}/${projectId}/ipfs/${ipfsCid}`;
     const options = {
-        method: UniversalPageMethods.GET,
-        headers: HEADERS,
-    }
-    
+      method: UniversalPageMethods.GET,
+      headers: HEADERS,
+    };
+
     const response = await fetch(url, options);
 
     console.log('response', response);
@@ -33,16 +33,13 @@ const UniversalPageService = {
 
       const mappedData = {
         description: data?.LSP4Metadata?.description || '',
-        images: data?.LSP4Metadata?.images?.map((imageArray: any) =>
+        images: data?.LSP4Metadata?.images?.flatMap((imageArray: any) =>
           imageArray.map((image: any) => ({
             url: image?.url || '',
           }))
         ) || [],
       };
-      
-      const flattenedImages = mappedData.images.flat();
-      
-      console.log(flattenedImages);
+
       console.log(mappedData);
 
       return mappedData;
@@ -50,6 +47,6 @@ const UniversalPageService = {
       throw new Error(`Request failed with status ${response.status}`);
     }
   },
-}
+};
 
-export default UniversalPageService
+export default UniversalPageService;

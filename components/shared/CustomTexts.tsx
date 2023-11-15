@@ -7,7 +7,7 @@ interface TypingTextProps {
 }
 
 interface TitleTextProps {
-    title: string | JSX.Element; // Allow string or JSX.Element for the title
+    title: string | JSX.Element; 
     textStyles?: string;
 }
 

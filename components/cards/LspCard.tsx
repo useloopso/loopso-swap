@@ -4,7 +4,7 @@ import { Separator } from "../ui/separator";
 
 interface LspMetadata {
     description: string;
-    images: string;
+    images: string | string[];
 }
   
 const LspCard = ({

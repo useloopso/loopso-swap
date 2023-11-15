@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 import { useWallets } from '@web3-onboard/react';
 import Image from 'next/image';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import { Wallet2 } from 'lucide-react';
 
 interface WalletState {
   label: string;
@@ -49,6 +50,9 @@ function ConnectWalletButton() {
               )}
               {connectedWallet.label === 'Universal Profiles' && (
                 <Image src="/assets/up.png" alt="Universal Profiles logo" width={20} height={20}/>
+              )}
+              {connectedWallet.label !== 'Universal Profiles' && connectedWallet.label !== 'MetaMask' && (
+                <Wallet2 />
               )}
               <p className='font-bold text-xs items-center justify-center'>
                 {formatAddress(connectedWallets[0]?.accounts[0]?.address || '')}
