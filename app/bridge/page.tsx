@@ -5,7 +5,7 @@ type Props = {}
 
 const page = (props: Props) => {
   return (
-    <div>
+    <div className="main-container bg-hero-pattern bg-cover bg-no-repeat bg-center min-h-screen min-w-full">
       <BridgeWidget />
     </div>
   )

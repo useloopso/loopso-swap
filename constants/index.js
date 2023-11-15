@@ -93,3 +93,9 @@ export const networkList = [
         "chainId": 137
     },
 ];
+
+export const startingFeatures = [
+    'Multi-chain Bridge for Fungible and Non-Fungible Tokens',
+    'Bridge your LSPs to other networks',
+    'Enter the Connected World with Loopso',
+];
