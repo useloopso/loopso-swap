@@ -10,6 +10,8 @@ import SelectBridgeDestinationChainModal from '../modal/SelectBridgeDestinationC
 import { useWallets } from '@web3-onboard/react'
 import LspList from '../lists/LspList'
 import { networkList } from '@/constants'
+import { fadeIn, staggerContainer } from '@/utils/motion'
+import { motion } from 'framer-motion'
 
 const BridgeWidget = () => {
   const [showNftList, setShowNftList] = React.useState(true);
@@ -29,8 +31,17 @@ const BridgeWidget = () => {
   }, [connectedWallets]);
 
   return (
-    <div className='widget-wrapper'>
-      <div className='widget-content blue-pink-gradient'>
+    <motion.div 
+      variants={staggerContainer}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: false, amount: 0.25 }}
+      className='widget-wrapper'
+    >
+      <motion.div 
+        variants={fadeIn('up', 'tween', 0.3, 1)} 
+        className='widget-content blue-pink-gradient'
+      >
         <div className='flex items-center justify-center'>
           <p className='flex flex-col items-center justify-center'>
             <span className='font-semibold'>Bridge NFTs&nbsp;</span> 
@@ -64,8 +75,8 @@ const BridgeWidget = () => {
             Bridge
           </Button>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   )
 }
 
