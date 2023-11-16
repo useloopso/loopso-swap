@@ -16,7 +16,8 @@ const nextConfig = {
           "bafybeidl4qaedrfyo5mkfove4sjffod43wvxmshlxwtg5zvtkrlcawxjbu.ipfs.localhost",
           "universalpage.dev",
           "",
-          "claim.basechains.net"
+          "claim.basechains.net",
+          "storage.googleapis.com",
         ],
     },
 }
