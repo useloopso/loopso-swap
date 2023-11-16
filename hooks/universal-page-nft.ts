@@ -40,8 +40,6 @@ const UniversalPageService = {
         ) || [],
       };
 
-      console.log(mappedData);
-
       return mappedData;
     } else {
       throw new Error(`Request failed with status ${response.status}`);

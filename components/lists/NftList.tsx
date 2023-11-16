@@ -115,10 +115,10 @@ const NftList = () => {
         <div>
           {nftCards.length > 3 ? (
             <>
-            <div className='flex gap-5 overflow-x-auto overflow-scroll scrollbar-hide scroll-smooth' ref={elementRef}>
+            <div className='pl-5 pr-5 flex gap-5 overflow-x-auto overflow-scroll scrollbar-hide scroll-smooth' ref={elementRef}>
               {nftCards}
             </div>
-            <div className='flex items-center justify-center'>
+            <div className='flex items-center justify-center mt-2'>
               <ArrowBigLeftDash onClick={()=>slideLeft(elementRef.current)} className='w-8 h-8 cursor-pointer bg-[#85A0FF]/70 rounded-full text-white p-1 hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70' />
               <ArrowBigRightDash onClick={()=>slideRight(elementRef.current)}  className='w-8 h-8 cursor-pointer ml-auto bg-[#85A0FF]/70 rounded-full text-white p-1 hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70'/>
             </div>

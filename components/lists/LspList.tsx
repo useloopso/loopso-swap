@@ -11,50 +11,51 @@ const LspList = () => {
     const [defaultState, setDefaultState] = useState<string>("⬆️ Retrieve LSPs from selected network ⬆️");
 
     const handleFetchNFTs = async () => {
-  try {
-    const results = await UniversalPageService.fetchLSPs(inputValue);
-
-    console.log('Results:', results);
-
-    if (results && results.images && Array.isArray(results.images)) {
-      const lspCards = results.images.map((imageArrayOrObject: any, index: number) => {
-        if (Array.isArray(imageArrayOrObject)) {
-          // Handle array of images
-          const imageUrls = imageArrayOrObject.map((image: any) => image.url.replace('ipfs://', ''));
-          return (
-            <LspCard
-              key={`${results.description}_${index}`}
-              description={results.description}
-              images={imageUrls}
-            />
-          );
-        } else if (typeof imageArrayOrObject === 'object' && imageArrayOrObject.url) {
-          // Handle single image as an object
-          const imageUrl = imageArrayOrObject.url.replace('ipfs://', '');
-          return (
-            <LspCard
-              key={`${results.description}_${index}`}
-              description={results.description}
-              images={[imageUrl]}
-            />
-          );
+      try {
+        const results = await UniversalPageService.fetchLSPs(inputValue);
+  
+        console.log('Results:', results);
+  
+        if (results && results.images && Array.isArray(results.images)) {
+          let ipfsLinks: string[] = [];
+        
+          const allImages: string[] = results.images.flatMap((imageArrayOrObject: any) => {
+          if (typeof imageArrayOrObject.url === 'string') {
+              const imageUrl = imageArrayOrObject.url.replace('ipfs://', 'https://universalpage.dev/api/ipfs/');
+              ipfsLinks.push(imageUrl);
+              return imageUrl;
+            } else {
+              console.error('Error: Invalid image object', imageArrayOrObject);
+              return null;
+            }
+          });
+        
+          const filteredImages = allImages.filter((image) => image !== null);
+        
+          if (filteredImages.length > 0) {
+            const lspCard = (
+              <LspCard
+                key={`${results.description}_multiple`}
+                description={results.description}
+                images={filteredImages}
+              />
+            );
+        
+            setLspCards([lspCard]);
+            console.log('Filtered Iamges', filteredImages);
+          } else {
+            console.error('Error: No valid images found', results);
+            setDefaultState('No valid images found');
+          }
         } else {
-          console.error(`Error: Invalid imageArray at index ${index}`, imageArrayOrObject);
-          return null;
+          console.error('Error: Invalid data structure', results);
+          setDefaultState('Invalid data structure');
         }
-      });
-
-      setLspCards(lspCards.filter((card) => card !== null));
-    } else {
-      console.error('Error: Invalid data structure', results);
-      setDefaultState("Invalid data structure");
-    }
-
-  } catch (error) {
-    console.error('Error fetching NFTs:', error);
-    setDefaultState("Error fetching NFTs");
-  }
-};
+      } catch (error) {
+        console.error('Error fetching NFTs:', error);
+        setDefaultState("Error fetching NFTs");
+      }
+    };
 
     const elementRef=useRef(null);
 
@@ -89,7 +90,7 @@ const LspList = () => {
               <div className='flex gap-5 overflow-x-auto overflow-scroll scrollbar-hide scroll-smooth' ref={elementRef}>
                 {lspCards}
               </div>
-              <div className='flex items-center justify-center'>
+              <div className='flex items-center justify-center mt-2'>
                 <ArrowBigLeftDash onClick={slideLeft} className='w-8 h-8 cursor-pointer bg-[#85A0FF]/70 rounded-full text-white p-1 hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70' />
                 <ArrowBigRightDash onClick={slideRight} className='w-8 h-8 cursor-pointer ml-auto bg-[#85A0FF]/70 rounded-full text-white p-1 hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70'/>
               </div>
