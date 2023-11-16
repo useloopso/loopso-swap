@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { ChevronDown, X } from 'lucide-react';
-import { Separator } from '../ui/separator';
 import useWeb3Onboard from '../../hooks/web3-onboard';
 import { useWallets } from '@web3-onboard/react';
 import Image from 'next/image';

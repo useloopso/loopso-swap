@@ -1,17 +1,47 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ImageDown, InfinityIcon, MoveDown } from 'lucide-react'
 
 import { Button } from "@/components/ui/button"
 import SelectBridgeSourceChainModal from '../modal/SelectBridgeSourceChainModal'
 import NftList from '../lists/NftList'
 import SelectBridgeDestinationChainModal from '../modal/SelectBridgeDestinationChainModal'
+import { useWallets } from '@web3-onboard/react'
+import LspList from '../lists/LspList'
+import { networkList } from '@/constants'
+import { fadeIn, staggerContainer } from '@/utils/motion'
+import { motion } from 'framer-motion'
 
 const BridgeWidget = () => {
+  const [showNftList, setShowNftList] = React.useState(true);
+  const connectedWallets = useWallets();
+
+  useEffect(() => {
+    const showList = async () => {
+      const luksoTestnetChainId = networkList.find((network) => network.network === 'Lukso Testnet')?.chainId;
+      const luksoMainnetChainId = networkList.find((network) => network.network === 'Lukso Mainnet')?.chainId;
+
+      const isLuksoChain = connectedWallets.some(e => e.chains[0].id === `0x${luksoTestnetChainId?.toString(16)}` || e.chains[0].id === `0x${luksoMainnetChainId?.toString(16)}`);
+
+      setShowNftList(isLuksoChain);
+    };
+
+    showList();
+  }, [connectedWallets]);
+
   return (
-    <div className='widget-wrapper'>
-      <div className='widget-content blue-pink-gradient'>
+    <motion.div 
+      variants={staggerContainer}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: false, amount: 0.25 }}
+      className='widget-wrapper'
+    >
+      <motion.div 
+        variants={fadeIn('up', 'tween', 0.3, 1)} 
+        className='widget-content blue-pink-gradient'
+      >
         <div className='flex items-center justify-center'>
           <p className='flex flex-col items-center justify-center'>
             <span className='font-semibold'>Bridge NFTs&nbsp;</span> 
@@ -25,7 +55,7 @@ const BridgeWidget = () => {
         <div className="h-2"></div>
         <SelectBridgeSourceChainModal />
         <div className="h-4"></div>
-          <NftList />
+          {showNftList ? <LspList /> : <NftList />}
           <div className="h-2"></div>
           <div className='items-center justify-center flex'>
             <MoveDown className='bg-[#E1E1FF]/50 rounded-3xl p-2 h-9 w-9' />
@@ -45,8 +75,8 @@ const BridgeWidget = () => {
             Bridge
           </Button>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   )
 }
 
