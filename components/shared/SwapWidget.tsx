@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { fadeIn, staggerContainer } from '@/utils/motion'
 import { BadgeInfo, InfinityIcon, MoveDown, Repeat2 } from "lucide-react";
 import { ADDRESSES, LOOPSO_ABI, bridgeTokens } from "loopso-bridge-sdk";
 import { Button } from "@/components/ui/button";
@@ -79,8 +81,17 @@ const SwapWidget = () => {
   };
 
   return (
-    <div className="widget-wrapper">
-      <div className="widget-content blue-pink-gradient">
+    <motion.div 
+      variants={staggerContainer}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: false, amount: 0.25 }}
+      className="widget-wrapper"
+    >
+      <motion.div 
+        variants={fadeIn('up', 'tween', 0.3, 1)} 
+        className="widget-content blue-pink-gradient"
+      >
         <div className="flex items-center justify-center">
           <p className="flex flex-col items-center justify-center">
             <span className="font-semibold">Swap Tokens&nbsp;</span>
@@ -175,8 +186,8 @@ const SwapWidget = () => {
           <br></br>
           Success: {showSuccessfull}
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
