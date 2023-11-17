@@ -24,7 +24,7 @@ const AboutLoopso = () => (
           alt="get-started"
           width={1000}
           height={1000}
-          className="w-[80%] h-[80%] object-contain mt-20"
+          className="w-[70%] h-[70%] object-contain mt-28"
         />
       </motion.div>
       <motion.div
