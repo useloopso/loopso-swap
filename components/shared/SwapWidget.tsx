@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from '@/utils/motion'
 import { BadgeInfo, InfinityIcon, MoveDown, Repeat2 } from "lucide-react";
-import { ADDRESSES, bridgeTokens } from "loopso-bridge-sdk";
+import { ADDRESSES, LOOPSO_ABI, bridgeTokens } from "loopso-bridge-sdk";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SelectTokenModal from "../modal/SelectTokenModal";
@@ -18,7 +18,8 @@ import SelectSourceChainModal from "../modal/SelectSourceChainModal";
 import SelectDestinationChainModal from "../modal/SelectDestinationChainModal";
 import { Network, Token } from "@/lib/types";
 import { useConnectWallet } from "@web3-onboard/react";
-import { TransactionResponse, ethers } from "ethers";
+import { ethers } from "ethers";
+import { useReleasedTokens } from "@/hooks/useReleasedTokens";
 
 const SwapWidget = () => {
   const [selectedSourceChainNetwork, setSelectedSourceChainNetwork] = useState<
@@ -32,13 +33,24 @@ const SwapWidget = () => {
 
   const [amount, setAmount] = useState<string>("");
   const [txHash, setTxHash] = useState<string>("");
+  const [showSuccessfull, setShowSuccessfull] = useState<string>("");
+
+  const { wrappedTokensReleased } = useReleasedTokens(
+    selectedDestinationChainNetwork?.chainId
+  );
 
   const [{ wallet }] = useConnectWallet();
-
-  useEffect(() => {}, [txHash]);
+  useEffect(() => {
+    if (wrappedTokensReleased?.to) {
+      setShowSuccessfull(
+        "Success, your tokens have been bridged and released!"
+      );
+    }
+  }, [txHash, wrappedTokensReleased]);
 
   const handleSubmitAndBridge = async () => {
     //TODO: how to handle if the source network is from Lukso UP wallet?
+
     if (
       wallet &&
       selectedSourceToken &&
@@ -106,6 +118,7 @@ const SwapWidget = () => {
               onChange={(e) => setAmount(e.target.value)}
             />
             <SelectTokenModal
+              network={selectedSourceChainNetwork}
               selectedToken={selectedSourceToken}
               setSelectedToken={setSelectedSourceToken}
             />
@@ -166,7 +179,12 @@ const SwapWidget = () => {
             <Repeat2 className="h-5 w-5" />
             Swap
           </Button>
+        </div>
+        <div className="items-center justify-center flex-col">
           Transaction hash:{txHash}
+          <br></br>
+          <br></br>
+          Success: {showSuccessfull}
         </div>
       </motion.div>
     </motion.div>
