@@ -22,7 +22,6 @@ interface SelectTokenModalProps {
 const SelectTokenModal = (props: SelectTokenModalProps) => {
   const { setSelectedToken, selectedToken, network } = props;
   const [isOpen, setIsOpen] = useState(false);
-
   const closeDialog = () => {
     setIsOpen(false);
   };
