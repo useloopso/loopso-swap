@@ -9,25 +9,29 @@ import {
 } from "../ui/dialog";
 import Image from "next/image";
 import { ChevronDown, X } from "lucide-react";
-import { tokenList } from "@/constants/index.js";
+import { tokenListForLukso, tokenListForMumbai } from "@/constants/index.js";
 import { Separator } from "../ui/separator";
-import { Token } from "@/lib/types";
+import { Network, Token } from "@/lib/types";
 
 interface SelectTokenModalProps {
   selectedToken: Token | undefined;
   setSelectedToken: (network: Token | undefined) => void;
+  network: Network | undefined;
 }
 
 const SelectTokenModal = (props: SelectTokenModalProps) => {
-  const { setSelectedToken, selectedToken } = props;
+  const { setSelectedToken, selectedToken, network } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   const closeDialog = () => {
     setIsOpen(false);
   };
+  const tokenList =
+    network?.chainId === 4201 ? tokenListForLukso : tokenListForMumbai;
 
   const switchToken = (i: any) => {
     setSelectedToken(tokenList[i]);
+
     closeDialog();
   };
 

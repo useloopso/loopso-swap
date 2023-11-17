@@ -95,6 +95,7 @@ const SwapWidget = () => {
               onChange={(e) => setAmount(e.target.value)}
             />
             <SelectTokenModal
+              network={selectedSourceChainNetwork}
               selectedToken={selectedSourceToken}
               setSelectedToken={setSelectedSourceToken}
             />
