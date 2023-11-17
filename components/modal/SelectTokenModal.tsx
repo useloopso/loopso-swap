@@ -34,8 +34,6 @@ const SelectTokenModal = (props: SelectTokenModalProps) => {
     closeDialog();
   };
 
-  console.log(selectedToken, "selected token modal");
-
   return (
     <div>
       <Dialog open={isOpen}>
