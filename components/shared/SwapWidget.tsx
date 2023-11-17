@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BadgeInfo, InfinityIcon, MoveDown, Repeat2 } from "lucide-react";
-import { ERC20_ABI, LOOPSO_ABI } from "loopso-bridge-sdk";
+import { ADDRESSES, bridgeTokens } from "loopso-bridge-sdk";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { networkList, tokenList } from "@/constants/index.js";
 import SelectTokenModal from "../modal/SelectTokenModal";
 import {
   Tooltip,
@@ -16,10 +15,8 @@ import {
 import SelectSourceChainModal from "../modal/SelectSourceChainModal";
 import SelectDestinationChainModal from "../modal/SelectDestinationChainModal";
 import { Network, Token } from "@/lib/types";
-import useWeb3Onboard from "@/hooks/web3-onboard";
 import { useConnectWallet } from "@web3-onboard/react";
 import { TransactionResponse, ethers } from "ethers";
-import { providers } from "web3";
 
 const SwapWidget = () => {
   const [selectedSourceChainNetwork, setSelectedSourceChainNetwork] = useState<
@@ -30,73 +27,14 @@ const SwapWidget = () => {
   const [selectedSourceToken, setSelectedSourceToken] = useState<
     Token | undefined
   >(undefined);
-  const [selectedDestinationToken, setSelectedDestinationToken] = useState<
-    Token | undefined
-  >(undefined);
+
   const [amount, setAmount] = useState<string>("");
+  const [txHash, setTxHash] = useState<string>("");
 
-  const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+  const [{ wallet }] = useConnectWallet();
 
-  async function bridgeTokens(
-    contractAddress: string,
-    signerOrProvider: ethers.Signer | ethers.Provider,
-    tokenAddress: string,
-    tokenChain: number,
-    amount: number,
-    dstAddress: string,
-    dstChain: number
-  ): Promise<TransactionResponse | null> {
-    const loopsoContract = new ethers.Contract(
-      contractAddress,
-      LOOPSO_ABI,
-      signerOrProvider
-    );
+  useEffect(() => {}, [txHash]);
 
-    const tokenContract = new ethers.Contract(
-      tokenAddress,
-      ERC20_ABI,
-      signerOrProvider
-    );
-    console.log(tokenContract, "ERC20 token contract SDK");
-    console.log(loopsoContract, "Loopso bridge contract SDK");
-
-    try {
-      const approvalTx = await tokenContract.approve(contractAddress, amount);
-      console.log(approvalTx, "ApprovalTX SDK");
-      if (approvalTx) {
-        console.log(
-          tokenAddress,
-          amount,
-          dstAddress,
-          dstChain,
-          "ALL THE ARGUMENTS"
-        );
-        return loopsoContract.bridgeTokens(
-          tokenAddress,
-          amount,
-          dstChain,
-          dstAddress
-        );
-      } else throw new Error("Could not approve contract spending");
-    } catch (error) {
-      console.log(error, "ÄRROR");
-      return null;
-    }
-  }
-  console.log(
-    selectedSourceChainNetwork,
-    "Source chain",
-    selectedSourceToken,
-    "Source token"
-  );
-  console.log(
-    selectedDestinationChainNetwork,
-    "Dst chain",
-    selectedDestinationToken,
-    "Dst token"
-  );
-
-  console.log(wallet?.accounts[0].address, "wallet accounts?");
   const handleSubmitAndBridge = async () => {
     //TODO: how to handle if the source network is from Lukso UP wallet?
     if (
@@ -107,17 +45,24 @@ const SwapWidget = () => {
     ) {
       const ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
       const signer = await ethersProvider.getSigner();
-      console.log("Bräää");
-      const txHash = await bridgeTokens(
+
+      const _txHash = await bridgeTokens(
         selectedSourceChainNetwork.loopsoContractAddress,
         signer,
-        selectedSourceToken.address,
-        selectedSourceChainNetwork.chainId,
+        //TODO: we need to do a helper function for this to scale
+        selectedSourceChainNetwork.chainId === 4201
+          ? ADDRESSES.LAJOS_TOKEN_ADDRESS_WRAPPED_LUKSO
+          : ADDRESSES.LAJOS_TOKEN_ADDRESS_MUMBAI,
         Number(amount),
         wallet?.accounts[0].address,
         selectedDestinationChainNetwork.chainId
       );
-      console.log(txHash, "TXHASH");
+      if (_txHash) {
+        setTxHash(_txHash?.hash);
+        console.log(txHash, "TXHASH");
+      } else {
+        setTxHash("ERROR: No tx hash");
+      }
     }
   };
 
@@ -187,16 +132,22 @@ const SwapWidget = () => {
             <p className="font-semibold text-xs">Receive (estimated):</p>
           </div>
           <div className="flex items-center pt-3">
-            <Input placeholder="0.00" type="number" disabled={true} />
-            <SelectTokenModal
-              selectedToken={selectedDestinationToken}
-              setSelectedToken={setSelectedDestinationToken}
+            <Input
+              value={amount}
+              placeholder="0.00"
+              type="number"
+              disabled={true}
             />
           </div>
         </div>
         <div className="h-4"></div>
         <div className="items-center justify-center flex">
           <Button
+            disabled={
+              !selectedDestinationChainNetwork ||
+              !selectedSourceChainNetwork ||
+              !selectedSourceToken
+            }
             onClick={handleSubmitAndBridge}
             type="submit"
             className="w-[100%] text-md flex items-center justify-center gap-3"
@@ -204,6 +155,7 @@ const SwapWidget = () => {
             <Repeat2 className="h-5 w-5" />
             Swap
           </Button>
+          Transaction hash:{txHash}
         </div>
       </div>
     </div>
