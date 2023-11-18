@@ -16,9 +16,15 @@ import { ERC721_ABI, checkAllowance, getLoopsoContractFromChainId, getLoopsoCont
 import {  TransactionResponse, ethers } from 'ethers'
 import { Network } from '@/lib/types'
 import { getProviderBasedOnChainId } from '@/lib/utils'
+import { onboard } from '@/hooks/web3-onboard'
 
-async function checkNftApproval(tokenContract: ethers.Contract, contractAddressSrc: string, tokenId: number): Promise<string | null> {
-	const approvalTx = await tokenContract.approve(
+async function checkNftApproval(signer: ethers.Signer, erc721Contract: ethers.Contract, contractAddressSrc: string, tokenId: number): Promise<string | null> {
+  
+  console.log('GOT HRE???')
+  //const hasApproved = await erc721Contract.getApproved(tokenId)
+  //if(hasApproved === await signer.getAddress())
+  //console.log(hasApproved, await signer.getAddress(), 'HAS APPRÖÖÖÖVVVED?')
+  const approvalTx = await erc721Contract.approve(
 		contractAddressSrc,
 		tokenId
 	)
@@ -31,7 +37,7 @@ async function checkNftApproval(tokenContract: ethers.Contract, contractAddressS
 
 async function bridgeNonFungibleTokens(
 	contractAddressSrc: string,
-	signer: ethers.Signer | ethers.JsonRpcProvider,
+	signer: ethers.Signer,
 	tokenAddress: string,
 	dstAddress: string,
 	dstChain: number,
@@ -40,10 +46,11 @@ async function bridgeNonFungibleTokens(
 ): Promise<TransactionResponse | null> {
 
 	const loopsoContractOnSrc = await getLoopsoContractFromContractAddr(contractAddressSrc, signer)
-	const tokenContract = new ethers.Contract(tokenAddress, ERC721_ABI, signer);
-
+	const erc721Contract = new ethers.Contract(tokenAddress, ERC721_ABI, signer);
+  console.log(erc721Contract, loopsoContractOnSrc)
 	try {
-		const approved = await checkNftApproval( tokenContract, contractAddressSrc, tokenId)
+		const approved = await checkNftApproval(signer, erc721Contract, contractAddressSrc, tokenId)
+    console.log('NFT APPROVAL????', approved)
     if(approved){
       const bridgeTx = loopsoContractOnSrc?.bridgeNonFungibleTokens(tokenAddress, tokenId, tokenUri, dstChain, dstAddress);
       if (!bridgeTx) {
@@ -76,6 +83,8 @@ const BridgeWidget = () => {
   const [selectedDstNetwork, setSelectedDstNetwork] = useState<Network | undefined>(
     undefined
   );
+  const [txHash, setTxHash] = useState<string>("");
+
   let isBridgeDisabled = !selectedDstNetwork?.chainId || !selectedSrcNetwork?.chainId || !selectedNft?.tokenId
   const [{ wallet }] = useConnectWallet();
 
@@ -101,11 +110,35 @@ const BridgeWidget = () => {
     if(selectedNft && selectedSrcNetwork && selectedDstNetwork && wallet){
       const {tokenId , tokenAddress, tokenUri} = selectedNft
       if(tokenId && tokenAddress && tokenUri){
-        const {chainId, loopsoContractAddress} = selectedSrcNetwork
-        const provider = getProviderBasedOnChainId(chainId)
-        const signer = await provider?.getSigner() as ethers.Signer;
-        const txHash = bridgeNonFungibleTokens(loopsoContractAddress, signer, tokenAddress, wallet.accounts[0].address, selectedDstNetwork.chainId, Number(tokenId), tokenUri)
+        const ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
+        const signer = await ethersProvider.getSigner();
+        const _txHash = await bridgeNonFungibleTokens(selectedSrcNetwork.loopsoContractAddress, signer, tokenAddress, wallet.accounts[0].address, selectedDstNetwork.chainId, Number(tokenId), tokenUri)
         console.log(txHash, 'txHash?')
+
+        if (_txHash) {
+          setTxHash(_txHash.hash);
+          onboard.state.actions.customNotification({
+            eventCode: 'txConfirmed',
+            type: 'hint',
+            message: '👉🏼 Click here to view your transaction.',
+            autoDismiss: 100000,
+            onClick: () => {
+              //TODO: scale this, create a helper function to find explorers based on chainId
+              if(selectedSrcNetwork.chainId === 80001) {
+                window.open(`https://mumbai.polygonscan.com/tx/${_txHash?.hash}`)
+              } 
+            }
+          })
+          console.log(txHash, "TXHASH");
+        } else {
+          setTxHash("ERROR: No tx hash");
+          onboard.state.actions.customNotification({
+            eventCode: 'txError',
+            type: 'error',
+            message: '🛑 Error! Transaction failed.',
+            autoDismiss: 10000
+          })
+        }
       }
     }
 
@@ -156,6 +189,11 @@ const BridgeWidget = () => {
             <ImageDown className='h-5 w-5'/>
             Bridge
           </Button>
+        </div>
+        <div className="items-center justify-center flex-col">
+          Transaction hash:{txHash}
+          <br></br>
+          <br></br>
         </div>
       </motion.div>
     </motion.div>
