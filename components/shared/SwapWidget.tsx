@@ -24,7 +24,7 @@ import SelectDestinationChainModal from "../modal/SelectDestinationChainModal";
 import { Network, Token } from "@/lib/types";
 import { useConnectWallet } from "@web3-onboard/react";
 import { TransactionResponse, ethers } from "ethers";
-import { useReleasedTokens } from "@/hooks/useReleasedTokens";
+import { useWrappedTokensReleased } from "@/hooks/useWrappedTokensReleased";
 
 const SwapWidget = () => {
   const [selectedSourceChainNetwork, setSelectedSourceChainNetwork] = useState<
@@ -40,7 +40,7 @@ const SwapWidget = () => {
   const [txHash, setTxHash] = useState<string>("");
   const [showSuccessfull, setShowSuccessfull] = useState<string>("");
 
-  const { wrappedTokensReleased } = useReleasedTokens(
+  const { wrappedTokensReleased } = useWrappedTokensReleased(
     selectedDestinationChainNetwork?.chainId
   );
 
@@ -55,7 +55,6 @@ const SwapWidget = () => {
 
   const handleSubmitAndBridge = async () => {
     //TODO: how to handle if the source network is from Lukso UP wallet?
-
     if (
       wallet &&
       selectedSourceToken &&
@@ -63,15 +62,11 @@ const SwapWidget = () => {
       selectedDestinationChainNetwork
     ) {
       const ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
-
       const signer = await ethersProvider.getSigner();
       const _txHash = await bridgeTokens(
         selectedSourceChainNetwork.loopsoContractAddress,
         signer,
-        //TODO: we need to do a helper function for this to scale
-        selectedSourceChainNetwork.chainId === 4201
-          ? ADDRESSES.LAJOS_TOKEN_ADDRESS_WRAPPED_LUKSO
-          : ADDRESSES.LAJOS_TOKEN_ADDRESS_MUMBAI,
+        selectedSourceToken.address,
         BigInt(amount),
         wallet?.accounts[0].address,
         selectedDestinationChainNetwork.chainId
