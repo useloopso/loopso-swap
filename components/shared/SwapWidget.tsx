@@ -25,6 +25,7 @@ import { Network, Token } from "@/lib/types";
 import { useConnectWallet } from "@web3-onboard/react";
 import { TransactionResponse, ethers } from "ethers";
 import { useWrappedTokensReleased } from "@/hooks/useWrappedTokensReleased";
+import { onboard } from "@/hooks/web3-onboard";
 
 const SwapWidget = () => {
   const [selectedSourceChainNetwork, setSelectedSourceChainNetwork] = useState<
@@ -73,9 +74,26 @@ const SwapWidget = () => {
       );
       if (_txHash) {
         setTxHash(_txHash?.hash);
+        onboard.state.actions.customNotification({
+          eventCode: 'txConfirmed',
+          type: 'hint',
+          message: '👉🏼 Click here to view your transaction.',
+          autoDismiss: 100000,
+          onClick: () => {
+            if(selectedSourceChainNetwork.chainId === 80001) {
+              window.open(`https://mumbai.polygonscan.com/tx/${_txHash?.hash}`)
+            } 
+          }
+        })
         console.log(txHash, "TXHASH");
       } else {
         setTxHash("ERROR: No tx hash");
+        onboard.state.actions.customNotification({
+          eventCode: 'txError',
+          type: 'error',
+          message: '🛑 Error! Transaction failed.',
+          autoDismiss: 10000
+        })
       }
     }
   };
