@@ -2,9 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { fadeIn, staggerContainer } from '@/utils/motion'
+import { fadeIn, staggerContainer } from "@/utils/motion";
 import { BadgeInfo, InfinityIcon, MoveDown, Repeat2 } from "lucide-react";
-import { ADDRESSES, LOOPSO_ABI, bridgeTokens } from "loopso-bridge-sdk";
+import {
+  ADDRESSES,
+  ERC20_ABI,
+  LOOPSO_ABI,
+  bridgeTokens,
+} from "loopso-bridge-sdk";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SelectTokenModal from "../modal/SelectTokenModal";
@@ -18,7 +23,7 @@ import SelectSourceChainModal from "../modal/SelectSourceChainModal";
 import SelectDestinationChainModal from "../modal/SelectDestinationChainModal";
 import { Network, Token } from "@/lib/types";
 import { useConnectWallet } from "@web3-onboard/react";
-import { ethers } from "ethers";
+import { TransactionResponse, ethers } from "ethers";
 import { useReleasedTokens } from "@/hooks/useReleasedTokens";
 
 const SwapWidget = () => {
@@ -58,8 +63,8 @@ const SwapWidget = () => {
       selectedDestinationChainNetwork
     ) {
       const ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
-      const signer = await ethersProvider.getSigner();
 
+      const signer = await ethersProvider.getSigner();
       const _txHash = await bridgeTokens(
         selectedSourceChainNetwork.loopsoContractAddress,
         signer,
@@ -67,7 +72,7 @@ const SwapWidget = () => {
         selectedSourceChainNetwork.chainId === 4201
           ? ADDRESSES.LAJOS_TOKEN_ADDRESS_WRAPPED_LUKSO
           : ADDRESSES.LAJOS_TOKEN_ADDRESS_MUMBAI,
-        Number(amount),
+        BigInt(amount),
         wallet?.accounts[0].address,
         selectedDestinationChainNetwork.chainId
       );
@@ -81,15 +86,15 @@ const SwapWidget = () => {
   };
 
   return (
-    <motion.div 
+    <motion.div
       variants={staggerContainer}
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.25 }}
       className="widget-wrapper"
     >
-      <motion.div 
-        variants={fadeIn('up', 'tween', 0.3, 1)} 
+      <motion.div
+        variants={fadeIn("up", "tween", 0.3, 1)}
         className="widget-content blue-pink-gradient"
       >
         <div className="flex items-center justify-center">
