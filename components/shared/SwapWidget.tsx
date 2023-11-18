@@ -44,6 +44,7 @@ const SwapWidget = () => {
   const { wrappedTokensReleased } = useWrappedTokensReleased(
     selectedDestinationChainNetwork?.chainId
   );
+  console.log(process.env.NEXT_PUBLIC_MORALIS_API_KEY, "I API KEY");
 
   const [{ wallet }] = useConnectWallet();
   useEffect(() => {
@@ -80,6 +81,7 @@ const SwapWidget = () => {
           message: '👉🏼 Click here to view your transaction.',
           autoDismiss: 100000,
           onClick: () => {
+            //TODO: scale this, create a helper function to find explorers based on chainId
             if(selectedSourceChainNetwork.chainId === 80001) {
               window.open(`https://mumbai.polygonscan.com/tx/${_txHash?.hash}`)
             } 

@@ -14,10 +14,14 @@ import Image from "next/image";
 import { networkList } from "@/constants";
 import { Network } from "@/lib/types";
 
-const SelectBridgeSourceChainModal = () => {
-  const [selectedNetwork, setSelectedNetwork] = useState<Network | undefined>(
-    undefined
-  );
+
+interface SelectBridgeSourceChainModalProps {
+  setSelectedNetwork: (network: Network | undefined) => void
+  selectedNetwork: Network | undefined
+}
+
+const SelectBridgeSourceChainModal = (props: SelectBridgeSourceChainModalProps) => {
+  const {setSelectedNetwork, selectedNetwork} = props
   const [isOpen, setIsOpen] = useState(false);
   const connectedWallets = useWallets();
   const { connectWallet, setChainId } = useWeb3Onboard();

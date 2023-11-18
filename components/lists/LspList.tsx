@@ -4,8 +4,15 @@ import { Button } from '../ui/button';
 import { ArrowBigLeftDash, ArrowBigRightDash } from 'lucide-react';
 import LspCard from '../cards/LspCard';
 import { Input } from '../ui/input';
+import { SelectedNft } from '../shared/BridgeWidget';
+interface LspListProps {
 
-const LspList = () => {
+  setSelectedNft: (selectedNft: SelectedNft) => void
+  selectedNft:SelectedNft | null
+}
+
+const LspList = (props: LspListProps) => {
+  const {setSelectedNft, selectedNft} = props
     const [inputValue, setInputValue] = useState<string>('');
     const [lspCards, setLspCards] = useState<React.ReactNode[]>([]);
     const [defaultState, setDefaultState] = useState<string>("⬆️ Retrieve LSPs from selected network ⬆️");
