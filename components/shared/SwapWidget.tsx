@@ -199,10 +199,6 @@ const SwapWidget = () => {
           </Button>
         </div>
         <div className="items-center justify-center flex-col">
-          Transaction hash:{txHash}
-          <br></br>
-          <br></br>
-          Success: {showSuccessfull}
         </div>
       </motion.div>
     </motion.div>

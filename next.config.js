@@ -19,6 +19,12 @@ const nextConfig = {
           "claim.basechains.net",
           "storage.googleapis.com",
         ],
+        remotePatterns: [
+          {
+            protocol: "https",
+            hostname: "**",
+          },
+        ],
     },
 }
 
