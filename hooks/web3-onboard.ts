@@ -1,7 +1,7 @@
 import Onboard, { OnboardAPI } from '@web3-onboard/core'
 import injectedModule from '@web3-onboard/injected-wallets'
 import luksoModule from '@lukso/web3-onboard-config'
-import { ConnectModalOptions } from '@web3-onboard/core/dist/types'
+import { AccountCenterOptions, ConnectModalOptions, Notify } from '@web3-onboard/core/dist/types'
 
 const lukso = luksoModule()
 
@@ -87,6 +87,90 @@ const appMetadata = {
   ],
 }
 
+const accountCenter: AccountCenterOptions = {
+  desktop: {
+    position: 'bottomRight',
+    enabled: true,
+    minimal: false
+  },
+  mobile: {
+    position: 'bottomRight',
+    enabled: true,
+    minimal: false
+  }
+}
+
+const notify: Notify = {
+  enabled: true,
+  transactionHandler: transaction => {
+    console.log('Transaction Details:',{ transaction })
+    if (transaction.eventCode === 'txRequest') {
+      return {
+        type: 'pending',
+        message: '⌛ Requesting confirmation...',
+        autoDismiss: 5000,
+      }
+    }
+    if (transaction.eventCode === 'txAwaitingApproval') {
+      return {
+        type: 'pending',
+        message: '⌛ Awaiting approval...',
+        autoDismiss: 5000,
+      }
+    }
+    if (transaction.eventCode === 'txConfirmReminder') {
+      return {
+        type: 'hint',
+        message: '👍🏼 Confirm transaction to continue.',
+        autoDismiss: 15000,
+      }
+    }
+    if (transaction.eventCode === 'nsfFail') {
+      return {
+        type: 'error',
+        message: '🛑 Error! Insufficient funds to continue.',
+        autoDismiss: 15000,
+      }
+    }
+    if (transaction.eventCode === 'txError') {
+      return {
+        type: 'error',
+        message: '🛑 Error! Failed to process transaction.',
+        autoDismiss: 15000,
+      }
+    }
+    if (transaction.eventCode === 'txSendFail') {
+      return {
+        type: 'error',
+        message: '🛑 Error! You rejected the transaction request.',
+        autoDismiss: 15000,
+      }
+    }
+    if (transaction.eventCode === 'txUnderPriced') {
+      return {
+        type: 'error',
+        message: '🛑 Error! Gas price for transaction is too low.',
+        autoDismiss: 15000,
+      }
+    }
+    if (transaction.eventCode === 'txPool') {
+      return {
+        type: 'pending',
+        message: '⌛ Transaction is pending...',
+        autoDismiss: 0,
+      }
+    }
+    if (transaction.eventCode === 'txConfirmed') {
+      return {
+        type: 'success',
+        message: '🎉 Success! Tokens have been bridged and released!',
+        autoDismiss: 10000,
+      }
+    }
+  },
+  position: 'bottomLeft',
+}
+
 const connect: ConnectModalOptions = {
   iDontHaveAWalletLink:
     'https://chrome.google.com/webstore/detail/universal-profiles/abpickdkkbnbcoepogfhkhennhfhehfn?hl=en',
@@ -100,6 +184,8 @@ export const onboard = Onboard({
   wallets,
   chains,
   appMetadata,
+  accountCenter,
+  notify,
   connect,
 })
 
