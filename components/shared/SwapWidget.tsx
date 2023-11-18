@@ -43,6 +43,7 @@ const SwapWidget = () => {
   const { wrappedTokensReleased } = useWrappedTokensReleased(
     selectedDestinationChainNetwork?.chainId
   );
+  console.log(process.env.NEXT_PUBLIC_MORALIS_API_KEY, "I API KEY");
 
   const [{ wallet }] = useConnectWallet();
   useEffect(() => {

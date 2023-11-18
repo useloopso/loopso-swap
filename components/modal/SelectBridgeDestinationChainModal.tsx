@@ -11,9 +11,13 @@ type Network = {
     chainId: number;
     img: string
 };
-
-const SelectDestinationChainModal = () => {
-    const [selectedNetwork, setSelectedNetwork] = useState<Network | undefined>(undefined);
+interface SelectBridgeDestinationChainModalProps {
+    setSelectedNetwork: (network: Network | undefined) => void
+    selectedNetwork: Network | undefined
+  }
+  
+  const SelectDestinationChainModal =(props: SelectBridgeDestinationChainModalProps) => {
+    const {setSelectedNetwork, selectedNetwork} = props
     const [isOpen, setIsOpen] = useState(false);
     const connectedWallets = useWallets()
     const { connectWallet } = useWeb3Onboard();
