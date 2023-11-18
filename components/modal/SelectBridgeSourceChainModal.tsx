@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -82,7 +82,8 @@ const SelectBridgeSourceChainModal = () => {
               <div className="grid grid-cols-2 items-center justify-center p-4 gap-x-8 gap-y-2">
                 {networkList?.map((e) => (
                   <div
-                    className="flex items-center justify-center w-48 h-16 gap-3 rounded-3xl cursor-pointer bg-[#85A0FF]/70 hover:bg-[#E1E1FF] text-sm font-semibold text-white hover:text-[#85A0FF]/70 hover:rounded-3xl hover:border hover:border-white"
+                    className={`flex items-center justify-center w-48 h-16 gap-3 rounded-3xl cursor-pointer text-sm font-semibold text-white bg-[#85A0FF]/70 
+                    hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70 hover:rounded-3xl hover:border hover:border-white`}
                     key={e.chainId}
                     onClick={() => switchNetwork(e.chainId)}
                   >

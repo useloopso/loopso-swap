@@ -38,7 +38,8 @@ const SelectTokenModal = (props: SelectTokenModalProps) => {
     <div>
       <Dialog open={isOpen}>
         <DialogTrigger
-          className="p-3 bg-[#85A0FF]/60 rounded-2xl text-white text-sm font-semibold flex w-40 h-12 items-center justify-center hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70"
+          className={`flex items-center justify-center w-40 h-12 p-3 rounded-2xl text-white text-sm font-semibold  bg-[#85A0FF]/60 
+          hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70`}
           onClick={() => setIsOpen(true)}
         >
           <div className="flex items-center justify-center gap-3">
@@ -71,7 +72,8 @@ const SelectTokenModal = (props: SelectTokenModalProps) => {
               <div className="grid grid-cols-2 items-center justify-center p-4 gap-x-8 gap-y-2">
                 {tokenList?.map((e, i) => (
                   <div
-                    className="flex items-center w-52 h-16 gap-3 rounded-3xl cursor-pointer pl-4 bg-[#85A0FF]/70 hover:bg-[#E1E1FF] text-sm text-white hover:text-[#85A0FF]/70 hover:rounded-3xl hover:border hover:border-white"
+                    className={`flex items-center w-52 h-16 gap-3  pl-4 rounded-3xl cursor-pointer text-sm text-white bg-[#85A0FF]/70 
+                    hover:bg-[#E1E1FF]  hover:text-[#85A0FF]/70 hover:rounded-3xl hover:border hover:border-white`}
                     key={i}
                     onClick={() => switchToken(i)}
                   >

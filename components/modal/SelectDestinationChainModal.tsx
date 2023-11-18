@@ -8,7 +8,6 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { ChevronDown, X } from "lucide-react";
-import { Separator } from "../ui/separator";
 import useWeb3Onboard from "../../hooks/web3-onboard";
 import { useWallets } from "@web3-onboard/react";
 import Image from "next/image";
@@ -52,7 +51,8 @@ const SelectDestinationChainModal = (
     <div>
       <Dialog open={isOpen}>
         <DialogTrigger
-          className="p-3 bg-[#E1E1FF] rounded-2xl text-black text-sm font-semibold flex w-48 h-10 items-center justify-center hover:bg-[#85A0FF]/10 hover:text-white hover:border hover:border-[#E1E1FF]"
+          className={`flex items-center justify-center w-48 h-10 p-3 rounded-2xl  text-black text-sm font-semibold bg-[#E1E1FF]
+          hover:bg-[#85A0FF]/10 hover:text-white hover:border hover:border-[#E1E1FF]`}
           onClick={() => setIsOpen(true)}
         >
           <div className="flex items-center justify-center gap-1">
@@ -89,7 +89,8 @@ const SelectDestinationChainModal = (
               <div className="grid grid-cols-2 items-center justify-center p-4 gap-x-8 gap-y-2">
                 {networkList?.map((e) => (
                   <div
-                    className="flex items-center justify-center w-48 h-16 gap-3 rounded-3xl cursor-pointer bg-[#85A0FF]/70 hover:bg-[#E1E1FF] text-sm font-semibold text-white hover:text-[#85A0FF]/70 hover:rounded-3xl hover:border hover:border-white"
+                    className={`flex items-center justify-center w-48 h-16 gap-3 rounded-3xl cursor-pointer  text-sm font-semibold text-white bg-[#85A0FF]/70 
+                    hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70 hover:rounded-3xl hover:border hover:border-white`}
                     key={e.chainId}
                     onClick={() => switchNetwork(e.chainId)}
                   >

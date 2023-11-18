@@ -41,7 +41,8 @@ const SelectDestinationChainModal = () => {
         <div>
             <Dialog open={isOpen}>
                 <DialogTrigger
-                    className='p-3 bg-[#E1E1FF] rounded-2xl text-black text-base font-semibold flex w-full h-16 items-center justify-center hover:bg-[#85A0FF]/10 hover:text-white hover:border hover:border-[#E1E1FF]'
+                    className={`flex items-center justify-center w-full h-16 p-3 rounded-2xl text-base 
+                    font-semibold text-black bg-[#E1E1FF]  hover:bg-[#85A0FF]/10 hover:text-white hover:border hover:border-[#E1E1FF]`}
                     onClick={() => setIsOpen(true)}
                 >
                     <div className='flex items-center justify-center pl-3 gap-3'>
@@ -69,7 +70,10 @@ const SelectDestinationChainModal = () => {
                         <DialogDescription>
                             <div className='grid grid-cols-2 items-center justify-center p-4 gap-x-8 gap-y-2'>
                                 {networkList?.map((e) => (
-                                    <div className='flex items-center justify-center w-48 h-16 gap-3 rounded-3xl cursor-pointer bg-[#85A0FF]/70 hover:bg-[#E1E1FF] text-sm font-semibold text-white hover:text-[#85A0FF]/70 hover:rounded-3xl hover:border hover:border-white' key={e.chainId} onClick={() => switchNetwork(e.chainId)}>
+                                    <div className={`flex items-center justify-center w-48 h-16 gap-3 rounded-3xl cursor-pointer text-sm font-semibold text-white bg-[#85A0FF]/70 
+                                    hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70 hover:rounded-3xl hover:border hover:border-white`}
+                                        key={e.chainId} onClick={() => switchNetwork(e.chainId)}
+                                    >
                                         <Image src={e.img} alt={e.network} width={20} height={20} />
                                         {e.network}
                                     </div>
