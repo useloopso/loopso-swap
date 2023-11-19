@@ -88,11 +88,17 @@ const LspList = () => {
           {lspCards.length > 3 ? (
             <>
               <div className='flex items-center justify-center'>
-              <ArrowBigLeftDash onClick={()=>slideLeft(elementRef.current)} className='relative w-8 h-8 cursor-pointer bg-[#85A0FF]/70 rounded-full text-white p-1 hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70' />
+              <ArrowBigLeftDash 
+                onClick={()=>slideLeft(elementRef.current)} 
+                className='relative w-8 h-8 cursor-pointer bg-[#85A0FF]/70 rounded-full text-white p-1 hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70' 
+              />
               <div className='ml-5 mr-5 w-[90%] flex gap-5 mb-2 overflow-x-auto overflow-scroll scroll-smooth' ref={elementRef}>
                 {lspCards}
               </div>
-              <ArrowBigRightDash onClick={()=>slideRight(elementRef.current)}  className='relative w-8 h-8 cursor-pointer ml-auto bg-[#85A0FF]/70 rounded-full text-white p-1 hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70'/>
+              <ArrowBigRightDash 
+                onClick={()=>slideRight(elementRef.current)}  
+                className='relative w-8 h-8 cursor-pointer ml-auto bg-[#85A0FF]/70 rounded-full text-white p-1 hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70'
+              />
             </div>
             </>
           ) : (

@@ -30,7 +30,8 @@ const LspCard = ({
       };
 
     return (
-        <div className='w-[300px] h-[350px] flex-shrink-0 shadow-md mb-5 rounded-3xl hover:scale-110 transition-all mt-[20px] cursor-pointer flex flex-col text-black bg-[#E1E1FF] p-3 hover:bg-[#85A0FF]/70 hover:text-white'>
+        <div className={`flex flex-col flex-shrink-0 w-[300px] h-[350px] mt-[20px] mb-5  p-3 rounded-3xl shadow-md cursor-pointer text-black bg-[#E1E1FF] 
+        transition-all hover:scale-110 hover:bg-[#85A0FF]/70 hover:text-white`}>
             <div className='flex items-center justify-center'>
                 {images && images.length === 1 ? (
                     // if only 1 image in array
