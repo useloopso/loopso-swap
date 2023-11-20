@@ -1,9 +1,11 @@
-import AboutLoopso from "@/components/shared/AboutLoopso";
+import Hero from "@/components/main/Hero";
 
 export default function Home() {
   return (
-    <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center min-h-screen min-w-full">
-      <AboutLoopso />
-    </div>
+    <main className='h-full w-full'>
+      <div className='flex flex-col h-[850px] gap-20'>
+        <Hero />
+      </div>
+    </main>
   )
 }

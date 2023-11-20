@@ -22,11 +22,9 @@ export default function RootLayout({
   return (
     <Web3OnboardProvider web3Onboard={onboard}>
       <html lang="en">
-        <body className={inter.className}>
-          <Navbar />
-          <main>
+        <body className={`${inter.className} circles overflow-y-scroll overflow-x-hidden`}>
+            <Navbar />
             {children}
-          </main>
         </body>
       </html>
     </Web3OnboardProvider>

@@ -1,173 +1,213 @@
 import { Variants } from 'framer-motion';
 
 export const navVariants = {
-    hidden: {
-      opacity: 0,
-      y: -50,
-      transition: {
-        type: 'spring',
-        stiffness: 300,
-        damping: 140,
-      },
+  hidden: {
+    opacity: 0,
+    y: -50,
+    transition: {
+      type: 'spring',
+      stiffness: 300,
+      damping: 140,
     },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        stiffness: 80,
-        delay: 1,
-      },
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 80,
+      delay: 1,
     },
-  };
-  
-  export const slideIn = (direction: any, type: any, delay: any, duration: any) => ({
-    hidden: {
-      x: direction === 'left' ? '-100%' : direction === 'right' ? '100%' : 0,
-      y: direction === 'up' ? '100%' : direction === 'down' ? '100%' : 0,
+  },
+};
+
+export const slideIn = (direction: any, type: any, delay: any, duration: any) => ({
+  hidden: {
+    x: direction === 'left' ? '-100%' : direction === 'right' ? '100%' : 0,
+    y: direction === 'up' ? '100%' : direction === 'down' ? '100%' : 0,
+  },
+  show: {
+    x: 0,
+    y: 0,
+    transition: {
+      type,
+      delay,
+      duration,
+      ease: 'easeOut',
     },
-    show: {
-      x: 0,
-      y: 0,
-      transition: {
-        type,
-        delay,
-        duration,
-        ease: 'easeOut',
-      },
-    },
-  });
-  
-  export type StaggerContainerVariants = {
-    hidden: {};
-    show: {
-      transition: {
-        staggerChildren: any;
-        delayChildren: any;
-      };
+  },
+});
+
+export type StaggerContainerVariants = {
+  hidden: {};
+  show: {
+    transition: {
+      staggerChildren: any;
+      delayChildren: any;
     };
   };
-  
-  export const staggerContainer: StaggerContainerVariants = {
-    hidden: {},
-    show: {
-      transition: {
-        staggerChildren: 0,
-        delayChildren: 0, 
-      },
+};
+
+export const staggerContainer: StaggerContainerVariants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0,
+      delayChildren: 0, 
     },
-  };
-  
-  export const textVariant = (delay: any) => ({
-    hidden: {
-      y: 50,
-      opacity: 0,
+  },
+};
+
+export const textVariant = (delay: any) => ({
+  hidden: {
+    y: 50,
+    opacity: 0,
+  },
+  show: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      duration: 1.25,
+      delay,
     },
-    show: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: 'spring',
-        duration: 1.25,
-        delay,
-      },
+  },
+});
+
+export const textContainer = {
+  hidden: {
+    opacity: 0,
+  },
+  show: (i = 1) => ({
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: i * 0.1 },
+  }),
+};
+
+export const textVariant2 = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: 'tween',
+      ease: 'easeIn',
     },
-  });
-  
-  export const textContainer = {
-    hidden: {
-      opacity: 0,
+  },
+};
+
+export const fadeIn = (direction: any, type: any, delay: any, duration: any) => ({
+  hidden: {
+    x: direction === 'left' ? 100 : direction === 'right' ? -100 : 0,
+    y: direction === 'up' ? 100 : direction === 'down' ? -100 : 0,
+    opacity: 0,
+  },
+  show: {
+    x: 0,
+    y: 0,
+    opacity: 1,
+    transition: {
+      type,
+      delay,
+      duration,
+      ease: 'easeOut',
     },
-    show: (i = 1) => ({
-      opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: i * 0.1 },
-    }),
-  };
-  
-  export const textVariant2 = {
-    hidden: {
-      opacity: 0,
-      y: 20,
+  },
+});
+
+export const planetVariants = (direction: any) => ({
+  hidden: {
+    x: direction === 'left' ? '-100%' : '100%',
+    rotate: 120,
+  },
+  show: {
+    x: 0,
+    rotate: 0,
+    transition: {
+      type: 'spring',
+      duration: 1.8,
+      delay: 0.5,
     },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'tween',
-        ease: 'easeIn',
-      },
+  },
+});
+
+export const zoomIn = (delay: any, duration: any) => ({
+  hidden: {
+    scale: 0,
+    opacity: 0,
+  },
+  show: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      type: 'tween',
+      delay,
+      duration,
+      ease: 'easeOut',
     },
-  };
-  
-  export const fadeIn = (direction: any, type: any, delay: any, duration: any) => ({
-    hidden: {
-      x: direction === 'left' ? 100 : direction === 'right' ? -100 : 0,
-      y: direction === 'up' ? 100 : direction === 'down' ? -100 : 0,
-      opacity: 0,
+  },
+});
+
+export const footerVariants = {
+  hidden: {
+    opacity: 0,
+    y: 50,
+    transition: {
+      type: 'spring',
+      stiffness: 300,
+      damping: 140,
     },
-    show: {
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 80,
+      delay: 0.5,
+    },
+  },
+};
+
+export function slideInFromLeft(delay: number) {
+  return {
+    hidden: { x: -100, opacity: 0 },
+    visible: {
       x: 0,
-      y: 0,
       opacity: 1,
       transition: {
-        type,
-        delay,
-        duration,
-        ease: 'easeOut',
-      },
-    },
-  });
-  
-  export const planetVariants = (direction: any) => ({
-    hidden: {
-      x: direction === 'left' ? '-100%' : '100%',
-      rotate: 120,
-    },
-    show: {
-      x: 0,
-      rotate: 0,
-      transition: {
-        type: 'spring',
-        duration: 1.8,
-        delay: 0.5,
-      },
-    },
-  });
-  
-  export const zoomIn = (delay: any, duration: any) => ({
-    hidden: {
-      scale: 0,
-      opacity: 0,
-    },
-    show: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        type: 'tween',
-        delay,
-        duration,
-        ease: 'easeOut',
-      },
-    },
-  });
-  
-  export const footerVariants = {
-    hidden: {
-      opacity: 0,
-      y: 50,
-      transition: {
-        type: 'spring',
-        stiffness: 300,
-        damping: 140,
-      },
-    },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        stiffness: 80,
-        delay: 0.5,
+        delay: delay,
+        duration: 0.5,
       },
     },
   };
+}
+
+export function slideInFromRight(delay: number) {
+  return {
+    hidden: { x: 100, opacity: 0 },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        delay: delay,
+        duration: 0.5,
+      },
+    },
+  };
+}
+  
+export const slideInFromTop = {
+  hidden: { y: -100, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      delay: 0.5,
+      duration: 0.5,
+    },
+  },
+};
