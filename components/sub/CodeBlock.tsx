@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from '../ui/button'
 import Code from './Code'
 
 const CodeBlock = () => {
@@ -17,8 +16,6 @@ const _txHash = await bridgeTokens(
 );`
 
     const [show, setShow] = useState<number>(0);
-    const atMax = show > 2;
-    const restart = () => setShow(0);
 
     useEffect(() => {
         const intervalId = setInterval(() => {
