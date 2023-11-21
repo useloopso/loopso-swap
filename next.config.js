@@ -11,10 +11,6 @@ const nextConfig = {
         hostname: "localhost",
       }
     ],
-    domains: [
-      'res.cloudinary.com',
-      "",
-    ],
   },
 };
 
