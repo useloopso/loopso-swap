@@ -1,10 +1,11 @@
-import MainFooter from '@/components/main/MainFooter'
-import MainGetStarted from '@/components/main/MainGetStarted'
-import MainInsights from '@/components/main/MainInsights'
 import React from 'react'
 import Hero from '@/components/main/Hero'
 import Topbar from '@/components/main/Topbar'
 import WhyLoopso from '@/components/main/WhyLoopso'
+import HowItWorks from '@/components/main/HowItWorks'
+import Integrations from '@/components/main/Integrations'
+import Footer from '@/components/main/Footer'
+import CodeBlock from '@/components/main/CodeBlock'
 
 const page = () => {
   return (
@@ -12,18 +13,19 @@ const page = () => {
       <Topbar />
       <Hero />
       <div className="relative">
-        <div className="gradient-03 z-0" />
         <WhyLoopso />
+        <div className="gradient-03 z-0" />
+        <CodeBlock />
       </div>
       <div className="relative">
-        <MainGetStarted />
+        <HowItWorks />
         <div className="gradient-04 z-0" />
       </div>
       <div className="relative">
-        <MainInsights />
+        <Integrations />
         <div className="gradient-04 z-0" />
       </div>
-      <MainFooter />
+      <Footer />
   </div>
   )
 }

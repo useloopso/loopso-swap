@@ -171,7 +171,7 @@ export const whyLoopso = [
     id: 'reason-3',
     iconUrl: '/assets/main/reason-3.png',
     imgUrl: '/assets/main/bg-3.png',
-    title: 'Best Rate 🙌🏻',
+    title: 'Best Rate 🤑',
     content: 'Loopso offers the best swap rate for all tokens.'
   },
   {
@@ -191,47 +191,24 @@ export const whyLoopso = [
 ];
 
 export const howItWorks = [
-  'Find a world that suits you and you want to enter',
-  'Enter the world by reading basmalah to be safe',
-  'No need to beat around the bush, just stay on the gas and have fun',
+  'Transfer tokens between Sepolia, Lukso Testnet, and Mumbai by locking them on the source chain',
+  'This triggers a rapid minting process on the destination chain through the Loopso Bridge Messaging Relayer',
+  'VOILA! 🚀 You will receive a confirmation that your tokens have been successfully bridged and released❗️',
 ];
 
-export const insights = [
+export const integrations = [
   {
-    imgUrl: '/main/planet-06.png',
-    title: 'The launch of the Metaverse makes Elon musk ketar-ketir',
+    imgUrl: '/assets/main/sdk.png',
+    linkUrl:'https://github.com/useloopso/loopso-sdk-typescript',
+    title: '🛠 Bridge SDK 🛠',
     subtitle:
-        'Magna etiam tempor orci eu lobortis elementum nibh tellus molestie. Diam maecenas sed enim ut sem viverra alique.',
+        'Projects can integrate Loopso Bridge using our open-sourced npm SDK and build their custom UI on top of it.',
   },
   {
-    imgUrl: '/main/planet-07.png',
-    title: '7 tips to easily master the madness of the Metaverse',
+    imgUrl: '/assets/main/widget.png',
+    linkUrl:'https://github.com/useloopso',
+    title: '🧩 Swap Widget 🧩',
     subtitle:
-        'Vitae congue eu consequat ac felis donec. Et magnis dis parturient montes nascetur ridiculus mus. Convallis tellus id interdum',
-  },
-  {
-    imgUrl: '/main/planet-08.png',
-    title: 'With one platform you can explore the whole world virtually',
-    subtitle:
-        'Quam quisque id diam vel quam elementum. Viverra nam libero justo laoreet sit amet cursus sit. Mauris in aliquam sem',
-  },
-];
-
-export const socials = [
-  {
-    name: 'twitter',
-    url: '/main/twitter.svg',
-  },
-  {
-    name: 'linkedin',
-    url: '/main/linkedin.svg',
-  },
-  {
-    name: 'instagram',
-    url: '/main/instagram.svg',
-  },
-  {
-    name: 'facebook',
-    url: '/main/facebook.svg',
+        'Enable cross-chain swaps on your website seamlessly by integrating Loopso <Widget /> into your codebase. ❗️ COMING SOON ❗️',
   },
 ];

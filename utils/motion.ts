@@ -118,7 +118,7 @@ export const fadeIn = (direction: any, type: any, delay: any, duration: any) => 
   },
 });
 
-export const planetVariants = (direction: any) => ({
+export const rollVariants = (direction: any) => ({
   hidden: {
     x: direction === 'left' ? '-100%' : '100%',
     rotate: 120,
