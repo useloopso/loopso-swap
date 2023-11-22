@@ -4,7 +4,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { footerVariants } from '@/utils/motion'
 import { Button } from '../ui/button'
-import { FileText, GithubIcon, Rocket, TwitterIcon } from 'lucide-react'
+import { FileText, GithubIcon, Rocket, SparklesIcon, TwitterIcon } from 'lucide-react'
 import { Separator } from '../ui/separator'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -34,15 +34,21 @@ const Footer = () => {
             Loops into the New Creative Economy
           </h4>
           <Button className='h-11 pl-5 pr-5 font-semibold text-base gap-2' onClick={handleOnClick}>
-                Launch App
-                <Rocket /> 
-            </Button>
+            Launch App
+            <Rocket /> 
+          </Button>
         </div>
         <Separator />
         <div className="flex items-center justify-between flex-wrap gap-4">
-          <h4 className="font-extrabold text-[24px] text-white uppercase">
-            Loopso
-          </h4>
+        <div className="sparkles-box py-[10px] px-[10px] border border-white opacity-[0.9]" >
+          <SparklesIcon className="text-white mr-[10px] h-5 w-5" />
+          <h1 className="text-[13px] text-white font-semibold">
+            Public Beta
+          </h1>
+        </div>
+        <p className="font-normal text-[14px] text-white opacity-50">
+            Copyright © 2023 LOOPSO. All rights reserved.
+        </p>
           <div className="flex gap-4">
           <FileText 
             onClick={() => openNewTab('')}
