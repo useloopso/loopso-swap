@@ -45,7 +45,7 @@ const Hero = () => {
           className='relative w-full md:-mt-[20px] -mt-[12px]'
         >
           <Image
-            src="/assets/loopso-chain.png"
+            src="/assets/main/loopso-chain-blank.png"
             alt="hero_cover"
             className="w-full lg:h-[400px] md:h-[300px] sm:h-[250px] h-[200px] object-cover rounded-tl-[140px] z-10 relative"
             width={1500}
