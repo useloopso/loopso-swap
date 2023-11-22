@@ -7,6 +7,7 @@ import Image from 'next/image';
 
 interface ExploreCardProps {
     id: string;
+    iconUrl: string;
     imgUrl: string;
     title: string;
     content:string;
@@ -17,6 +18,7 @@ interface ExploreCardProps {
 
 const ReasonCard = ({
     id,
+    iconUrl,
     imgUrl,
     title,
     content,
@@ -39,26 +41,26 @@ const ReasonCard = ({
             height={1000}
         />
         {active !== id ? (
-            <h3 className="font-semibold sm:text-[26px] text-[18px] text-white absolute z-0 lg:bottom-24 lg:rotate-[-90deg] lg:origin-[0,0]">
+            <h3 className="font-semibold absolute z-0  lg:rotate-[-90deg] lg:bottom-40 lg:origin-[0,0] sm:text-[26px] text-[18px] text-black w-72">
                 {title}
             </h3>
         ) : (
-            <div className="absolute bottom-0 p-8 flex justify-start w-full flex-col bg-[rgba(0,0,0,0.5)] rounded-b-[24px]">
+            <div className="absolute bottom-0 p-5 lg:p-8 md:p-4 sm:p-3 flex justify-start w-full flex-col bg-[#FDDCE8]/70 rounded-b-[24px]">
             <div
               className={`flex justify-center items-center w-[60px] h-[60px] rounded-[24px] glassmorphism mb-[16px]`}
             >
               <Image
-                src="/main/headset.svg"
-                alt="headset"
-                className="w-1/2 h-1/2 object-contain"
+                src={iconUrl}
+                alt="reason-icon"
+                className="w-3/4 h-3/4 object-contain"
                 width={1000}
                 height={1000}
               />
             </div>
-            <h2 className="font-semibold sm:text-[32px] text-[24px] text-white">
+            <h2 className="font-semibold sm:text-[32px] text-[24px] text-black">
               {title}
             </h2>
-            <p className="font-normal text-[16px] leading-[20.16px] text-white mt-[24px]">
+            <p className="font-normal text-[16px] leading-[20.16px] text-black mt-[24px]">
               {content}
             </p>
           </div>

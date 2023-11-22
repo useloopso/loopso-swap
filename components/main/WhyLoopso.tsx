@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { staggerContainer } from '@/utils/motion'
-import { TitleText } from '../sub/CustomTexts'
+import { TitleText, TypingText } from '../sub/CustomTexts'
 import ReasonCard from '../sub/ReasonCard'
 import { whyLoopso } from '@/constants'
 
@@ -19,8 +19,9 @@ const WhyLoopso = () => {
         viewport={{ once: false, amount: 0.25}}
         className='2xl:max-w-[1280px] w-full mx-auto flex flex-col'
       >
+        <TypingText title="| Why Loopso" textStyles="text-center" />
         <TitleText
-          title={<>Why Loopso</>}
+          title={<>✨ Features ✨</>}
           textStyles="text-center"
         />
         <div className='mt-[50px] flex lg:flex-row flex-col min-h-[70vh] gap-5'>

@@ -18,19 +18,24 @@ const Hero = () => {
         <div className='flex justify-center items-center flex-col relative'>
           <motion.h1 
             variants={textVariant(1.1)}
-            className={`font-bold lg:text-[48px] md:text-[36px] sm:text-[30px] text-[26px]  pt-20  text-[#E1E1FF] drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1.2)]`}
+            className={`text-center items-center justify-center font-bold lg:text-[52px] md:text-[44px] sm:text-[38px] text-[34px] pt-12 text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.5)]`}
           >
-            Cross-chain Bi-directional Bridge Protocol
+            Cross-chain Bi-directional <br/> Bridge Protocol
           </motion.h1>
           <motion.div
             variants={textVariant(1.2)}
             className='flex flex-col justify-center items-center gap-16'
           >
-            <h1 className={`text-center items-center font-semibold lg:text-[30px] md:text-[20px] sm:text-[18px] text-[16px] pt-10 text-[#E1E1FF] drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]`}>
-              Token-agnostic Bridge <br /> Seamlessly Connecting you to
+            <h1 className={`text-center items-center font-semibold lg:text-[30px] md:text-[22px] sm:text-[18px] text-[16px] pt-10 text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.3)]`}>
+              🚀 Effortlessly Bridge to 
               <span className='text-[#FE005B] uppercase'>
-                &nbsp;Lukso
+                &nbsp;Lukso&nbsp;
               </span>
+              only at 
+              <span className='text-[#E1E1FF] uppercase'>
+                &nbsp;Loopso&nbsp;
+              </span>
+              🚀
             </h1>
           </motion.div>
         </div>
