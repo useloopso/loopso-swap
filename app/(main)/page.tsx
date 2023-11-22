@@ -1,11 +1,11 @@
 import React from 'react'
 import Hero from '@/components/main/Hero'
 import Topbar from '@/components/main/Topbar'
-import WhyLoopso from '@/components/main/WhyLoopso'
 import HowItWorks from '@/components/main/HowItWorks'
 import Integrations from '@/components/main/Integrations'
 import Footer from '@/components/main/Footer'
 import CodeBlock from '@/components/main/CodeBlock'
+import Features from '@/components/main/Features'
 
 const page = () => {
   return (
@@ -13,7 +13,7 @@ const page = () => {
       <Topbar />
       <Hero />
       <div className="relative">
-        <WhyLoopso />
+        <Features />
         <div className="gradient-03 z-0" />
         <CodeBlock />
       </div>

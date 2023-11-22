@@ -7,11 +7,11 @@ import { TitleText, TypingText } from '../sub/CustomTexts'
 import ReasonCard from '../sub/ReasonCard'
 import { whyLoopso } from '@/constants'
 
-const WhyLoopso = () => {
+const Features = () => {
   const [active, setActive] = useState('reason-1')
 
   return (
-    <section className='sm:p-16 xs:p-8 px-6 py-12' id="explore">
+    <section className='sm:p-16 xs:p-8 px-6 py-12'>
       <motion.div
         variants={staggerContainer}
         initial="hidden"
@@ -40,4 +40,4 @@ const WhyLoopso = () => {
   )
 }
 
-export default WhyLoopso
+export default Features
