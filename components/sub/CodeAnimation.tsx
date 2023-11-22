@@ -53,8 +53,7 @@ const CodeAnimation: FC<CodeProps> = ({
   return (
     <Highlight {...defaultProps} code={text} language='tsx' theme={theme}>
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
-            <pre className={className + 'transition-all duration-700 no-scrollbar'}
->
+            <pre className={className + 'transition-all duration-700 no-scrollbar lg:text-[14px] md:text-[12px] text-[10px]'}>
                 {tokens.map((line, i) => (
                     <div {...getLineProps({ line, key: line.join('') })}  key={line.join('')}>
                         {line.map((token, key) => (

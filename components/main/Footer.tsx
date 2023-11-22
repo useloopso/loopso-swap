@@ -40,13 +40,13 @@ const Footer = () => {
         </div>
         <Separator />
         <div className="flex items-center justify-between flex-wrap gap-4">
-        <div className="sparkles-box py-[10px] px-[10px] border border-white opacity-[0.9]" >
-          <SparklesIcon className="text-white mr-[10px] h-5 w-5" />
-          <h1 className="text-[13px] text-white font-semibold">
+        <div className="sparkles-box py-[10px] px-[10px] border border-[#85A0FF] opacity-[0.9]" >
+          <SparklesIcon className="text-[#85A0FF] mr-[10px] h-5 w-5" />
+          <h1 className="text-[13px] text-[#85A0FF] font-semibold">
             Public Beta
           </h1>
         </div>
-        <p className="font-normal text-[14px] text-white opacity-50">
+        <p className="font-normal text-[14px] text-white bg-[#85A0FF] p-3 rounded-3xl opacity-50">
             Copyright © 2023 LOOPSO. All rights reserved.
         </p>
           <div className="flex gap-4">

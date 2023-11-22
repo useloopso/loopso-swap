@@ -199,7 +199,7 @@ export const howItWorks = [
 export const integrations = [
   {
     imgUrl: '/assets/main/sdk.png',
-    linkUrl:'https://github.com/useloopso/loopso-sdk-typescript',
+    linkUrl:'https://www.npmjs.com/package/loopso-bridge-sdk',
     title: '🛠 Bridge SDK 🛠',
     subtitle:
         'Projects can integrate Loopso Bridge using our open-sourced npm SDK and build their custom UI on top of it.',

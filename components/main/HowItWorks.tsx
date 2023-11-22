@@ -50,14 +50,14 @@ const HowItWorks = () => {
           <div className='flex gap-5 items-center justify-center mt-5'>
             <Link 
             href='/swap' 
-            className="bg-[#85A0FF]/70 text-white hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70 rounded-3xl p-3 font-bold text-sm flex gap-2 cursor-pointer"
+            className="bg-[#85A0FF]/70 text-white hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70 rounded-3xl p-3 font-bold text-base flex gap-2 cursor-pointer"
             >
               <Repeat2 className="h-5 w-5" />
               Token Swap
             </Link>
             <Link 
               href='/bridge' 
-              className="bg-[#85A0FF]/70 text-white hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70 rounded-3xl p-3 font-bold text-sm flex gap-2 cursor-pointer"
+              className="bg-[#85A0FF]/70 text-white hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70 rounded-3xl p-3 font-bold text-base flex gap-2 cursor-pointer"
             >
               <ImageDown className='h-5 w-5'/>
               NFT Bridge

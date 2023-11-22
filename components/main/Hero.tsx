@@ -47,7 +47,7 @@ const Hero = () => {
           <Image
             src="/assets/main/loopso-chain-blank.png"
             alt="hero_cover"
-            className="w-full lg:h-[400px] md:h-[300px] sm:h-[250px] h-[200px] object-cover rounded-tl-[140px] z-10 relative"
+            className="w-full lg:h-[300px] md:h-[275px] sm:h-[250px] h-[200px] object-contain z-10 relative"
             width={1500}
             height={1500}
           />
