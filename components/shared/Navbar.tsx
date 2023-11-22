@@ -26,7 +26,7 @@ const Navbar = () => {
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse" title='logo'>
                 <Image
-                    src="/assets/logo.svg"
+                    src="/assets/logos/logo.svg"
                     alt="logo"
                     width={165}
                     height={165}

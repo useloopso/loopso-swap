@@ -1,71 +1,40 @@
-import React, {FC, useState, useEffect} from 'react'
-import Highlight, {defaultProps} from 'prism-react-renderer'
-import theme from 'prism-react-renderer/themes/nightOwl'
+import React, { useState, useEffect } from 'react'
+import CodeAnimation from './CodeAnimation'
 
-interface CodeProps {
-    code: string
-    show: boolean
-    newTextToWrite?: string
-    codeLast?: string
-    animationDelay?: number
-    animated?: boolean
-    maxHeight?: number
-}
+const Code = () => {
+    const sdkPackageCode = `npm install --save loopso-bridge-sdk`
 
-const Code: FC<CodeProps> = ({
-    code,
-    show,
-    newTextToWrite,
-    codeLast,
-    animationDelay,
-    animated,
-    maxHeight
-}) => {
-    const initialText = codeLast ? code + codeLast : code
-    const [text, setText] = useState(animated ? '' : initialText)
+    const sdkCode = `import { fetchQuote, bridgeTokens } from 'loopso-bridge-sdk';
+    
+const _txHash = await bridgeTokens(
+    selectedSourceChainNetwork.loopsoContractAddress,
+    signer,
+    await getContractAddressFromChainId(selectedSourceChainNetwork.chainId),
+    BigInt(amount),
+    wallet.accounts[0].address,
+    selectedDestinationChainNetwork.chainId
+);`
 
-    const animateText = (targetText: string) => {
-        let i = 0;
+    const [show, setShow] = useState<number>(0);
+
+    useEffect(() => {
         const intervalId = setInterval(() => {
-            setText(targetText.slice(0, i))
-            i++
-            if (i > targetText.length) {
-                clearInterval(intervalId)
-            }
-        }, 30);
-    };
+            setShow(prev => (prev < 2 ? prev + 1 : prev));
+        });
 
-    useEffect(() => {
-        if (show && animated) {
-            setTimeout(() => {
-                animateText(initialText);
-            }, animationDelay ? animationDelay : 150);
-        }
-    }, [initialText, show, animated, animationDelay]);
+        return () => clearInterval(intervalId);
+    }, []);
 
-    useEffect(() => {
-        if (newTextToWrite) {
-            setTimeout(() => {
-                animateText(code + newTextToWrite + (codeLast ? codeLast : ''));
-            }, 0);
-        }
-    }, [newTextToWrite, code, codeLast]);
-  return (
-    <Highlight {...defaultProps} code={text} language='tsx' theme={theme}>
-        {({ className, style, tokens, getLineProps, getTokenProps }) => (
-            <pre className={className + 'transition-all duration-700 no-scrollbar'}
->
-                {tokens.map((line, i) => (
-                    <div {...getLineProps({ line, key: line.join('') })}  key={line.join('')}>
-                        {line.map((token, key) => (
-                            <span {...getTokenProps({ token, key })} key={key} />
-                        ))}
-                    </div>
-                ))}
-            </pre>
-        )}
-    </Highlight>
-  )
+    return (
+        <div className='flex flex-col gap-5 w-[700px] h-[300px] start-0'>
+            <div className='relative group bg-[#3D426B] text-[13px] p-5 rounded-3xl'>
+                <CodeAnimation code={sdkPackageCode} animated={true} show={show >= 1} />
+            </div>
+            <div className='relative group bg-[#3D426B] text-[13px] p-5 rounded-3xl'>
+                <CodeAnimation code={sdkCode} animated={true} show={show >= 2} />
+            </div>
+        </div>
+    );
 }
 
-export default Code
+export default Code;
