@@ -72,7 +72,7 @@ export const chains = [
   },
 ]
 
-const LoopsoIcon = "/assets/logo.svg"
+const LoopsoIcon = "/assets/logos/logo.svg"
 
 const appMetadata = {
   name: 'Loopso Swap',

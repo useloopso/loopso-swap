@@ -46,10 +46,10 @@ function ConnectWalletButton() {
           <DropdownMenu>
             <DropdownMenuTrigger className='flex w-40 h-10 gap-3 bg-[#85A0FF]/70 items-center justify-center text-white hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70 rounded-3xl'>
               {connectedWallet.label === 'MetaMask' && (
-                <Image src="/assets/metamask.svg" alt="Metamask logo" width={20} height={20}/>
+                <Image src="/assets/wallets/metamask.svg" alt="Metamask logo" width={20} height={20}/>
               )}
               {connectedWallet.label === 'Universal Profiles' && (
-                <Image src="/assets/up.png" alt="Universal Profiles logo" width={20} height={20}/>
+                <Image src="/assets/wallets/up.png" alt="Universal Profiles logo" width={20} height={20}/>
               )}
               {connectedWallet.label !== 'Universal Profiles' && connectedWallet.label !== 'MetaMask' && (
                 <Wallet2 />
