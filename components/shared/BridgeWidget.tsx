@@ -17,13 +17,11 @@ import {  TransactionResponse, ethers } from 'ethers'
 import { Network } from '@/lib/types'
 import { getProviderBasedOnChainId } from '@/lib/utils'
 import { onboard } from '@/hooks/web3-onboard'
+import { useWrappedNonFungibleTokensReleased } from '@/hooks/useWrappedNonFungibleTokensReleased'
 
 async function checkNftApproval(signer: ethers.Signer, erc721Contract: ethers.Contract, contractAddressSrc: string, tokenId: number): Promise<string | null> {
-  
-  console.log('GOT HRE???')
   const hasApproved = await erc721Contract.getApproved(tokenId)
   //if(hasApproved === await signer.getAddress())
-  console.log(hasApproved, await signer.getAddress(), 'HAS APPRÖÖÖÖVVVED?')
   const approvalTx = await erc721Contract.approve(
 		contractAddressSrc,
 		tokenId
@@ -40,6 +38,26 @@ const FEE_ABI = [
 	"function FEE_FUNGIBLE() external view returns (uint256 memory)",
 ];
 
+async function getFee(
+	contractAddressDst: string,
+	signerOrProvider: ethers.Signer | ethers.JsonRpcProvider,
+	isFungible: boolean
+): Promise<number> {
+	const destLoopsoContract = new ethers.Contract(
+		contractAddressDst,
+		LOOPSO_ABI,
+		signerOrProvider
+	);
+
+	if (isFungible) {
+		const bpFee: number = await destLoopsoContract.FEE_FUNGIBLE();
+		const decimalFee = bpFee / 10000;
+		return decimalFee;
+	} else {
+		const etherFee: number = await destLoopsoContract.FEE_NON_FUNGIBLE();
+		return etherFee;
+	}
+}
 
 async function bridgeNonFungibleTokens(
 	contractAddressSrc: string,
@@ -54,18 +72,17 @@ async function bridgeNonFungibleTokens(
 	const loopsoContractOnSrc = await getLoopsoContractFromContractAddr(contractAddressSrc, signer)
   console.log(dstChain, 'wats dstChain?')
   const contractAddressDst = await getContractAddressFromChainId(dstChain)
-  if(contractAddressDst) {
-    const fee = await getFee(contractAddressDst, signer, false)
-    console.log(fee, 'wats fee?')
-  }  
-	/* const erc721Contract = new ethers.Contract(tokenAddress, ERC721_ABI, signer);
+
+
+	 const erc721Contract = new ethers.Contract(tokenAddress, ERC721_ABI, signer);
 	try {
 		const approved = await checkNftApproval(signer, erc721Contract, contractAddressSrc, tokenId)
     if(approved && loopsoContractOnSrc && contractAddressDst){
+      const fee = await getFee(contractAddressDst, signer, true)
       const isWrappedTokenInfo = await loopsoContractOnSrc.wrappedTokenInfo(tokenAddress)
       console.log(Object.values(isWrappedTokenInfo), 'is wrapped tokeninfo?', contractAddressDst, signer, false, 'BÄÄÄ')
    
-      const bridgeTx = await loopsoContractOnSrc.bridgeNonFungibleTokens(tokenAddress, tokenId, tokenUri, dstChain, dstAddress, { value: fee });
+      const bridgeTx = await loopsoContractOnSrc.bridgeNonFungibleTokens(tokenAddress, tokenId, tokenUri, dstChain, dstAddress, { value: 10 });
 
 
       if (!bridgeTx) {
@@ -78,12 +95,11 @@ async function bridgeNonFungibleTokens(
 
 	} catch (error) {
 		console.error("Error bridging tokens:", error);
-		return null;
-	} */
+		return null; 
+	} 
 }
 
 
-console.log(getContractAddressFromChainId(4201), 'CONTRACTFROM CHAINID')
 function getContractAddressFromChainId(chainId: number): string | null {
 	let contractAddress: string | null = null;
 
@@ -123,6 +139,7 @@ const BridgeWidget = () => {
   const [txHash, setTxHash] = useState<string>("");
 
   let isBridgeDisabled = !selectedDstNetwork?.chainId || !selectedSrcNetwork?.chainId || !selectedNft?.tokenId
+  const [showSuccessfull, setShowSuccessfull] = useState<string>("");
   const [{ wallet }] = useConnectWallet();
 
 
@@ -138,6 +155,31 @@ const BridgeWidget = () => {
     showList();
   }, [connectedWallets]);
 
+  const { wrappedNonFungibleTokensReleased   } = useWrappedNonFungibleTokensReleased(
+    selectedDstNetwork?.chainId
+  );
+
+  useEffect(() => {
+    if (wrappedNonFungibleTokensReleased?.to) {
+      setShowSuccessfull(
+        "Success, your NFT tokens have been bridged and released!"
+      );
+      onboard.state.actions.customNotification({
+        eventCode: 'txConfirmed',
+        type: 'hint',
+        message: '👉🏼 Click here to view your transaction.',
+        autoDismiss: 100000,
+        onClick: () => {
+          //TODO: scale this, create a helper function to find explorers based on chainId
+          if(selectedDstNetwork?.chainId === 4201) {
+            window.open(`https://explorer.execution.testnet.lukso.network/tx/${_txHash?.hash}`)
+          } 
+        }
+      }); 
+    }
+  }, [txHash, wrappedNonFungibleTokensReleased]);
+  
+
 
   const handleBridgeClick = async () =>{
     if(selectedNft && selectedSrcNetwork && selectedDstNetwork && wallet){
@@ -146,11 +188,13 @@ const BridgeWidget = () => {
         const ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
         const signer = await ethersProvider.getSigner();
         const _txHash = await bridgeNonFungibleTokens(selectedSrcNetwork.loopsoContractAddress, signer, tokenAddress, wallet.accounts[0].address, selectedDstNetwork.chainId, Number(tokenId), tokenUri)
+        console.log(selectedSrcNetwork.loopsoContractAddress, signer, tokenAddress, wallet.accounts[0].address, selectedDstNetwork.chainId, Number(tokenId), tokenUri, 'DATAAAA SENT THRU')
+        
         console.log(txHash, 'txHash?')
 
         if (_txHash) {
           onboard.state.actions.customNotification({
-            eventCode: 'txConfirmed',
+            eventCode: 'txPool',
             type: 'hint',
             message: '👉🏼 Click here to view your transaction.',
             autoDismiss: 100000,
@@ -221,7 +265,7 @@ const BridgeWidget = () => {
           </Button>
         </div>
         <div className="items-center justify-center flex-col">
-          Transaction hash:{txHash}
+          Transaction hash:{txHash} {showSuccessfull}
           <br></br>
           <br></br>
         </div>

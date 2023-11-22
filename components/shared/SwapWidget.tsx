@@ -44,7 +44,6 @@ const SwapWidget = () => {
   const { wrappedTokensReleased } = useWrappedTokensReleased(
     selectedDestinationChainNetwork?.chainId
   );
-  console.log(process.env.NEXT_PUBLIC_MORALIS_API_KEY, "I API KEY");
 
   const [{ wallet }] = useConnectWallet();
   useEffect(() => {
@@ -52,6 +51,18 @@ const SwapWidget = () => {
       setShowSuccessfull(
         "Success, your tokens have been bridged and released!"
       );
+      onboard.state.actions.customNotification({
+        eventCode: 'txConfirmed',
+        type: 'hint',
+        message: '👉🏼 Click here to view your transaction.',
+        autoDismiss: 100000,
+        onClick: () => {
+          //TODO: scale this, create a helper function to find explorers based on chainId
+          if(selectedDestinationChainNetwork?.chainId === 4201) {
+            window.open(`https://explorer.execution.testnet.lukso.network/${wrappedTokensReleased?.to}`)
+          } 
+        }
+      })
     }
   }, [txHash, wrappedTokensReleased]);
 
@@ -76,7 +87,7 @@ const SwapWidget = () => {
       if (_txHash) {
         setTxHash(_txHash?.hash);
         onboard.state.actions.customNotification({
-          eventCode: 'txConfirmed',
+          eventCode: 'txPool',
           type: 'hint',
           message: '👉🏼 Click here to view your transaction.',
           autoDismiss: 100000,
