@@ -4,8 +4,8 @@ import Topbar from '@/components/main/Topbar'
 import HowItWorks from '@/components/main/HowItWorks'
 import Integrations from '@/components/main/Integrations'
 import Footer from '@/components/main/Footer'
-import CodeBlock from '@/components/main/CodeBlock'
 import Features from '@/components/main/Features'
+import CodeBlock from '@/components/main/CodeBlock'
 
 const page = () => {
   return (
