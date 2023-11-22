@@ -10,12 +10,13 @@ import Features from '@/components/main/Features'
 const page = () => {
   return (
     <div className="overflow-hidden circles">
+      <div className="gradient-03 z-0" />
       <Topbar />
       <Hero />
       <div className="relative">
-        <Features />
-        <div className="gradient-03 z-0" />
         <CodeBlock />
+        <div className="gradient-03 z-0" />
+        <Features />
       </div>
       <div className="relative">
         <HowItWorks />

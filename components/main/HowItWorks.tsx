@@ -7,6 +7,8 @@ import { TitleText, TypingText } from '../sub/CustomTexts'
 import  StartSteps  from '../sub/StartSteps'
 import { howItWorks } from '@/constants'
 import Image from 'next/image'
+import Link from 'next/link'
+import { ImageDown, Repeat2 } from 'lucide-react'
 
 const HowItWorks = () => {
   return (
@@ -36,7 +38,7 @@ const HowItWorks = () => {
         >
           <TypingText title='| How it Works' textStyles='' />
           <TitleText title={<>Start Bridging with <span className='text-[#E1E1FF] uppercase drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.3)]'>Loopso</span>🔥</>} textStyles='' />
-          <div className='mt-[31px] flex flex-col max-w-[500px] gap-[24px]'>
+          <div className='mt-[31px] flex flex-col max-w-[550px] gap-[24px]'>
             {howItWorks.map((feature, index) => (
               <StartSteps 
                 key={feature}
@@ -44,6 +46,22 @@ const HowItWorks = () => {
                 text={feature}
               />
             ))}
+          </div>
+          <div className='flex gap-5 items-center justify-center mt-5'>
+            <Link 
+            href='/swap' 
+            className="bg-[#85A0FF]/70 text-white hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70 rounded-3xl p-3 font-bold text-sm flex gap-2 cursor-pointer"
+            >
+              <Repeat2 className="h-5 w-5" />
+              Token Swap
+            </Link>
+            <Link 
+              href='/bridge' 
+              className="bg-[#85A0FF]/70 text-white hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70 rounded-3xl p-3 font-bold text-sm flex gap-2 cursor-pointer"
+            >
+              <ImageDown className='h-5 w-5'/>
+              NFT Bridge
+            </Link>
           </div>
         </motion.div>
       </motion.div>
