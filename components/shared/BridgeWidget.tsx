@@ -189,17 +189,10 @@ const BridgeWidget = () => {
     if(selectedNft && selectedSrcNetwork && selectedDstNetwork && wallet){
       const {tokenId , tokenAddress, tokenUri} = selectedNft
       if(tokenId && tokenAddress && tokenUri){
-
-        let signer;
-
-        if (connectedWallet?.label === "Universal Profiles") {
-          const ethersProvider = new ethers.BrowserProvider(window.lukso);
-          signer = await ethersProvider.getSigner();
-        } else {
-          const ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
-          signer = await ethersProvider.getSigner();
-        }
-
+        let isOnLukso = connectedWallet?.label === "Universal Profiles"
+        const ethersProvider = new ethers.BrowserProvider(isOnLukso ? window.lukso : wallet.provider);
+        const signer = await ethersProvider.getSigner();
+       
         const _txHash = await bridgeNonFungibleTokens(selectedSrcNetwork.loopsoContractAddress, signer, tokenAddress, wallet.accounts[0].address, selectedDstNetwork.chainId, Number(tokenId), tokenUri)
         console.log(selectedSrcNetwork.loopsoContractAddress, signer, tokenAddress, wallet.accounts[0].address, selectedDstNetwork.chainId, Number(tokenId), tokenUri, 'DATAAAA SENT THRU')
         

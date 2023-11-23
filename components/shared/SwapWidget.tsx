@@ -8,7 +8,9 @@ import {
   ADDRESSES,
   ERC20_ABI,
   LOOPSO_ABI,
-  bridgeTokens,
+
+  checkTokenAllowance,
+  getLoopsoContractFromContractAddr,
 } from "loopso-bridge-sdk";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,6 +28,61 @@ import { useConnectWallet, useWallets } from "@web3-onboard/react";
 import { TransactionResponse, ethers } from "ethers";
 import { useWrappedTokensReleased } from "@/hooks/useWrappedTokensReleased";
 import { onboard } from "@/hooks/web3-onboard";
+
+ async function bridgeTokens(
+	contractAddressSrc: string,
+	signer: ethers.Signer,
+	tokenAddress: string,
+	amount: bigint,
+	dstAddress: string,
+	dstChain: number
+): Promise<TransactionResponse | null> {
+	const loopsoContractOnSrc = await getLoopsoContractFromContractAddr(
+		contractAddressSrc,
+		signer
+	);
+	const tokenContract = new ethers.Contract(tokenAddress, ERC20_ABI, signer);
+
+	try {
+		let convertedAmount = amount * BigInt(10 ** 18);
+		await checkTokenAllowance(signer,tokenContract,contractAddressSrc,convertedAmount);
+
+    if(loopsoContractOnSrc){
+      
+      const bridgeTx = loopsoContractOnSrc.bridgeTokens(
+        tokenAddress,
+        convertedAmount,
+        dstChain,
+        dstAddress
+      );
+      if (!bridgeTx) {
+        throw new Error("Bridge transaction failed");
+      }
+      return bridgeTx;
+    }else return null
+	
+
+	} catch (error) {
+		console.error("Error bridging tokens:", error);
+		return null;
+	}
+}
+
+async function bridgeTokensBack(
+	contractAddress: string,
+	signerOrProvider: ethers.Signer | ethers.JsonRpcProvider,
+	tokenId: number,
+	dstAddress: string,
+	attestationId: number
+) {
+	const loopsoContract = new ethers.Contract(
+		contractAddress,
+		LOOPSO_ABI,
+		signerOrProvider
+	);
+	return loopsoContract.bridgeTokensBack(tokenId, dstAddress, attestationId);
+}
+
 
 const SwapWidget = () => {
   const [selectedSourceChainNetwork, setSelectedSourceChainNetwork] = useState<
@@ -77,19 +134,10 @@ const SwapWidget = () => {
       selectedSourceChainNetwork &&
       selectedDestinationChainNetwork
     ) {
-
-      let signer;
-
-      if (connectedWallet?.label === "Universal Profiles") {
-        const ethersProvider = new ethers.BrowserProvider(window.lukso);
-        signer = await ethersProvider.getSigner();
-      } else {
-        const ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
-        signer = await ethersProvider.getSigner();
-      }
-
-      console.log("SIGNER", signer)
-
+      let isOnLukso = connectedWallet?.label === "Universal Profiles"
+      const ethersProvider = new ethers.BrowserProvider(isOnLukso ? window.lukso : wallet.provider);
+      const signer = await ethersProvider.getSigner();
+     
       const _txHash = await bridgeTokens(
         selectedSourceChainNetwork.loopsoContractAddress,
         signer,
