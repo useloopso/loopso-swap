@@ -62,12 +62,14 @@ function getAttestationIDHash(wrappedTokenAddr: string, dstChainId: number): str
       console.log(attestationId, 'Attestaion ID HASH')
     
       if(isWrappedTokenInfo.name){
-        const bridgeTx = loopsoContractOnSrc.bridgeTokensBack(convertedAmount, dstAddress, attestationId);
+        console.log('Getting into bridgeTokensBack ARGS:', convertedAmount, dstAddress, attestationId , loopsoContractOnSrc)
+        const bridgeTx = await loopsoContractOnSrc.bridgeTokensBack(convertedAmount, dstAddress, attestationId);
+        console.log(bridgeTx, 'bridgeTokensBack?')
         if (!bridgeTx) {
           throw new Error("Bridge transaction failed");
         }else return bridgeTx
       } else {
-        const bridgeTx = loopsoContractOnSrc.bridgeTokens(
+        const bridgeTx = await loopsoContractOnSrc.bridgeTokens(
           tokenAddress,
           convertedAmount,
           dstChain,
@@ -145,7 +147,7 @@ const SwapWidget = () => {
         onClick: () => {
           //TODO: scale this, create a helper function to find explorers based on chainId
           if(selectedDestinationChainNetwork?.chainId === 4201) {
-            window.open(`https://explorer.execution.testnet.lukso.network/${wrappedTokensReleased?.to}`)
+            window.open(`https://explorer.execution.testnet.lukso.network/address/${wrappedTokensReleased?.to}?tab=token_transfers`)
           } 
         }
       })
