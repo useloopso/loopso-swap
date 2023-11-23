@@ -136,6 +136,7 @@ export interface SelectedNft {
 const BridgeWidget = () => {
   const [showNftList, setShowNftList] = useState(true);
   const connectedWallets = useWallets();
+  const [connectedWallet, setConnectedWallet] = useState(connectedWallets[0]);
   const [selectedNft, setSelectedNft] = useState<SelectedNft | null>(null);
   const [selectedSrcNetwork, setSelectedSrcNetwork] = useState<Network | undefined>(undefined);
   const [selectedDstNetwork, setSelectedDstNetwork] = useState<Network | undefined>(undefined);
@@ -188,8 +189,17 @@ const BridgeWidget = () => {
     if(selectedNft && selectedSrcNetwork && selectedDstNetwork && wallet){
       const {tokenId , tokenAddress, tokenUri} = selectedNft
       if(tokenId && tokenAddress && tokenUri){
-        const ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
-        const signer = await ethersProvider.getSigner();
+
+        let signer;
+
+        if (connectedWallet?.label === "Universal Profiles") {
+          const ethersProvider = new ethers.BrowserProvider(window.lukso);
+          signer = await ethersProvider.getSigner();
+        } else {
+          const ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
+          signer = await ethersProvider.getSigner();
+        }
+
         const _txHash = await bridgeNonFungibleTokens(selectedSrcNetwork.loopsoContractAddress, signer, tokenAddress, wallet.accounts[0].address, selectedDstNetwork.chainId, Number(tokenId), tokenUri)
         console.log(selectedSrcNetwork.loopsoContractAddress, signer, tokenAddress, wallet.accounts[0].address, selectedDstNetwork.chainId, Number(tokenId), tokenUri, 'DATAAAA SENT THRU')
         
