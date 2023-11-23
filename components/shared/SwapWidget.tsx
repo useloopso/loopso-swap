@@ -10,7 +10,12 @@ import {
   LOOPSO_ABI,
 
   checkTokenAllowance,
+
+  getContractAddressFromChainId,
+
+  getFee,
   getLoopsoContractFromContractAddr,
+  getWrappedTokenInfo,
 } from "loopso-bridge-sdk";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,6 +34,13 @@ import { TransactionResponse, ethers } from "ethers";
 import { useWrappedTokensReleased } from "@/hooks/useWrappedTokensReleased";
 import { onboard } from "@/hooks/web3-onboard";
 
+
+function getAttestationIDHash(wrappedTokenAddr: string, dstChainId: number): string {
+  const attestationID = ethers.solidityPackedKeccak256(['address', 'uint256'], [wrappedTokenAddr, dstChainId])
+  return attestationID;
+}
+
+
  async function bridgeTokens(
 	contractAddressSrc: string,
 	signer: ethers.Signer,
@@ -36,29 +48,38 @@ import { onboard } from "@/hooks/web3-onboard";
 	amount: bigint,
 	dstAddress: string,
 	dstChain: number
-): Promise<TransactionResponse | null> {
-	const loopsoContractOnSrc = await getLoopsoContractFromContractAddr(
-		contractAddressSrc,
-		signer
-	);
+): Promise<any | null> {
+	const loopsoContractOnSrc = await getLoopsoContractFromContractAddr(contractAddressSrc,signer);
 	const tokenContract = new ethers.Contract(tokenAddress, ERC20_ABI, signer);
-
+  const contractAddressDst = await getContractAddressFromChainId(dstChain)
+  let convertedAmount = amount * BigInt(10 ** 18);
+	await checkTokenAllowance(signer, tokenContract,contractAddressSrc, convertedAmount);
 	try {
-		let convertedAmount = amount * BigInt(10 ** 18);
-		await checkTokenAllowance(signer,tokenContract,contractAddressSrc,convertedAmount);
+    if(loopsoContractOnSrc && contractAddressDst){
+      const isWrappedTokenInfo = await getWrappedTokenInfo(contractAddressSrc, signer, tokenAddress)
 
-    if(loopsoContractOnSrc){
-      
-      const bridgeTx = loopsoContractOnSrc.bridgeTokens(
-        tokenAddress,
-        convertedAmount,
-        dstChain,
-        dstAddress
-      );
-      if (!bridgeTx) {
-        throw new Error("Bridge transaction failed");
+      const attestationId = getAttestationIDHash(isWrappedTokenInfo.tokenAddress, isWrappedTokenInfo.srcChain)
+      console.log(attestationId, 'Attestaion ID HASH')
+    
+      if(isWrappedTokenInfo.name){
+        const bridgeTx = loopsoContractOnSrc.bridgeTokensBack(convertedAmount, dstAddress, attestationId);
+        if (!bridgeTx) {
+          throw new Error("Bridge transaction failed");
+        }else return bridgeTx
+      } else {
+        const bridgeTx = loopsoContractOnSrc.bridgeTokens(
+          tokenAddress,
+          convertedAmount,
+          dstChain,
+          dstAddress
+        );  
+        if (!bridgeTx) {
+          throw new Error("Bridge transaction failed");
+        }else return bridgeTx
       }
-      return bridgeTx;
+      
+    
+
     }else return null
 	
 
@@ -107,6 +128,11 @@ const SwapWidget = () => {
 
   const [{ wallet }] = useConnectWallet();
   useEffect(() => {
+
+    const showFee  =async ()=>{
+      //const _fee = await getFee(contractAddressDst, signer, true) //TODO: show on the frontend the fee
+      //setFee(_fee)
+    }
     if (wrappedTokensReleased?.to) {
       setShowSuccessfull(
         "Success, your tokens have been bridged and released!"
@@ -125,6 +151,8 @@ const SwapWidget = () => {
       })
     }
   }, [txHash, wrappedTokensReleased]);
+
+  console.log(selectedSourceToken , 'source token?')
 
   const handleSubmitAndBridge = async () => {
     //TODO: how to handle if the source network is from Lukso UP wallet?
