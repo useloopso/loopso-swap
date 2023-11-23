@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@erc725/erc725.js": "^0.21.2",
     "@ffmpeg/core": "^0.12.4",
     "@ffmpeg/ffmpeg": "^0.12.7",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.2",
+    "@lukso/eip191-signer.js": "^0.2.2",
     "@lukso/lsp-smart-contracts": "^0.12.1",
     "@lukso/web3-onboard-config": "^1.0.3",
     "@moralisweb3/common-evm-utils": "^2.23.2",
@@ -72,8 +74,8 @@
     "three": "^0.158.0",
     "typescript": "^5.2.2"
   },
-  "engines" : { 
-    "npm" : ">=9.6.7",
-    "node" : ">=18.17.1"
+  "engines": {
+    "npm": ">=9.6.7",
+    "node": ">=18.17.1"
   }
 }

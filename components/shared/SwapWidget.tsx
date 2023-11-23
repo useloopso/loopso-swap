@@ -22,7 +22,7 @@ import {
 import SelectSourceChainModal from "../modal/SelectSourceChainModal";
 import SelectDestinationChainModal from "../modal/SelectDestinationChainModal";
 import { Network, Token } from "@/lib/types";
-import { useConnectWallet } from "@web3-onboard/react";
+import { useConnectWallet, useWallets } from "@web3-onboard/react";
 import { TransactionResponse, ethers } from "ethers";
 import { useWrappedTokensReleased } from "@/hooks/useWrappedTokensReleased";
 import { onboard } from "@/hooks/web3-onboard";
@@ -40,6 +40,9 @@ const SwapWidget = () => {
   const [amount, setAmount] = useState<string>("");
   const [txHash, setTxHash] = useState<string>("");
   const [showSuccessfull, setShowSuccessfull] = useState<string>("");
+
+  const connectedWallets = useWallets();
+  const [connectedWallet, setConnectedWallet] = useState(connectedWallets[0]);
 
   const { wrappedTokensReleased } = useWrappedTokensReleased(
     selectedDestinationChainNetwork?.chainId
@@ -63,8 +66,19 @@ const SwapWidget = () => {
       selectedSourceChainNetwork &&
       selectedDestinationChainNetwork
     ) {
-      const ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
-      const signer = await ethersProvider.getSigner();
+
+      let signer;
+
+      if (connectedWallet?.label === "Universal Profiles") {
+        const ethersProvider = new ethers.BrowserProvider(window.lukso);
+        signer = await ethersProvider.getSigner();
+      } else {
+        const ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
+        signer = await ethersProvider.getSigner();
+      }
+
+      console.log("SIGNER", signer)
+
       const _txHash = await bridgeTokens(
         selectedSourceChainNetwork.loopsoContractAddress,
         signer,
@@ -73,6 +87,7 @@ const SwapWidget = () => {
         wallet?.accounts[0].address,
         selectedDestinationChainNetwork.chainId
       );
+
       if (_txHash) {
         setTxHash(_txHash?.hash);
         onboard.state.actions.customNotification({
