@@ -72,13 +72,16 @@ async function bridgeNonFungibleTokens(
 	const loopsoContractOnSrc = await getLoopsoContractFromContractAddr(contractAddressSrc, signer)
   console.log(dstChain, 'wats dstChain?')
   const contractAddressDst = await getContractAddressFromChainId(dstChain)
-
+  const dstChainProvider = await getProviderBasedOnChainId(dstChain)
+  const dstChainSigner = await dstChainProvider?.getSigner()
 
 	 const erc721Contract = new ethers.Contract(tokenAddress, ERC721_ABI, signer);
 	try {
 		const approved = await checkNftApproval(signer, erc721Contract, contractAddressSrc, tokenId)
-    if(approved && loopsoContractOnSrc && contractAddressDst){
-      const fee = await getFee(contractAddressDst, signer, true)
+    if(approved && loopsoContractOnSrc && contractAddressDst && dstChainSigner){
+    
+      const fee = await getFee(contractAddressDst,dstChainSigner, true)
+      console.log(fee, 'wats fee?')
       const isWrappedTokenInfo = await loopsoContractOnSrc.wrappedTokenInfo(tokenAddress)
       console.log(Object.values(isWrappedTokenInfo), 'is wrapped tokeninfo?', contractAddressDst, signer, false, 'BÄÄÄ')
    
