@@ -14,7 +14,7 @@ export function useWrappedNonFungibleTokensReleased(dstChainId: number | undefin
   // Set up the event listener
   const loopsoListener = (amount: any, to: any, attestationId: any) => {
     setWrappedNonFungibleTokensReleased({ to, amount, attestationId });
-    console.log(to, amount, attestationId, "bääää");
+    console.log(to, amount, attestationId, "Event fired! Wrapped Non Fungible Tokens Released");
   };
 
   useEffect(() => {

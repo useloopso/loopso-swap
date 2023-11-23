@@ -33,6 +33,7 @@ import { useConnectWallet, useWallets } from "@web3-onboard/react";
 import { TransactionResponse, ethers } from "ethers";
 import { useWrappedTokensReleased } from "@/hooks/useWrappedTokensReleased";
 import { onboard } from "@/hooks/web3-onboard";
+import { useTokensReleased } from "@/hooks/useReleasedTokens";
 
 
 function getAttestationIDHash(wrappedTokenAddr: string, dstChainId: number): string {
@@ -119,42 +120,24 @@ const SwapWidget = () => {
 
   const [amount, setAmount] = useState<string>("");
   const [txHash, setTxHash] = useState<string>("");
-  const [showSuccessfull, setShowSuccessfull] = useState<string>("");
-
   const connectedWallets = useWallets();
   const [connectedWallet, setConnectedWallet] = useState(connectedWallets[0]);
-
   const { wrappedTokensReleased } = useWrappedTokensReleased(
+    selectedDestinationChainNetwork?.chainId
+  );
+  const { tokensReleased } = useTokensReleased(
     selectedDestinationChainNetwork?.chainId
   );
 
   const [{ wallet }] = useConnectWallet();
-  useEffect(() => {
 
+  useEffect(() => {
     const showFee  =async ()=>{
       //const _fee = await getFee(contractAddressDst, signer, true) //TODO: show on the frontend the fee
       //setFee(_fee)
     }
-    if (wrappedTokensReleased?.to) {
-      setShowSuccessfull(
-        "Success, your tokens have been bridged and released!"
-      );
-      onboard.state.actions.customNotification({
-        eventCode: 'txConfirmed',
-        type: 'hint',
-        message: '👉🏼 Click here to view your transaction.',
-        autoDismiss: 100000,
-        onClick: () => {
-          //TODO: scale this, create a helper function to find explorers based on chainId
-          if(selectedDestinationChainNetwork?.chainId === 4201) {
-            window.open(`https://explorer.execution.testnet.lukso.network/address/${wrappedTokensReleased?.to}?tab=token_transfers`)
-          } 
-        }
-      })
-    }
-  }, [txHash, wrappedTokensReleased]);
+  }, [txHash, wrappedTokensReleased, tokensReleased]);
 
-  console.log(selectedSourceToken , 'source token?')
 
   const handleSubmitAndBridge = async () => {
     //TODO: how to handle if the source network is from Lukso UP wallet?
@@ -304,12 +287,7 @@ const SwapWidget = () => {
             Swap
           </Button>
         </div>
-        <div className="items-center justify-center flex-col">
-          Transaction hash:{txHash}
-          <br></br>
-          <br></br>
-          Success: {showSuccessfull}
-        </div>
+    
       </motion.div>
     </motion.div>
   );

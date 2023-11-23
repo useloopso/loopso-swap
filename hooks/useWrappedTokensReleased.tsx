@@ -7,6 +7,7 @@ import {
   getLoopsoContractFromChainId,
 } from "loopso-bridge-sdk";
 import { useEffect, useState } from "react";
+import { onboard } from "./web3-onboard";
 
 export function useWrappedTokensReleased(dstChainId: number | undefined) {
   const [wrappedTokensReleased, setWrappedTokensReleased] = useState<
@@ -17,6 +18,18 @@ export function useWrappedTokensReleased(dstChainId: number | undefined) {
   const loopsoListener = (amount: any, to: any, attestationId: any) => {
     setWrappedTokensReleased({ to, amount, attestationId });
     console.log(to, amount, attestationId, "bääää");
+    onboard.state.actions.customNotification({
+      eventCode: 'txConfirmed',
+      type: 'hint',
+      message: '👉🏼 Click here to view your transaction.',
+      autoDismiss: 100000,
+      onClick: () => {
+        //TODO: scale this, create a helper function to find explorers based on chainId
+        if(dstChainId === 4201) {
+          window.open(`https://explorer.execution.testnet.lukso.network/address/${wrappedTokensReleased?.to}?tab=token_transfers`)
+        } 
+      }
+    })
   };
 
   useEffect(() => {
