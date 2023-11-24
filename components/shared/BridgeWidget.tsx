@@ -281,7 +281,13 @@ const BridgeWidget = () => {
         <div className="h-2"></div>
         <SelectBridgeSourceChainModal selectedNetwork={selectedSrcNetwork} setSelectedNetwork={setSelectedSrcNetwork}/>
         <div className="h-4"></div>
-          {showNftList ? <LspList selectedNft={selectedNft} setSelectedNft={setSelectedNft}/> : <NftList selectedNft={selectedNft} setSelectedNft={setSelectedNft}/>}
+        {selectedSrcNetwork ? (
+          showNftList ? (
+            <LspList selectedNft={selectedNft} setSelectedNft={setSelectedNft} />
+          ) : (
+            <NftList selectedNft={selectedNft} setSelectedNft={setSelectedNft} />
+          )
+        ) : null}
           <div className="h-2"></div>
           <div className='items-center justify-center flex'>
             <MoveDown className='bg-[#E1E1FF]/50 rounded-3xl p-2 h-9 w-9' />
