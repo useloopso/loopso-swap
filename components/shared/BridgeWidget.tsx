@@ -12,7 +12,7 @@ import LspList from '../lists/LspList'
 import { networkList } from '@/constants'
 import { fadeIn, staggerContainer } from '@/utils/motion'
 import { motion } from 'framer-motion'
-import { ADDRESSES, ERC721_ABI,  LOOPSO_ABI,  getLoopsoContractFromChainId, getLoopsoContractFromContractAddr } from 'loopso-bridge-sdk'
+import { ADDRESSES, ERC721_ABI,  LOOPSO_ABI,  getAttestationIDHash,  getLoopsoContractFromChainId, getLoopsoContractFromContractAddr, getWrappedTokenInfo } from 'loopso-bridge-sdk'
 import {  TransactionResponse, ethers } from 'ethers'
 import { Network } from '@/lib/types'
 import { getProviderBasedOnChainId } from '@/lib/utils'
@@ -70,19 +70,42 @@ async function bridgeNonFungibleTokens(
 ): Promise<any | null> {
 
 	const loopsoContractOnSrc = await getLoopsoContractFromContractAddr(contractAddressSrc, signer)
-  console.log(dstChain, 'wats dstChain?')
   const contractAddressDst = await getContractAddressFromChainId(dstChain)
   const dstChainProvider = await getProviderBasedOnChainId(dstChain)
-  const dstChainSigner = await dstChainProvider?.getSigner()
 
 	 const erc721Contract = new ethers.Contract(tokenAddress, ERC721_ABI, signer);
 	try {
 		const approved = await checkNftApproval(signer, erc721Contract, contractAddressSrc, tokenId)
-    if(approved && loopsoContractOnSrc && contractAddressDst && dstChainSigner){
-    
-      const fee = await getFee(contractAddressDst,dstChainSigner, true)
-      console.log(fee, 'wats fee?')
-      const isWrappedTokenInfo = await loopsoContractOnSrc.wrappedTokenInfo(tokenAddress)
+    if(approved && loopsoContractOnSrc && contractAddressDst &&  dstChainProvider){
+      //const dstChainSigner = await dstChainProvider.getSigner()
+      //console.log(dstChainSigner, 'dst chain signer?')
+
+      //const fee = await getFee(contractAddressDst, dstChainSigner, true)
+      //console.log(fee, 'wats fee?')
+      const isWrappedTokenInfo = await getWrappedTokenInfo(contractAddressSrc, signer, tokenAddress)
+			const attestationId = getAttestationIDHash(isWrappedTokenInfo.tokenAddress, isWrappedTokenInfo.srcChain)
+			if (isWrappedTokenInfo.name) {
+        const bridgeTx = await loopsoContractOnSrc.bridgeNonFungibleTokensBack( tokenId, dstAddress, attestationId);
+				if (!bridgeTx) {
+					throw new Error("Bridge transaction failed");
+				} else return bridgeTx
+			} else {
+        console.log('SHOULD COME HERE')
+        const bridgeTx = await loopsoContractOnSrc.bridgeNonFungibleTokens(tokenAddress, tokenId, tokenUri, dstChain, dstAddress, { value: 10 });
+
+        console.log(bridgeTx, 'BRIDGE TXXX')
+				if (!bridgeTx) {
+					throw new Error("Bridge transaction failed");
+				} else return bridgeTx
+			}
+		} else throw new Error("Missing fields to perform bridge" );
+	} catch (error) {
+		console.error("Error bridging tokens:", error);
+		return null;
+	}
+}
+
+     /*  const isWrappedTokenInfo = await loopsoContractOnSrc.wrappedTokenInfo(tokenAddress)
       console.log(Object.values(isWrappedTokenInfo), 'is wrapped tokeninfo?', contractAddressDst, signer, false, 'BÄÄÄ')
    
       const bridgeTx = await loopsoContractOnSrc.bridgeNonFungibleTokens(tokenAddress, tokenId, tokenUri, dstChain, dstAddress, { value: 10 });
@@ -100,7 +123,7 @@ async function bridgeNonFungibleTokens(
 		console.error("Error bridging tokens:", error);
 		return null; 
 	} 
-}
+} */
 
 
 function getContractAddressFromChainId(chainId: number): string | null {
@@ -163,6 +186,8 @@ const BridgeWidget = () => {
     selectedDstNetwork?.chainId
   );
 
+  console.log(selectedNft, 'SELECTED NFT ONCLICK')
+
   useEffect(() => {
     if (wrappedNonFungibleTokensReleased?.to) {
       setShowSuccessfull(
@@ -194,9 +219,8 @@ const BridgeWidget = () => {
         const signer = await ethersProvider.getSigner();
        
         const _txHash = await bridgeNonFungibleTokens(selectedSrcNetwork.loopsoContractAddress, signer, tokenAddress, wallet.accounts[0].address, selectedDstNetwork.chainId, Number(tokenId), tokenUri)
-        console.log(selectedSrcNetwork.loopsoContractAddress, signer, tokenAddress, wallet.accounts[0].address, selectedDstNetwork.chainId, Number(tokenId), tokenUri, 'DATAAAA SENT THRU')
         
-        console.log(txHash, 'txHash?')
+        console.log(txHash, 'txHash FROM MEEE?')
 
         if (_txHash) {
           onboard.state.actions.customNotification({
