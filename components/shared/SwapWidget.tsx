@@ -17,27 +17,25 @@ import {
 import SelectSourceChainModal from "../modal/SelectSourceChainModal";
 import SelectDestinationChainModal from "../modal/SelectDestinationChainModal";
 import { Network, Token } from "@/lib/types";
-import { useConnectWallet, useWallets } from "@web3-onboard/react";
+import { useConnectWallet } from "@web3-onboard/react";
 import {  ethers } from "ethers";
 import { useWrappedTokensReleased } from "@/hooks/useWrappedTokensReleased";
 import { onboard } from "@/hooks/web3-onboard";
 import { useTokensReleased } from "@/hooks/useReleasedTokens";
+import { useSameNetwork } from "@/hooks/useSameNetwork";
 
 
 const SwapWidget = () => {
-  const [selectedSourceChainNetwork, setSelectedSourceChainNetwork] = useState<
-    Network | undefined
-  >(undefined);
-  const [selectedDestinationChainNetwork, setSelectedDestinationChainNetwork] =
-    useState<Network | undefined>(undefined);
-  const [selectedSourceToken, setSelectedSourceToken] = useState<
-    Token | undefined
-  >(undefined);
+  const [selectedSourceChainNetwork, setSelectedSourceChainNetwork] = useState<Network | undefined>(undefined);
+  const [selectedDestinationChainNetwork, setSelectedDestinationChainNetwork] =useState<Network | undefined>(undefined);
+  const [selectedSourceToken, setSelectedSourceToken] = useState<Token | undefined>(undefined);
 
   const [amount, setAmount] = useState<string>("");
   const [txHash, setTxHash] = useState<string>("");
-  const connectedWallets = useWallets();
-  const [connectedWallet, setConnectedWallet] = useState(connectedWallets[0]);
+
+  const [{ wallet }] = useConnectWallet();
+  const [connectedWallet, setConnectedWallet] = useState(wallet);
+
   const { wrappedTokensReleased } = useWrappedTokensReleased(
     selectedDestinationChainNetwork?.chainId
   );
@@ -45,7 +43,12 @@ const SwapWidget = () => {
     selectedDestinationChainNetwork?.chainId
   );
 
-  const [{ wallet }] = useConnectWallet();
+  const handleSameNetwork = () => {
+    window.alert("Source and Destination networks should not be the same.");
+    setSelectedDestinationChainNetwork(undefined);
+  };
+
+  useSameNetwork(selectedSourceChainNetwork, selectedDestinationChainNetwork, handleSameNetwork);
 
   useEffect(() => {
     const showFee  =async ()=>{
