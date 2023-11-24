@@ -33,6 +33,9 @@ const SwapWidget = () => {
   const [amount, setAmount] = useState<string>("");
   const [txHash, setTxHash] = useState<string>("");
 
+  const receiveAmount = (parseFloat(amount) * 0.995).toFixed(2);
+  const fee = (parseFloat(amount) * 0.005).toFixed(2);
+
   const [{ wallet }] = useConnectWallet();
   const [connectedWallet, setConnectedWallet] = useState(wallet);
 
@@ -139,13 +142,29 @@ const SwapWidget = () => {
               type="number"
               className="placeholder:hover:text-[#85A0FF]/70"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => {
+                const inputValue = e.target.value.replace(/[^0-9.]/g, '');
+                if (
+                  selectedSourceChainNetwork &&
+                  selectedSourceToken &&
+                  selectedDestinationChainNetwork
+                ) {
+                  setAmount(inputValue);
+                }
+              }}
+              disabled={
+                !selectedSourceChainNetwork ||
+                !selectedSourceToken ||
+                !selectedDestinationChainNetwork
+              }
             />
-            <SelectTokenModal
-              network={selectedSourceChainNetwork}
-              selectedToken={selectedSourceToken}
-              setSelectedToken={setSelectedSourceToken}
-            />
+            <div className={selectedSourceChainNetwork ? '' : 'disabled-modal'}>
+              <SelectTokenModal
+                network={selectedSourceChainNetwork}
+                selectedToken={selectedSourceToken}
+                setSelectedToken={setSelectedSourceToken}
+              />
+            </div>
           </div>
         </div>
         <div className="h-2"></div>
@@ -156,10 +175,12 @@ const SwapWidget = () => {
         <div className="flex items-center gap-6 pl-2">
           <InfinityIcon />
           <p className="font-semibold text-sm">To</p>
-          <SelectDestinationChainModal
-            setSelectedNetwork={setSelectedDestinationChainNetwork}
-            selectedNetwork={selectedDestinationChainNetwork}
-          />
+          <div className={selectedSourceChainNetwork && selectedSourceToken ? '' : 'disabled-modal'}>
+            <SelectDestinationChainModal
+              setSelectedNetwork={setSelectedDestinationChainNetwork}
+              selectedNetwork={selectedDestinationChainNetwork}
+            />
+          </div>
         </div>
         <div className="h-4"></div>
         <div className="swap-content">
@@ -171,8 +192,7 @@ const SwapWidget = () => {
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>
-                    This amount is estimated based on the current bridge rate
-                    and fees.
+                    This amount is estimated based on the current bridge rate and fees.
                   </p>
                 </TooltipContent>
               </Tooltip>
@@ -181,12 +201,15 @@ const SwapWidget = () => {
           </div>
           <div className="flex items-center pt-3">
             <Input
-              value={amount}
+              value={receiveAmount}
               placeholder="0.00"
               type="number"
               disabled={true}
             />
           </div>
+          {amount ? 
+          <p className="text-xs pt-2 ml-1"><span className='font-semibold'>Bridge Fee:&nbsp;</span>{fee}</p>
+          : null }
         </div>
         <div className="h-4"></div>
         <div className="items-center justify-center flex">

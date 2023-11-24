@@ -289,3 +289,8 @@
   background: #65c4fa;
   filter: blur(150px);
 }
+
+.disabled-modal {
+  pointer-events: none; 
+  opacity: 0.6; 
+}
