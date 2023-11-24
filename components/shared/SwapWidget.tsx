@@ -42,6 +42,7 @@ const SwapWidget = () => {
   const { wrappedTokensReleased } = useWrappedTokensReleased(
     selectedDestinationChainNetwork?.chainId
   );
+
   const { tokensReleased } = useTokensReleased(
     selectedDestinationChainNetwork?.chainId
   );
@@ -59,7 +60,6 @@ const SwapWidget = () => {
       //setFee(_fee)
     }
   }, [txHash, wrappedTokensReleased, tokensReleased]);
-
 
   const handleSubmitAndBridge = async () => {
     //TODO: how to handle if the source network is from Lukso UP wallet?
@@ -229,7 +229,6 @@ const SwapWidget = () => {
             Swap
           </Button>
         </div>
-    
       </motion.div>
     </motion.div>
   );
