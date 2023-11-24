@@ -165,7 +165,7 @@ const BridgeWidget = () => {
   const [selectedSrcNetwork, setSelectedSrcNetwork] = useState<Network | undefined>(undefined);
   const [selectedDstNetwork, setSelectedDstNetwork] = useState<Network | undefined>(undefined);
   const [txHash, setTxHash] = useState<string>("");
-  const [fee, setFee] = useState<number | null>(null);
+  const [fee, setFee] = useState<string | null>(null);
 
   let isBridgeDisabled = !selectedDstNetwork?.chainId || !selectedSrcNetwork?.chainId || !selectedNft?.tokenId
   const [showSuccessfull, setShowSuccessfull] = useState<string>("");
@@ -189,12 +189,14 @@ const BridgeWidget = () => {
 
     const showFee = async ()=>{
       if(selectedDstNetwork && wallet && !fee){
+
         const dstContractAddress = getContractAddressFromChainId(selectedDstNetwork.chainId)
         let isOnLukso = connectedWallet?.label === "Universal Profiles"
         const ethersProvider = new ethers.BrowserProvider(isOnLukso ? window.lukso : wallet.provider);
         const signer = await ethersProvider.getSigner();
         if(dstContractAddress){
-          const _fee = await getFee(dstContractAddress, signer, true)
+          const _fee =  (await getFee(dstContractAddress, signer, false)).toString()
+         
           setFee(_fee)
         }
       }
@@ -203,7 +205,7 @@ const BridgeWidget = () => {
 
     showFee();
     showList();
-  }, [connectedWallets, fee]);
+  }, [connectedWallets, fee, selectedDstNetwork, wallet]);
 
   const { wrappedNonFungibleTokensReleased   } = useWrappedNonFungibleTokensReleased(
     selectedDstNetwork?.chainId
@@ -312,7 +314,7 @@ const BridgeWidget = () => {
           {fee ? 
           <p className="text-xs pt-2 ml-1">
             <span className='font-semibold'>Bridge Fee:&nbsp;</span>
-            {fee}
+            {ethers.formatEther(fee)} ETH
           </p>
           : null }
           <div className='flex items-center gap-6 pl-2'>
