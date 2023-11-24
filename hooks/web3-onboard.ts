@@ -31,7 +31,7 @@ export const chains = [
     id: 4201,
     token: 'LYXt',
     label: 'Lukso Testnet',
-    rpcUrl: "https://rpc.testnet.lukso.network",
+    rpcUrl: "https://rpc.testnet.lukso.gateway.fm",
   },
   {
     id: 5,
@@ -103,7 +103,7 @@ const accountCenter: AccountCenterOptions = {
 const notify: Notify = {
   enabled: true,
   transactionHandler: transaction => {
-    console.log('Transaction Details:',{ transaction })
+    console.log('Transaction Details:', { transaction })
     if (transaction.eventCode === 'txRequest') {
       return {
         type: 'pending',

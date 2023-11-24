@@ -28,7 +28,6 @@ const NftList = (props: NftListProps) => {
     "⬆️ Retrieve NFTs from selected network ⬆️"
   );
 
-  console.log(selectedNft, "SELECTED NFT IS?");
 
   const goerliTestnetChainId = networkList.find(
     (network) => network.network === "Goerli Testnet"
@@ -49,7 +48,6 @@ const NftList = (props: NftListProps) => {
 
   useEffect(() => {
     const initMoralis = async () => {
-      console.log(process.env.NEXT_PUBLIC_MORALIS_API_KEY, "I API KEY");
 
       try {
         if (Moralis.Core.isStarted) {

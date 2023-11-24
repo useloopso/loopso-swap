@@ -12,18 +12,16 @@ import LspList from '../lists/LspList'
 import { networkList } from '@/constants'
 import { fadeIn, staggerContainer } from '@/utils/motion'
 import { motion } from 'framer-motion'
-import { ERC721_ABI, checkAllowance, getLoopsoContractFromChainId, getLoopsoContractFromContractAddr } from 'loopso-bridge-sdk'
+import { ADDRESSES, ERC721_ABI,  LOOPSO_ABI,  getAttestationIDHash,  getLoopsoContractFromChainId, getLoopsoContractFromContractAddr, getWrappedTokenInfo } from 'loopso-bridge-sdk'
 import {  TransactionResponse, ethers } from 'ethers'
 import { Network } from '@/lib/types'
 import { getProviderBasedOnChainId } from '@/lib/utils'
 import { onboard } from '@/hooks/web3-onboard'
+import { useWrappedNonFungibleTokensReleased } from '@/hooks/useWrappedNonFungibleTokensReleased'
 
 async function checkNftApproval(signer: ethers.Signer, erc721Contract: ethers.Contract, contractAddressSrc: string, tokenId: number): Promise<string | null> {
-  
-  console.log('GOT HRE???')
-  //const hasApproved = await erc721Contract.getApproved(tokenId)
+  const hasApproved = await erc721Contract.getApproved(tokenId)
   //if(hasApproved === await signer.getAddress())
-  //console.log(hasApproved, await signer.getAddress(), 'HAS APPRÖÖÖÖVVVED?')
   const approvalTx = await erc721Contract.approve(
 		contractAddressSrc,
 		tokenId
@@ -35,6 +33,32 @@ async function checkNftApproval(signer: ethers.Signer, erc721Contract: ethers.Co
 
 }
 
+const FEE_ABI = [
+	"function FEE_NON_FUNGIBLE() external view returns (uint256 memory)",
+	"function FEE_FUNGIBLE() external view returns (uint256 memory)",
+];
+
+async function getFee(
+	contractAddressDst: string,
+	signerOrProvider: ethers.Signer | ethers.JsonRpcProvider,
+	isFungible: boolean
+): Promise<number> {
+	const destLoopsoContract = new ethers.Contract(
+		contractAddressDst,
+		LOOPSO_ABI,
+		signerOrProvider
+	);
+
+	if (isFungible) {
+		const bpFee: number = await destLoopsoContract.FEE_FUNGIBLE();
+		const decimalFee = bpFee / 10000;
+		return decimalFee;
+	} else {
+		const etherFee: number = await destLoopsoContract.FEE_NON_FUNGIBLE();
+		return etherFee;
+	}
+}
+
 async function bridgeNonFungibleTokens(
 	contractAddressSrc: string,
 	signer: ethers.Signer,
@@ -43,29 +67,88 @@ async function bridgeNonFungibleTokens(
 	dstChain: number,
   tokenId: number,
   tokenUri: string,
-): Promise<TransactionResponse | null> {
+): Promise<any | null> {
 
 	const loopsoContractOnSrc = await getLoopsoContractFromContractAddr(contractAddressSrc, signer)
-	const erc721Contract = new ethers.Contract(tokenAddress, ERC721_ABI, signer);
-  console.log(erc721Contract, loopsoContractOnSrc)
+  const contractAddressDst = await getContractAddressFromChainId(dstChain)
+  const dstChainProvider = await getProviderBasedOnChainId(dstChain)
+
+	 const erc721Contract = new ethers.Contract(tokenAddress, ERC721_ABI, signer);
 	try {
 		const approved = await checkNftApproval(signer, erc721Contract, contractAddressSrc, tokenId)
-    console.log('NFT APPROVAL????', approved)
-    if(approved){
-      const bridgeTx = loopsoContractOnSrc?.bridgeNonFungibleTokens(tokenAddress, tokenId, tokenUri, dstChain, dstAddress);
+    if(approved && loopsoContractOnSrc && contractAddressDst &&  dstChainProvider){
+      //const dstChainSigner = await dstChainProvider.getSigner()
+      //console.log(dstChainSigner, 'dst chain signer?')
+
+      //const fee = await getFee(contractAddressDst, dstChainSigner, true)
+      //console.log(fee, 'wats fee?')
+      const isWrappedTokenInfo = await getWrappedTokenInfo(contractAddressSrc, signer, tokenAddress)
+			const attestationId = getAttestationIDHash(isWrappedTokenInfo.tokenAddress, isWrappedTokenInfo.srcChain)
+			if (isWrappedTokenInfo.name) {
+        const bridgeTx = await loopsoContractOnSrc.bridgeNonFungibleTokensBack( tokenId, dstAddress, attestationId);
+				if (!bridgeTx) {
+					throw new Error("Bridge transaction failed");
+				} else return bridgeTx
+			} else {
+        console.log('SHOULD COME HERE')
+        const bridgeTx = await loopsoContractOnSrc.bridgeNonFungibleTokens(tokenAddress, tokenId, tokenUri, dstChain, dstAddress, { value: 10 });
+
+        console.log(bridgeTx, 'BRIDGE TXXX')
+				if (!bridgeTx) {
+					throw new Error("Bridge transaction failed");
+				} else return bridgeTx
+			}
+		} else throw new Error("Missing fields to perform bridge" );
+	} catch (error) {
+		console.error("Error bridging tokens:", error);
+		return null;
+	}
+}
+
+     /*  const isWrappedTokenInfo = await loopsoContractOnSrc.wrappedTokenInfo(tokenAddress)
+      console.log(Object.values(isWrappedTokenInfo), 'is wrapped tokeninfo?', contractAddressDst, signer, false, 'BÄÄÄ')
+   
+      const bridgeTx = await loopsoContractOnSrc.bridgeNonFungibleTokens(tokenAddress, tokenId, tokenUri, dstChain, dstAddress, { value: 10 });
+
+
       if (!bridgeTx) {
         throw new Error("Bridge transaction failed");
       }
-      return bridgeTx;
+      return bridgeTx; 
     }else{
       throw new Error("Approval failed");
     }
 
 	} catch (error) {
 		console.error("Error bridging tokens:", error);
+		return null; 
+	} 
+} */
+
+
+function getContractAddressFromChainId(chainId: number): string | null {
+	let contractAddress: string | null = null;
+
+	switch (chainId) {
+		case 4201:
+			contractAddress = ADDRESSES.LOOPSO_LUKSO_CONTRACT_ADDRESS;
+			break;
+		case 80001:
+			contractAddress = ADDRESSES.LOOPSO_MUMBAI_CONTRACT_ADDRESS;
+			break;
+		// TODO: add more cases as you deploy on more chains
+		default:
+			// return null if no matching case
+			break;
+	}
+
+	if (contractAddress) {
+		return contractAddress;
+	} else {
 		return null;
 	}
 }
+
 
 export interface SelectedNft {
   tokenId: string
@@ -78,25 +161,19 @@ const BridgeWidget = () => {
   const connectedWallets = useWallets();
   const [connectedWallet, setConnectedWallet] = useState(connectedWallets[0]);
   const [selectedNft, setSelectedNft] = useState<SelectedNft | null>(null);
-  const [selectedSrcNetwork, setSelectedSrcNetwork] = useState<Network | undefined>(
-    undefined
-  );
-  const [selectedDstNetwork, setSelectedDstNetwork] = useState<Network | undefined>(
-    undefined
-  );
+  const [selectedSrcNetwork, setSelectedSrcNetwork] = useState<Network | undefined>(undefined);
+  const [selectedDstNetwork, setSelectedDstNetwork] = useState<Network | undefined>(undefined);
   const [txHash, setTxHash] = useState<string>("");
 
   let isBridgeDisabled = !selectedDstNetwork?.chainId || !selectedSrcNetwork?.chainId || !selectedNft?.tokenId
+  const [showSuccessfull, setShowSuccessfull] = useState<string>("");
   const [{ wallet }] = useConnectWallet();
-
-
 
 
   useEffect(() => {
     const showList = async () => {
       const luksoTestnetChainId = networkList.find((network) => network.network === 'Lukso Testnet')?.chainId;
       const luksoMainnetChainId = networkList.find((network) => network.network === 'Lukso Mainnet')?.chainId;
-
       const isLuksoChain = connectedWallets.some(e => e.chains[0].id === `0x${luksoTestnetChainId?.toString(16)}` || e.chains[0].id === `0x${luksoMainnetChainId?.toString(16)}`);
 
       setShowNftList(isLuksoChain);
@@ -105,30 +182,49 @@ const BridgeWidget = () => {
     showList();
   }, [connectedWallets]);
 
-  console.log(selectedSrcNetwork, 'selectedSrcNetwork', selectedDstNetwork, 'SELECTED NFTTT', selectedNft)
+  const { wrappedNonFungibleTokensReleased   } = useWrappedNonFungibleTokensReleased(
+    selectedDstNetwork?.chainId
+  );
+
+  console.log(selectedNft, 'SELECTED NFT ONCLICK')
+
+  useEffect(() => {
+    if (wrappedNonFungibleTokensReleased?.to) {
+      setShowSuccessfull(
+        "Success, your NFT tokens have been bridged and released!"
+      );
+      onboard.state.actions.customNotification({
+        eventCode: 'txConfirmed',
+        type: 'hint',
+        message: '👉🏼 Click here to view your transaction.',
+        autoDismiss: 100000,
+        onClick: () => {
+          //TODO: scale this, create a helper function to find explorers based on chainId
+          if(selectedDstNetwork?.chainId === 4201) {
+            window.open(`https://explorer.execution.testnet.lukso.network/tx/${_txHash?.hash}`)
+          } 
+        }
+      }); 
+    }
+  }, [txHash, wrappedNonFungibleTokensReleased]);
+  
+
 
   const handleBridgeClick = async () =>{
     if(selectedNft && selectedSrcNetwork && selectedDstNetwork && wallet){
       const {tokenId , tokenAddress, tokenUri} = selectedNft
       if(tokenId && tokenAddress && tokenUri){
-
-        let signer;
-
-        if (connectedWallet?.label === "Universal Profiles") {
-          const ethersProvider = new ethers.BrowserProvider(window.lukso);
-          signer = await ethersProvider.getSigner();
-        } else {
-          const ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
-          signer = await ethersProvider.getSigner();
-        }
-
+        let isOnLukso = connectedWallet?.label === "Universal Profiles"
+        const ethersProvider = new ethers.BrowserProvider(isOnLukso ? window.lukso : wallet.provider);
+        const signer = await ethersProvider.getSigner();
+       
         const _txHash = await bridgeNonFungibleTokens(selectedSrcNetwork.loopsoContractAddress, signer, tokenAddress, wallet.accounts[0].address, selectedDstNetwork.chainId, Number(tokenId), tokenUri)
-        console.log(txHash, 'txHash?')
+        
+        console.log(txHash, 'txHash FROM MEEE?')
 
         if (_txHash) {
-          setTxHash(_txHash.hash);
           onboard.state.actions.customNotification({
-            eventCode: 'txConfirmed',
+            eventCode: 'txPool',
             type: 'hint',
             message: '👉🏼 Click here to view your transaction.',
             autoDismiss: 100000,
@@ -139,9 +235,7 @@ const BridgeWidget = () => {
               } 
             }
           })
-          console.log(txHash, "TXHASH");
         } else {
-          setTxHash("ERROR: No tx hash");
           onboard.state.actions.customNotification({
             eventCode: 'txError',
             type: 'error',
@@ -201,7 +295,7 @@ const BridgeWidget = () => {
           </Button>
         </div>
         <div className="items-center justify-center flex-col">
-          Transaction hash:{txHash}
+          Transaction hash:{txHash} {showSuccessfull}
           <br></br>
           <br></br>
         </div>

@@ -4,12 +4,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "@/utils/motion";
 import { BadgeInfo, InfinityIcon, MoveDown, Repeat2 } from "lucide-react";
-import {
-  ADDRESSES,
-  ERC20_ABI,
-  LOOPSO_ABI,
-  bridgeTokens,
-} from "loopso-bridge-sdk";
+import { bridgeTokens} from "loopso-bridge-sdk";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SelectTokenModal from "../modal/SelectTokenModal";
@@ -23,9 +18,11 @@ import SelectSourceChainModal from "../modal/SelectSourceChainModal";
 import SelectDestinationChainModal from "../modal/SelectDestinationChainModal";
 import { Network, Token } from "@/lib/types";
 import { useConnectWallet, useWallets } from "@web3-onboard/react";
-import { TransactionResponse, ethers } from "ethers";
+import {  ethers } from "ethers";
 import { useWrappedTokensReleased } from "@/hooks/useWrappedTokensReleased";
 import { onboard } from "@/hooks/web3-onboard";
+import { useTokensReleased } from "@/hooks/useReleasedTokens";
+
 
 const SwapWidget = () => {
   const [selectedSourceChainNetwork, setSelectedSourceChainNetwork] = useState<
@@ -39,24 +36,24 @@ const SwapWidget = () => {
 
   const [amount, setAmount] = useState<string>("");
   const [txHash, setTxHash] = useState<string>("");
-  const [showSuccessfull, setShowSuccessfull] = useState<string>("");
-
   const connectedWallets = useWallets();
   const [connectedWallet, setConnectedWallet] = useState(connectedWallets[0]);
-
   const { wrappedTokensReleased } = useWrappedTokensReleased(
     selectedDestinationChainNetwork?.chainId
   );
-  console.log(process.env.NEXT_PUBLIC_MORALIS_API_KEY, "I API KEY");
+  const { tokensReleased } = useTokensReleased(
+    selectedDestinationChainNetwork?.chainId
+  );
 
   const [{ wallet }] = useConnectWallet();
+
   useEffect(() => {
-    if (wrappedTokensReleased?.to) {
-      setShowSuccessfull(
-        "Success, your tokens have been bridged and released!"
-      );
+    const showFee  =async ()=>{
+      //const _fee = await getFee(contractAddressDst, signer, true) //TODO: show on the frontend the fee
+      //setFee(_fee)
     }
-  }, [txHash, wrappedTokensReleased]);
+  }, [txHash, wrappedTokensReleased, tokensReleased]);
+
 
   const handleSubmitAndBridge = async () => {
     //TODO: how to handle if the source network is from Lukso UP wallet?
@@ -66,19 +63,10 @@ const SwapWidget = () => {
       selectedSourceChainNetwork &&
       selectedDestinationChainNetwork
     ) {
-
-      let signer;
-
-      if (connectedWallet?.label === "Universal Profiles") {
-        const ethersProvider = new ethers.BrowserProvider(window.lukso);
-        signer = await ethersProvider.getSigner();
-      } else {
-        const ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
-        signer = await ethersProvider.getSigner();
-      }
-
-      console.log("SIGNER", signer)
-
+      let isOnLukso = connectedWallet?.label === "Universal Profiles"
+      const ethersProvider = new ethers.BrowserProvider(isOnLukso ? window.lukso : wallet.provider);
+      const signer = await ethersProvider.getSigner();
+     
       const _txHash = await bridgeTokens(
         selectedSourceChainNetwork.loopsoContractAddress,
         signer,
@@ -87,11 +75,10 @@ const SwapWidget = () => {
         wallet?.accounts[0].address,
         selectedDestinationChainNetwork.chainId
       );
-
       if (_txHash) {
         setTxHash(_txHash?.hash);
         onboard.state.actions.customNotification({
-          eventCode: 'txConfirmed',
+          eventCode: 'txPool',
           type: 'hint',
           message: '👉🏼 Click here to view your transaction.',
           autoDismiss: 100000,
@@ -102,7 +89,6 @@ const SwapWidget = () => {
             } 
           }
         })
-        console.log(txHash, "TXHASH");
       } else {
         setTxHash("ERROR: No tx hash");
         onboard.state.actions.customNotification({
@@ -215,12 +201,7 @@ const SwapWidget = () => {
             Swap
           </Button>
         </div>
-        <div className="items-center justify-center flex-col">
-          Transaction hash:{txHash}
-          <br></br>
-          <br></br>
-          Success: {showSuccessfull}
-        </div>
+    
       </motion.div>
     </motion.div>
   );
