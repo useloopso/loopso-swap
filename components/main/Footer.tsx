@@ -31,7 +31,7 @@ const Footer = () => {
       <div className='2xl:max-w-[1280px] w-full mx-auto flex flex-col gap-8'>
         <div className='flex items-center justify-between flex-wrap gap-5'>
           <h4 className='font-bold md:text-[52px] text-[40px] text-white'>
-            Loops into the New Creative Economy
+            Loop into the New Creative Economy
           </h4>
           <Button className='h-11 pl-5 pr-5 font-semibold text-base gap-2' onClick={handleOnClick}>
             Launch App

@@ -36,14 +36,14 @@ const CodeBlock = () => {
                     Bi-directional <br/>
                 </span>
                 <span className='drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.5)]'>
-                    Bridge Protocol 🔗
+                    Bridge Protocol
                 </span>
             </>} 
             textStyles='' 
         />
         <div className="flex flex-wrap justify-between gap-[24px]">
-            <p className="text-[18px] text-white my-5 max-w-[600px] font-semibold drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.5)]">
-              🚀 Effortlessly bridge to 
+            <p className="text-[23px] text-white my-5 max-w-[600px] font-semibold drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.5)]">
+              Effortlessly bridge to 
               <span className='text-[#FE005B] uppercase'>
                 &nbsp;Lukso&nbsp;
               </span>
