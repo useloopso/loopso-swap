@@ -18,6 +18,7 @@ import { Network } from '@/lib/types'
 import { getProviderBasedOnChainId } from '@/lib/utils'
 import { onboard } from '@/hooks/web3-onboard'
 import { useWrappedNonFungibleTokensReleased } from '@/hooks/useWrappedNonFungibleTokensReleased'
+import { useSameNetwork } from '@/hooks/useSameNetwork'
 
 async function checkNftApproval(signer: ethers.Signer, erc721Contract: ethers.Contract, contractAddressSrc: string, tokenId: number): Promise<string | null> {
   const hasApproved = await erc721Contract.getApproved(tokenId)
@@ -169,6 +170,12 @@ const BridgeWidget = () => {
   const [showSuccessfull, setShowSuccessfull] = useState<string>("");
   const [{ wallet }] = useConnectWallet();
 
+  const handleSameNetwork = () => {
+    window.alert("Source and Destination networks should not be the same.");
+    setSelectedDstNetwork(undefined);
+  };
+
+  useSameNetwork(selectedSrcNetwork, selectedDstNetwork, handleSameNetwork);
 
   useEffect(() => {
     const showList = async () => {
@@ -285,7 +292,9 @@ const BridgeWidget = () => {
             <p className='font-semibold text-sm'>Choose Destination Chain</p>
           </div>
           <div className="h-2"></div>
-          <SelectBridgeDestinationChainModal  selectedNetwork={selectedDstNetwork} setSelectedNetwork={setSelectedDstNetwork}/>
+          <div className={selectedSrcNetwork ? '' : 'disabled-modal'}>
+           <SelectBridgeDestinationChainModal  selectedNetwork={selectedDstNetwork} setSelectedNetwork={setSelectedDstNetwork}/>
+          </div>
           <div className="h-4"></div>
         <div className="h-4"></div>
         <div className='items-center justify-center flex'>
