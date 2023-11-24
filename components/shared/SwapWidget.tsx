@@ -140,7 +140,6 @@ const SwapWidget = () => {
             <Input
               placeholder="0.00"
               type="number"
-              className="placeholder:hover:text-[#85A0FF]/70"
               value={amount}
               onChange={(e) => {
                 const inputValue = e.target.value.replace(/[^0-9.]/g, '');
@@ -208,7 +207,10 @@ const SwapWidget = () => {
             />
           </div>
           {amount ? 
-          <p className="text-xs pt-2 ml-1"><span className='font-semibold'>Bridge Fee:&nbsp;</span>{fee}</p>
+          <p className="text-xs pt-2 ml-1">
+            <span className='font-semibold'>Bridge Fee:&nbsp;</span>
+            {fee}
+          </p>
           : null }
         </div>
         <div className="h-4"></div>
