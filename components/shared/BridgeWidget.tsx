@@ -12,7 +12,7 @@ import LspList from '../lists/LspList'
 import { networkList } from '@/constants'
 import { fadeIn, staggerContainer } from '@/utils/motion'
 import { motion } from 'framer-motion'
-import { ADDRESSES, ERC721_ABI,  LOOPSO_ABI,  getAttestationIDHash,  getLoopsoContractFromChainId, getLoopsoContractFromContractAddr, getWrappedTokenInfo } from 'loopso-bridge-sdk'
+import { ADDRESSES, ERC721_ABI,  LOOPSO_ABI,  NftMetadata,  getAttestationIDHash,  getLoopsoContractFromChainId, getLoopsoContractFromContractAddr, getWrappedTokenInfo } from 'loopso-bridge-sdk'
 import {  TransactionResponse, ethers } from 'ethers'
 import { Network } from '@/lib/types'
 import { getProviderBasedOnChainId } from '@/lib/utils'
@@ -151,7 +151,7 @@ function getContractAddressFromChainId(chainId: number): string | null {
 }
 
 
-export interface SelectedNft {
+export interface SelectedNft extends NftMetadata {
   tokenId: string
   tokenUri: string
   tokenAddress: string
@@ -161,7 +161,7 @@ const BridgeWidget = () => {
   const [showNftList, setShowNftList] = useState(true);
   const connectedWallets = useWallets();
   const [connectedWallet, setConnectedWallet] = useState(connectedWallets[0]);
-  const [selectedNft, setSelectedNft] = useState<SelectedNft | null>(null);
+  const [selectedNft, setSelectedNft] = useState<SelectedNft  | null>(null);
   const [selectedSrcNetwork, setSelectedSrcNetwork] = useState<Network | undefined>(undefined);
   const [selectedDstNetwork, setSelectedDstNetwork] = useState<Network | undefined>(undefined);
   const [txHash, setTxHash] = useState<string>("");

@@ -19,6 +19,7 @@ const LspList = (props: LspListProps) => {
     const [lspCards, setLspCards] = useState<React.ReactNode[]>([]);
     const [defaultState, setDefaultState] = useState<string>("⬆️ Retrieve LSPs from selected network ⬆️");
 
+    console.log(selectedNft, 'SELECTED NFT')
     const {nfts, loadingNfts} = useGetLuksoNfts(inputValue)
     console.log(nfts, 'wats NFTSSS?')
 /*     const handleFetchNFTs = async () => {
@@ -93,10 +94,14 @@ const LspList = (props: LspListProps) => {
         </Button> */}
         <div className="h-4"></div>
         {nfts && !loadingNfts && nfts.map((nft, index) => (
-        <div key={index}>
-          TokenID: {nft.id}
+        <div onClick={() => setSelectedNft(nft)}key={index}>
+          <div style={selectedNft?.id === nft.id && selectedNft?.contractAddress === nft.contractAddress? {backgroundColor: "purple" }: {}}>
+          TokenID: {nft.id}<br></br>
           Nft Contract Address: {nft.contractAddress}
+       
+        
           <img width="50px" src={nft.metadata.image || placeholderImg} alt={`NFT ${nft.id}`} />
+          </div>
         </div>
          ))}  
         {lspCards.length === 0 ? (
