@@ -49,6 +49,7 @@
     "react-router-dom": "^6.18.0",
     "react-slick": "^0.29.0",
     "react-slideshow-image": "^4.3.0",
+    "react-spinners": "^0.13.8",
     "react-tilt": "^1.0.2",
     "siwe": "^2.1.4",
     "slick-carousel": "^1.8.1",

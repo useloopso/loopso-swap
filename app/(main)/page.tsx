@@ -12,10 +12,9 @@ const page = () => {
     <div className="overflow-hidden circles">
       <div className="gradient-03 z-0" />
       <Topbar />
-      <Hero />
+      <CodeBlock />
       <div className="relative">
-        <CodeBlock />
-        <div className="gradient-03 z-0" />
+        <Hero />
         <Features />
       </div>
       <div className="relative">

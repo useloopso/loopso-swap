@@ -30,21 +30,28 @@ const CodeBlock = () => {
         <TitleText title={
             <>
                 <span className="text-[#FDDCE8] drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.5)]">
-                    Seamless<br/>
+                    Cross-chain<br/>
                 </span>  
                 <span className="text-[#E1E1FF] drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.5)]">
-                    Multi-chain <br/>
+                    Bi-directional <br/>
                 </span>
                 <span className='drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.5)]'>
-                    Connectivity 🔗
+                    Bridge Protocol 🔗
                 </span>
             </>} 
             textStyles='' 
         />
         <div className="flex flex-wrap justify-between gap-[24px]">
             <p className="text-[18px] text-white my-5 max-w-[600px] font-semibold drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.5)]">
-            Bridge Tokens within 30 seconds only at&nbsp;
-            <span className='text-[#E1E1FF]'>LOOPSO 🤯</span>
+              🚀 Effortlessly bridge to 
+              <span className='text-[#FE005B] uppercase'>
+                &nbsp;Lukso&nbsp;
+              </span>
+              only at 
+              <span className='text-[#E1E1FF] uppercase'>
+                &nbsp;Loopso&nbsp;
+              </span>
+              🚀
             </p>
         </div>
       </motion.div>
