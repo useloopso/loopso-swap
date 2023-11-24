@@ -5,6 +5,8 @@ import { ArrowBigLeftDash, ArrowBigRightDash } from 'lucide-react';
 import LspCard from '../cards/LspCard';
 import { Input } from '../ui/input';
 import { SelectedNft } from '../shared/BridgeWidget';
+import useGetLuksoNfts from '@/hooks/useGetLuksoNfts';
+import { placeholderImg } from '@/constants';
 interface LspListProps {
 
   setSelectedNft: (selectedNft: SelectedNft) => void
@@ -17,7 +19,9 @@ const LspList = (props: LspListProps) => {
     const [lspCards, setLspCards] = useState<React.ReactNode[]>([]);
     const [defaultState, setDefaultState] = useState<string>("⬆️ Retrieve LSPs from selected network ⬆️");
 
-    const handleFetchNFTs = async () => {
+    const {nfts, loadingNfts} = useGetLuksoNfts(inputValue)
+    console.log(nfts, 'wats NFTSSS?')
+/*     const handleFetchNFTs = async () => {
       try {
         const results = await UniversalPageService.fetchLSPs(inputValue);
   
@@ -62,7 +66,7 @@ const LspList = (props: LspListProps) => {
         console.error('Error fetching NFTs:', error);
         setDefaultState("Error fetching NFTs");
       }
-    };
+    }; */
 
     const elementRef=useRef(null);
 
@@ -76,7 +80,7 @@ const LspList = (props: LspListProps) => {
   return (
     <div className='w-full'>
         <div className='flex items-center justify-center p-1'>
-          <p className='text-sm font-bold w-40'>Enter IPFS CID:</p>
+          <p className='text-sm font-bold w-40'>Search NFT by name:</p>
           <Input
             className='bg-[#E1E1FF] rounded-3xl p-2 text-sm'
             value={inputValue}
@@ -84,10 +88,17 @@ const LspList = (props: LspListProps) => {
           />
         </div>
         <div className="h-4"></div>
-        <Button onClick={handleFetchNFTs} className='w-full'>
+       {/*  <Button onClick={handleFetchNFTs} className='w-full'>
             Retrieve Assets
-        </Button>
+        </Button> */}
         <div className="h-4"></div>
+        {nfts && !loadingNfts && nfts.map((nft, index) => (
+        <div key={index}>
+          TokenID: {nft.id}
+          Nft Contract Address: {nft.contractAddress}
+          <img width="50px" src={nft.metadata.image || placeholderImg} alt={`NFT ${nft.id}`} />
+        </div>
+         ))}  
         {lspCards.length === 0 ? (
         <p className='flex items-center justify-center text-sm font-semibold'>{defaultState}</p>
       ) : (

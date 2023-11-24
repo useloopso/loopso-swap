@@ -212,3 +212,5 @@ export const integrations = [
         'Enable cross-chain swaps on your website seamlessly by integrating Loopso <Widget /> into your codebase. ❗️ COMING SOON ❗️',
   },
 ];
+
+export const placeholderImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/310px-Placeholder_view_vector.svg.png"

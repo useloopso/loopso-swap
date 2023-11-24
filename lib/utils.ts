@@ -18,3 +18,7 @@ export function getProviderBasedOnChainId(chainId: number): JsonRpcProvider | nu
   const ethersProvider = new ethers.JsonRpcProvider(selectedChain.rpcUrl);
   return ethersProvider;
 }
+
+
+
+
