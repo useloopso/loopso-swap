@@ -165,6 +165,7 @@ const BridgeWidget = () => {
   const [selectedSrcNetwork, setSelectedSrcNetwork] = useState<Network | undefined>(undefined);
   const [selectedDstNetwork, setSelectedDstNetwork] = useState<Network | undefined>(undefined);
   const [txHash, setTxHash] = useState<string>("");
+  const [fee, setFee] = useState<number | null>(null);
 
   let isBridgeDisabled = !selectedDstNetwork?.chainId || !selectedSrcNetwork?.chainId || !selectedNft?.tokenId
   const [showSuccessfull, setShowSuccessfull] = useState<string>("");
@@ -186,8 +187,23 @@ const BridgeWidget = () => {
       setShowNftList(isLuksoChain);
     };
 
+    const showFee = async ()=>{
+      if(selectedDstNetwork && wallet && !fee){
+        const dstContractAddress = getContractAddressFromChainId(selectedDstNetwork.chainId)
+        let isOnLukso = connectedWallet?.label === "Universal Profiles"
+        const ethersProvider = new ethers.BrowserProvider(isOnLukso ? window.lukso : wallet.provider);
+        const signer = await ethersProvider.getSigner();
+        if(dstContractAddress){
+          const _fee = await getFee(dstContractAddress, signer, true)
+          setFee(_fee)
+        }
+      }
+
+    }
+
+    showFee();
     showList();
-  }, [connectedWallets]);
+  }, [connectedWallets, fee]);
 
   const { wrappedNonFungibleTokensReleased   } = useWrappedNonFungibleTokensReleased(
     selectedDstNetwork?.chainId
@@ -293,6 +309,12 @@ const BridgeWidget = () => {
             <MoveDown className='bg-[#E1E1FF]/50 rounded-3xl p-2 h-9 w-9' />
           </div>
           <div className="h-2"></div>
+          {fee ? 
+          <p className="text-xs pt-2 ml-1">
+            <span className='font-semibold'>Bridge Fee:&nbsp;</span>
+            {fee}
+          </p>
+          : null }
           <div className='flex items-center gap-6 pl-2'>
             <InfinityIcon />
             <p className='font-semibold text-sm'>Choose Destination Chain</p>
@@ -309,11 +331,7 @@ const BridgeWidget = () => {
             Bridge
           </Button>
         </div>
-        <div className="items-center justify-center flex-col">
-          Transaction hash:{txHash} {showSuccessfull}
-          <br></br>
-          <br></br>
-        </div>
+     
       </motion.div>
     </motion.div>
   )

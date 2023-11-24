@@ -55,10 +55,7 @@ const SwapWidget = () => {
   useSameNetwork(selectedSourceChainNetwork, selectedDestinationChainNetwork, handleSameNetwork);
 
   useEffect(() => {
-    const showFee  =async ()=>{
-      //const _fee = await getFee(contractAddressDst, signer, true) //TODO: show on the frontend the fee
-      //setFee(_fee)
-    }
+
   }, [txHash, wrappedTokensReleased, tokensReleased]);
 
   const handleSubmitAndBridge = async () => {
