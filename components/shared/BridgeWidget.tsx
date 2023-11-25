@@ -12,7 +12,7 @@ import LspList from '../lists/LspList'
 import { networkList } from '@/constants'
 import { fadeIn, staggerContainer } from '@/utils/motion'
 import { motion } from 'framer-motion'
-import { ADDRESSES, ERC721_ABI,  LOOPSO_ABI,  NftMetadata,  getAttestationIDHash,  getLoopsoContractFromChainId, getLoopsoContractFromContractAddr, getWrappedTokenInfo } from 'loopso-bridge-sdk'
+import { ADDRESSES, ERC721_ABI,  LOOPSO_ABI,  NftMetadata,  checkNftApproval,  getAttestationIDHash,  getContractAddressFromChainId,  getLoopsoContractFromChainId, getLoopsoContractFromContractAddr, getWrappedTokenInfo } from 'loopso-bridge-sdk'
 import {  TransactionResponse, ethers } from 'ethers'
 import { Network } from '@/lib/types'
 import { getProviderBasedOnChainId } from '@/lib/utils'
@@ -22,44 +22,10 @@ import { useSameNetwork } from '@/hooks/useSameNetwork'
 import { toast } from 'sonner'
 import { getExplorerTransaction } from '@/helpers/getExplorerTransaction'
 
-async function checkNftApproval(signer: ethers.Signer, erc721Contract: ethers.Contract, contractAddressSrc: string, tokenId: number): Promise<string | null> {
-  const hasApproved = await erc721Contract.getApproved(tokenId)
-  //if(hasApproved === await signer.getAddress())
-  const approvalTx = await erc721Contract.approve(
-		contractAddressSrc,
-		tokenId
-	)
-  
-	if (approvalTx){
-    return approvalTx
-  }else return null
 
-}
 
-const FEE_ABI = [
-	"function FEE_NON_FUNGIBLE() external view returns (uint256 memory)",
-	"function FEE_FUNGIBLE() external view returns (uint256 memory)",
-];
 
-async function getFee(
-	contractAddressDst: string,
-	signerOrProvider: ethers.Signer | ethers.JsonRpcProvider,
-	isFungible: boolean
-): Promise<number> {
-	const destLoopsoContract = new ethers.Contract(
-		contractAddressDst,
-		LOOPSO_ABI,
-		signerOrProvider
-	);
 
-	if (isFungible) {
-		const bpFee: number = await destLoopsoContract.FEE_FUNGIBLE();
-		const decimalFee = bpFee / 10000;
-		return decimalFee;
-	} else {
-		const etherFee: number = await destLoopsoContract.FEE_NON_FUNGIBLE();
-		return etherFee;
-	}
 }
 
 async function bridgeNonFungibleTokens(
@@ -74,28 +40,22 @@ async function bridgeNonFungibleTokens(
 
 	const loopsoContractOnSrc = await getLoopsoContractFromContractAddr(contractAddressSrc, signer)
   const contractAddressDst = await getContractAddressFromChainId(dstChain)
-  const dstChainProvider = await getProviderBasedOnChainId(dstChain)
-
-	 const erc721Contract = new ethers.Contract(tokenAddress, ERC721_ABI, signer);
+	const erc721Contract = new ethers.Contract(tokenAddress, ERC721_ABI, signer);
 	try {
 		const approved = await checkNftApproval(signer, erc721Contract, contractAddressSrc, tokenId)
-    if(approved && loopsoContractOnSrc && contractAddressDst &&  dstChainProvider){
-      //const dstChainSigner = await dstChainProvider.getSigner()
-      //console.log(dstChainSigner, 'dst chain signer?')
-
-      //const fee = await getFee(contractAddressDst, dstChainSigner, true)
-      //console.log(fee, 'wats fee?')
+    if(approved && loopsoContractOnSrc && contractAddressDst ){
       const isWrappedTokenInfo = await getWrappedTokenInfo(contractAddressSrc, signer, tokenAddress)
 			const attestationId = getAttestationIDHash(isWrappedTokenInfo.tokenAddress, isWrappedTokenInfo.srcChain)
 			if (isWrappedTokenInfo.name) {
         const bridgeTx = await loopsoContractOnSrc.bridgeNonFungibleTokensBack( tokenId, dstAddress, attestationId);
+        await bridgeTx.wait()
 				if (!bridgeTx) {
 					throw new Error("Bridge transaction failed");
 				} else return bridgeTx
 			} else {
         console.log('SHOULD COME HERE')
-        const bridgeTx = await loopsoContractOnSrc.bridgeNonFungibleTokens(tokenAddress, tokenId, tokenUri, dstChain, dstAddress, { value: 10 });
-
+        const bridgeTx = await loopsoContractOnSrc.bridgeNonFungibleTokens(tokenAddress, tokenId, tokenUri, dstChain, dstAddress, { value: 0 });
+        await bridgeTx.wait()
         console.log(bridgeTx, 'BRIDGE TXXX')
 				if (!bridgeTx) {
 					throw new Error("Bridge transaction failed");
@@ -108,49 +68,6 @@ async function bridgeNonFungibleTokens(
 	}
 }
 
-     /*  const isWrappedTokenInfo = await loopsoContractOnSrc.wrappedTokenInfo(tokenAddress)
-      console.log(Object.values(isWrappedTokenInfo), 'is wrapped tokeninfo?', contractAddressDst, signer, false, 'BÄÄÄ')
-   
-      const bridgeTx = await loopsoContractOnSrc.bridgeNonFungibleTokens(tokenAddress, tokenId, tokenUri, dstChain, dstAddress, { value: 10 });
-
-
-      if (!bridgeTx) {
-        throw new Error("Bridge transaction failed");
-      }
-      return bridgeTx; 
-    }else{
-      throw new Error("Approval failed");
-    }
-
-	} catch (error) {
-		console.error("Error bridging tokens:", error);
-		return null; 
-	} 
-} */
-
-
-function getContractAddressFromChainId(chainId: number): string | null {
-	let contractAddress: string | null = null;
-
-	switch (chainId) {
-		case 4201:
-			contractAddress = ADDRESSES.LOOPSO_LUKSO_CONTRACT_ADDRESS;
-			break;
-		case 80001:
-			contractAddress = ADDRESSES.LOOPSO_MUMBAI_CONTRACT_ADDRESS;
-			break;
-		// TODO: add more cases as you deploy on more chains
-		default:
-			// return null if no matching case
-			break;
-	}
-
-	if (contractAddress) {
-		return contractAddress;
-	} else {
-		return null;
-	}
-}
 
 
 export interface SelectedNft extends NftMetadata {
@@ -190,18 +107,19 @@ const BridgeWidget = () => {
     };
 
     const showFee = async ()=>{
-      if(selectedDstNetwork && wallet && !fee){
+      if(selectedSrcNetwork && wallet && !fee){
 
-        const dstContractAddress = getContractAddressFromChainId(selectedDstNetwork.chainId)
+        const srcContractAddress = getContractAddressFromChainId(selectedSrcNetwork.chainId)
         let isOnLukso = connectedWallet?.label === "Universal Profiles"
         const ethersProvider = new ethers.BrowserProvider(isOnLukso ? window.lukso : wallet.provider);
-        const signer = await ethersProvider.getSigner();
-        if(dstContractAddress){
-          const _fee =  (await getFee(dstContractAddress, signer, false)).toString()
-         
+        //const ethersProvider =  await getProviderBasedOnChainId(selectedSrcNetwork.chainId)
+        const signer = await ethersProvider?.getSigner();
+        if(srcContractAddress && signer){
+          const _fee =  (await getFee(srcContractAddress, signer, false)).toString()
+         console.log(_fee, 'fee is what?')
           setFee(_fee)
         }
-      }
+      }  
 
     }
 
@@ -217,7 +135,7 @@ const BridgeWidget = () => {
     window.open(url, '_blank');
   };
 
-  console.log(selectedNft, 'SELECTED NFT ONCLICK')
+  console.log(selectedNft, 'SELECTED NFT ONCLICK & FEE:', fee)
 
   useEffect(() => {
     if (wrappedNonFungibleTokensReleased?.to) {
@@ -247,9 +165,11 @@ const BridgeWidget = () => {
       if(tokenId && tokenAddress && tokenUri){
         let isOnLukso = connectedWallet?.label === "Universal Profiles"
         const ethersProvider = new ethers.BrowserProvider(isOnLukso ? window.lukso : wallet.provider);
+        //const ethersProvider = new ethers.JsonRpcProvider("https://polygon-mumbai.g.alchemy.com/v2/PTRNa4vTm7SDejCyRGFP4q0HZMqYQui-")
         const signer = await ethersProvider.getSigner();
        
         const _txHash = await bridgeNonFungibleTokens(selectedSrcNetwork.loopsoContractAddress, signer, tokenAddress, wallet.accounts[0].address, selectedDstNetwork.chainId, Number(tokenId), tokenUri)
+        _txHash.wait()
         
         console.log(txHash, 'txHash FROM MEEE?')
 
