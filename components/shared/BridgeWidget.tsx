@@ -76,8 +76,8 @@ const BridgeWidget = () => {
   const connectedWallets = useWallets();
   const [connectedWallet, setConnectedWallet] = useState(connectedWallets[0]);
   const [selectedNft, setSelectedNft] = useState<SelectedNft  | null>(null);
-  const [selectedSrcNetwork, setSelectedSrcNetwork] = useState<Network | undefined>(undefined);
-  const [selectedDstNetwork, setSelectedDstNetwork] = useState<Network | undefined>(undefined);
+  const [selectedSrcNetwork, setSelectedSrcNetwork] = useState<any>(undefined);
+  const [selectedDstNetwork, setSelectedDstNetwork] = useState<any>(undefined);
   const [txHash, setTxHash] = useState<string>("");
   const [fee, setFee] = useState<string | null>(null);
 

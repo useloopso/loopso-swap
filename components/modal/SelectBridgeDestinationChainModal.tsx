@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { ChevronDown, X } from 'lucide-react';
 import useWeb3Onboard from '../apis/web3-onboard';
@@ -12,7 +12,7 @@ type Network = {
     img: string
 };
 interface SelectBridgeDestinationChainModalProps {
-    setSelectedNetwork: (network: Network | undefined) => void
+    setSelectedNetwork: any
     selectedNetwork: Network | undefined
   }
   

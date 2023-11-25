@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +16,7 @@ import { Network } from "@/lib/types";
 
 
 interface SelectBridgeSourceChainModalProps {
-  setSelectedNetwork: (network: Network | undefined) => void
+  setSelectedNetwork: any
   selectedNetwork: Network | undefined
 }
 

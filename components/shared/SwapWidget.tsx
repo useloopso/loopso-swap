@@ -27,7 +27,7 @@ import { getExplorerTransaction } from "@/helpers/getExplorerTransaction";
 
 const SwapWidget = () => {
   const [selectedSourceChainNetwork, setSelectedSourceChainNetwork] = useState<Network | undefined>(undefined);
-  const [selectedDestinationChainNetwork, setSelectedDestinationChainNetwork] =useState<Network | undefined>(undefined);
+  const [selectedDestinationChainNetwork, setSelectedDestinationChainNetwork] = useState<Network | undefined>(undefined);
   const [selectedSourceToken, setSelectedSourceToken] = useState<Token | undefined>(undefined);
 
   const [amount, setAmount] = useState<string>("");

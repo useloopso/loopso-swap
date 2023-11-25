@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -17,7 +17,7 @@ import { Network } from "@/lib/types";
 
 interface SelectSourceChainModalProps {
   selectedNetwork: Network | undefined;
-  setSelectedNetwork: (network: Network | undefined) => void;
+  setSelectedNetwork: any
 }
 
 const SelectSourceChainModal = (props: SelectSourceChainModalProps) => {
