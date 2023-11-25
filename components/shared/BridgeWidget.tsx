@@ -38,13 +38,16 @@ async function bridgeNonFungibleTokens(
 	const loopsoContractOnSrc = await getLoopsoContractFromContractAddr(contractAddressSrc, signer)
   const contractAddressDst = await getContractAddressFromChainId(dstChain)
 	const erc721Contract = new ethers.Contract(tokenAddress, ERC721_ABI, signer);
+  console.log('Inside bridge!')
 	try {
     console.log(erc721Contract, contractAddressSrc, tokenId, 'Defined')
 		const approved = await checkNftApproval(signer, erc721Contract, contractAddressSrc, tokenId)
     if(approved && loopsoContractOnSrc && contractAddressDst ){
       const isWrappedTokenInfo = await getWrappedTokenInfo(contractAddressSrc, signer, tokenAddress)
+      console.log(isWrappedTokenInfo, 'is wrapped token infO?')
 			const attestationId = getAttestationIDHash(isWrappedTokenInfo.tokenAddress, isWrappedTokenInfo.srcChain)
 			if (isWrappedTokenInfo.name) {
+        console.log('Should come here if wrapped')
         const bridgeTx = await loopsoContractOnSrc.bridgeNonFungibleTokensBack( tokenId, dstAddress, attestationId);
         await bridgeTx.wait()
 				if (!bridgeTx) {
@@ -161,8 +164,23 @@ const BridgeWidget = () => {
 
   const handleBridgeClick = async () =>{
     if(selectedNft && selectedSrcNetwork && selectedDstNetwork && wallet){
-      const {tokenId , tokenAddress, tokenUri} = selectedNft
-      if(tokenId && tokenAddress && tokenUri){
+
+      let tokenId
+      let tokenAddress
+      let tokenUri
+
+      //TODO: enforce same types on selectedNft, shouldnt matter which API/chain they come from
+      if(selectedNft.contractAddress){
+        tokenId = selectedNft.id
+        tokenAddress = selectedNft.contractAddress
+        tokenUri = selectedNft.tokenUri || "No Uri"
+      }else{
+        tokenId = selectedNft.tokenId
+        tokenAddress = selectedNft.tokenAddress
+        tokenUri = selectedNft.tokenUri || "No Uri"
+      }
+      
+      if(tokenId && tokenAddress ){
         let isOnLukso = connectedWallet?.label === "Universal Profiles"
         const ethersProvider = new ethers.BrowserProvider(isOnLukso ? window.lukso : wallet.provider);
         //const ethersProvider = new ethers.JsonRpcProvider("https://polygon-mumbai.g.alchemy.com/v2/PTRNa4vTm7SDejCyRGFP4q0HZMqYQui-")

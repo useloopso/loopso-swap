@@ -1,9 +1,14 @@
 import { NftMetadata, fetchLuksoNfts } from 'loopso-bridge-sdk';
 import { useEffect, useState } from 'react';
 
+
+
 const useGetLuksoNfts = (searchText: string) => {
   const [nfts, setNfts] = useState<NftMetadata[] | null>(null);
   const [loadingNfts, setLoadingNfts] = useState(false);
+
+
+  
 
   useEffect(() => {
     const fetchData = async () => {
