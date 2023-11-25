@@ -37,7 +37,20 @@ const NftCard = ({
 
   return (
     <div
-      onClick={() => setSelectedNft({tokenId, tokenUri, tokenAddress})}
+      onClick={() =>
+        setSelectedNft({
+          id: tokenId,
+          contractAddress: tokenAddress,
+          metadata: {
+            description: metadata?.description || "",
+            image: metadata?.image || "",
+            name: tokenName,
+          },
+          tokenId,
+          tokenUri,
+          tokenAddress,
+        })
+      }
       {...selectedNft?.tokenId === tokenId ? { backgroundColor: "#85A0FF" } : {}}
       className="w-[200px] h-[250px] flex-shrink-0 shadow-md mb-5 rounded-3xl hover:scale-110 transition-all mt-[20px] p-3 cursor-pointer flex flex-col text-black bg-[#E1E1FF] hover:bg-[#85A0FF]/70 hover:text-white"
     >
