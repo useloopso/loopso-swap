@@ -12,11 +12,10 @@ interface NftMetadata {
   name: string;
   description: string;
   image: string;
-
 }
 
 interface NftListProps {
-  setSelectedNft: (selectedNft: SelectedNft) => void
+  setSelectedNft: (selectedNft: SelectedNft | null) => void
   selectedNft: SelectedNft | null
 }
 const NftList = (props: NftListProps) => {
@@ -93,6 +92,8 @@ const NftList = (props: NftListProps) => {
       const results = await Promise.all(promises);
 
       console.log("Results:", results);
+
+      const nft = results.flat();
 
       const nftCards = results.flat().map((nft, index) => (
         <div className="rounded-3xl" key={index}>
