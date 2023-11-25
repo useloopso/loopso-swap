@@ -26,7 +26,6 @@ const UniversalPageService = {
 
     const response = await fetch(url, options);
 
-    console.log('response', response);
 
     if (response.status === 200) {
       const data = await response.json();

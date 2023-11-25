@@ -38,26 +38,20 @@ async function bridgeNonFungibleTokens(
 	const loopsoContractOnSrc = await getLoopsoContractFromContractAddr(contractAddressSrc, signer)
   const contractAddressDst = await getContractAddressFromChainId(dstChain)
 	const erc721Contract = new ethers.Contract(tokenAddress, ERC721_ABI, signer);
-  console.log('Inside bridge!')
 	try {
-    console.log(erc721Contract, contractAddressSrc, tokenId, 'Defined')
 		const approved = await checkNftApproval(signer, erc721Contract, contractAddressSrc, tokenId)
     if(approved && loopsoContractOnSrc && contractAddressDst ){
       const isWrappedTokenInfo = await getWrappedTokenInfo(contractAddressSrc, signer, tokenAddress)
-      console.log(isWrappedTokenInfo, 'is wrapped token infO?')
 			const attestationId = getAttestationIDHash(isWrappedTokenInfo.tokenAddress, isWrappedTokenInfo.srcChain)
 			if (isWrappedTokenInfo.name) {
-        console.log('Should come here if wrapped')
         const bridgeTx = await loopsoContractOnSrc.bridgeNonFungibleTokensBack( tokenId, dstAddress, attestationId);
         await bridgeTx.wait()
 				if (!bridgeTx) {
 					throw new Error("Bridge transaction failed");
 				} else return bridgeTx
 			} else {
-        console.log('SHOULD COME HERE')
         const bridgeTx = await loopsoContractOnSrc.bridgeNonFungibleTokens(tokenAddress, tokenId, tokenUri, dstChain, dstAddress, { value: 0 });
         await bridgeTx.wait()
-        console.log(bridgeTx, 'BRIDGE TXXX')
 				if (!bridgeTx) {
 					throw new Error("Bridge transaction failed");
 				} else return bridgeTx
@@ -121,7 +115,6 @@ const BridgeWidget = () => {
         const signer = await ethersProvider?.getSigner();
         if(srcContractAddress && signer){
           const _fee =  (await getFee(srcContractAddress, signer, false)).toString()
-         console.log(_fee, 'fee is what?')
           setFee(_fee)
         }
       }  
@@ -138,7 +131,6 @@ const BridgeWidget = () => {
     window.open(url, '_blank');
   };
 
-  console.log(selectedNft, 'SELECTED NFT ONCLICK & FEE:', fee)
 
   useEffect(() => {
     if (wrappedNonFungibleTokensReleased?.to) {
@@ -188,9 +180,6 @@ const BridgeWidget = () => {
        
         const _txHash = await bridgeNonFungibleTokens(selectedSrcNetwork.loopsoContractAddress, signer, tokenAddress, wallet.accounts[0].address, selectedDstNetwork.chainId, Number(tokenId), tokenUri)
         
-        
-        console.log(txHash, 'txHash FROM MEEE?')
-
         if (_txHash) {
           // TODO: complete the promise when the wrappedTokensReleased & tokensReleased is fired
           const promise = () => new Promise((resolve) => setTimeout(resolve, 10000));

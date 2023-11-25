@@ -36,10 +36,8 @@ export function useWrappedTokensReleased(dstChainId: number | undefined) {
   };
 
   useEffect(() => {
-    console.log("Dstchain event 1:", dstChainId);
 
     if (dstChainId) {
-      console.log("Dstchain event:", dstChainId);
       const ethersProvider = getProviderBasedOnChainId(dstChainId);
 
       if (ethersProvider) {

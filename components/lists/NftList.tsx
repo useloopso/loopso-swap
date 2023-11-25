@@ -91,7 +91,6 @@ const NftList = (props: NftListProps) => {
 
       const results = await Promise.all(promises);
 
-      console.log("Results:", results);
 
       const nft = results.flat();
 
