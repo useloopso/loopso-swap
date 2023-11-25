@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Moralis from "moralis";
 import { useWallets } from "@web3-onboard/react";
-import MoralisService from "@/hooks/moralis-nft";
+import MoralisService from "@/components/apis/moralis-nft";
 import { Button } from "../ui/button";
 import NftCard from "../cards/NftCard";
 import { networkList } from "@/constants";

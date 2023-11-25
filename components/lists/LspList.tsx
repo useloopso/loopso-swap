@@ -1,4 +1,4 @@
-import UniversalPageService from '@/hooks/universal-page-nft';
+import UniversalPageService from '@/components/apis/universal-page-nft';
 import React, { useRef, useState } from 'react'
 import { Button } from '../ui/button';
 import { ArrowBigLeftDash, ArrowBigRightDash } from 'lucide-react';

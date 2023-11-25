@@ -16,7 +16,7 @@ import { ADDRESSES, ERC721_ABI,  LOOPSO_ABI,  NftMetadata,  getAttestationIDHash
 import {  TransactionResponse, ethers } from 'ethers'
 import { Network } from '@/lib/types'
 import { getProviderBasedOnChainId } from '@/lib/utils'
-import { onboard } from '@/hooks/web3-onboard'
+import { onboard } from '@/components/apis/web3-onboard'
 import { useWrappedNonFungibleTokensReleased } from '@/hooks/useWrappedNonFungibleTokensReleased'
 import { useSameNetwork } from '@/hooks/useSameNetwork'
 

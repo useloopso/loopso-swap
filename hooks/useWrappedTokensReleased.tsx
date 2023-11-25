@@ -6,7 +6,7 @@ import {
   getLoopsoContractFromChainId,
 } from "loopso-bridge-sdk";
 import { useEffect, useState } from "react";
-import { onboard } from "./web3-onboard";
+import { onboard } from "../components/apis/web3-onboard";
 import { getExplorerUrl } from "@/helpers/getExplorerUrl";
 
 export function useWrappedTokensReleased(dstChainId: number | undefined) {

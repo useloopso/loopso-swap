@@ -1,4 +1,4 @@
-import { chains } from "@/hooks/web3-onboard";
+import { chains } from "@/components/apis/web3-onboard";
 import { type ClassValue, clsx } from "clsx"
 import { JsonRpcProvider, ethers } from "ethers";
 import { twMerge } from "tailwind-merge"

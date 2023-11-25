@@ -3,7 +3,7 @@ import {
   getLoopsoContractFromChainId,
 } from "loopso-bridge-sdk";
 import { useEffect, useState } from "react";
-import { onboard } from "./web3-onboard";
+import { onboard } from "../components/apis/web3-onboard";
 
 export function useWrappedNonFungibleTokensReleased(dstChainId: number | undefined) {
   const [wrappedNonFungibleTokensReleased, setWrappedNonFungibleTokensReleased] = useState<

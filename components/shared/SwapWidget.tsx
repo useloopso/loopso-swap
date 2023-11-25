@@ -20,7 +20,7 @@ import { Network, Token } from "@/lib/types";
 import { useConnectWallet } from "@web3-onboard/react";
 import {  ethers } from "ethers";
 import { useWrappedTokensReleased } from "@/hooks/useWrappedTokensReleased";
-import { onboard } from "@/hooks/web3-onboard";
+import { onboard } from "@/components/apis/web3-onboard";
 import { useTokensReleased } from "@/hooks/useReleasedTokens";
 import { useSameNetwork } from "@/hooks/useSameNetwork";
 
