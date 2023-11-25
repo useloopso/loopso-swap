@@ -146,7 +146,7 @@ const NftList = (props: NftListProps) => {
         </p>
       ) : (
         <div>
-          {nftCards.length > 3 ? (
+          {nftCards.length > 2 ? (
             <>
               <div className="flex items-center justify-center">
                 <ArrowBigLeftDash
