@@ -137,18 +137,7 @@ const BridgeWidget = () => {
       setShowSuccessfull(
         "Success, your NFT tokens have been bridged and released!"
       );
-      onboard.state.actions.customNotification({
-        eventCode: 'txConfirmed',
-        type: 'hint',
-        message: '👉🏼 Click here to view your transaction.',
-        autoDismiss: 100000,
-        onClick: () => {
-          //TODO: scale this, create a helper function to find explorers based on chainId
-          if(selectedDstNetwork?.chainId === 4201) {
-            window.open(`https://explorer.execution.testnet.lukso.network/tx/${_txHash?.hash}`)
-          } 
-        }
-      }); 
+     
     }
   }, [txHash, wrappedNonFungibleTokensReleased, nonFungibleTokensReleased]);
   
