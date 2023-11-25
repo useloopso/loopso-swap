@@ -7,9 +7,6 @@ const useGetLuksoNfts = (searchText: string) => {
   const [nfts, setNfts] = useState<NftMetadata[] | null>(null);
   const [loadingNfts, setLoadingNfts] = useState(false);
 
-
-  
-
   useEffect(() => {
     const fetchData = async () => {
         if(!nfts && searchText && !loadingNfts){

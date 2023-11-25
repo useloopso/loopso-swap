@@ -1,27 +1,27 @@
 
-import { getProviderBasedOnChainId } from "@/lib/utils";
-import { getLoopsoContractFromChainId } from "loopso-bridge-sdk";
-import { useEffect, useState } from "react";
 import { getExplorerAddress } from "@/helpers/getExplorerAddress";
+import { getProviderBasedOnChainId } from "@/lib/utils";
+import {
+  getLoopsoContractFromChainId,
+} from "loopso-bridge-sdk";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export function useNonFungibleTokensReleased(dstChainId: number | undefined) {
   const [nonFungibleTokensReleased, setNonFungibleTokensReleased] = useState<any | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
 
   const openNewTab = (url: any) => {
     window.open(url, '_blank');
   };
 
-  const loopsoListener = (amount: any, to: any, token: any) => {
-    setNonFungibleTokensReleased({ to, amount, token });
-    console.log(to, amount, token, "Event fired! Tokens released");
-
+  // Set up the event listener
+  const loopsoListener = (amount: any, to: any, attestationId: any) => {
+    setNonFungibleTokensReleased({ to, amount, attestationId });
+    console.log(to, amount, attestationId, "Event fired! Wrapped Non Fungible Tokens Released");
     if (to) {
-      console.log("to:", to);
       toast.success(
         <div onClick={() => openNewTab(getExplorerAddress(dstChainId, to))} className='cursor-pointer'>
-          <span className='font-semibold'>🍾 Unwrapped Tokens Released 🍾</span>
+          <span className='font-semibold'>🍾 Wrapped NFT Released 🍾</span>
           <br />
           Click here to view your transaction.
         </div>,
@@ -31,7 +31,9 @@ export function useNonFungibleTokensReleased(dstChainId: number | undefined) {
   };
 
   useEffect(() => {
+
     if (dstChainId) {
+      console.log("Dstchain event:", dstChainId);
       const ethersProvider = getProviderBasedOnChainId(dstChainId);
 
       if (ethersProvider) {
@@ -41,16 +43,23 @@ export function useNonFungibleTokensReleased(dstChainId: number | undefined) {
         );
 
         if (loopsoContractOnDstChain) {
-          // attach the event listener
+          console.log("loopsocontract event:", loopsoContractOnDstChain);
+
+          // Attach the event listener
           loopsoContractOnDstChain.on("NonFungibleTokensReleased", loopsoListener);
 
+          // Clean up the event listener when the component unmounts
           return () => {
-            loopsoContractOnDstChain.off("NonFungibleTokensReleased", loopsoListener);
+            loopsoContractOnDstChain.off(
+              "NonFungibleTokensReleased",
+              loopsoListener
+            );
           };
         }
       }
     }
-  }, []);
+  }, [dstChainId]);
 
-  return {  nonFungibleTokensReleased };
+  return { nonFungibleTokensReleased};
 }
+
