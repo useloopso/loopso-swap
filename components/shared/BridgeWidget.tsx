@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react'
 import { ImageDown, InfinityIcon, MoveDown } from 'lucide-react'
-
 import { Button } from "@/components/ui/button"
 import SelectBridgeSourceChainModal from '../modal/SelectBridgeSourceChainModal'
 import NftList from '../lists/NftList'
@@ -12,7 +11,7 @@ import LspList from '../lists/LspList'
 import { networkList } from '@/constants'
 import { fadeIn, staggerContainer } from '@/utils/motion'
 import { motion } from 'framer-motion'
-import { ADDRESSES, ERC721_ABI,  LOOPSO_ABI,  NftMetadata,  checkNftApproval,  getAttestationIDHash,  getContractAddressFromChainId,  getLoopsoContractFromChainId, getLoopsoContractFromContractAddr, getWrappedTokenInfo } from 'loopso-bridge-sdk'
+import { ADDRESSES, ERC721_ABI,  LOOPSO_ABI,  NftMetadata,  checkNftApproval,  getAttestationIDHash,  getContractAddressFromChainId,  getFee,  getLoopsoContractFromChainId, getLoopsoContractFromContractAddr, getWrappedTokenInfo } from 'loopso-bridge-sdk'
 import {  TransactionResponse, ethers } from 'ethers'
 import { Network } from '@/lib/types'
 import { getProviderBasedOnChainId } from '@/lib/utils'
@@ -21,12 +20,10 @@ import { useWrappedNonFungibleTokensReleased } from '@/hooks/useWrappedNonFungib
 import { useSameNetwork } from '@/hooks/useSameNetwork'
 import { toast } from 'sonner'
 import { getExplorerTransaction } from '@/helpers/getExplorerTransaction'
+import { useNonFungibleTokensReleased } from '@/hooks/useNonFungibleTokensReleased'
 
 
 
-
-
-}
 
 async function bridgeNonFungibleTokens(
 	contractAddressSrc: string,
@@ -42,6 +39,7 @@ async function bridgeNonFungibleTokens(
   const contractAddressDst = await getContractAddressFromChainId(dstChain)
 	const erc721Contract = new ethers.Contract(tokenAddress, ERC721_ABI, signer);
 	try {
+    console.log(erc721Contract, contractAddressSrc, tokenId, 'Defined')
 		const approved = await checkNftApproval(signer, erc721Contract, contractAddressSrc, tokenId)
     if(approved && loopsoContractOnSrc && contractAddressDst ){
       const isWrappedTokenInfo = await getWrappedTokenInfo(contractAddressSrc, signer, tokenAddress)
@@ -89,6 +87,10 @@ const BridgeWidget = () => {
   let isBridgeDisabled = !selectedDstNetwork?.chainId || !selectedSrcNetwork?.chainId || !selectedNft?.tokenId
   const [showSuccessfull, setShowSuccessfull] = useState<string>("");
   const [{ wallet }] = useConnectWallet();
+  const {nonFungibleTokensReleased} = useNonFungibleTokensReleased(selectedDstNetwork?.chainId)
+  const { wrappedNonFungibleTokensReleased   } = useWrappedNonFungibleTokensReleased(
+    selectedDstNetwork?.chainId
+  );
 
   const handleSameNetwork = () => {
     window.alert("Source and Destination networks should not be the same.");
@@ -127,9 +129,7 @@ const BridgeWidget = () => {
     showList();
   }, [connectedWallets, fee, selectedDstNetwork, wallet]);
 
-  const { wrappedNonFungibleTokensReleased   } = useWrappedNonFungibleTokensReleased(
-    selectedDstNetwork?.chainId
-  );
+ 
 
   const openNewTab = (url: any) => {
     window.open(url, '_blank');
@@ -155,7 +155,7 @@ const BridgeWidget = () => {
         }
       }); 
     }
-  }, [txHash, wrappedNonFungibleTokensReleased]);
+  }, [txHash, wrappedNonFungibleTokensReleased, nonFungibleTokensReleased]);
   
 
 
@@ -169,7 +169,7 @@ const BridgeWidget = () => {
         const signer = await ethersProvider.getSigner();
        
         const _txHash = await bridgeNonFungibleTokens(selectedSrcNetwork.loopsoContractAddress, signer, tokenAddress, wallet.accounts[0].address, selectedDstNetwork.chainId, Number(tokenId), tokenUri)
-        _txHash.wait()
+        
         
         console.log(txHash, 'txHash FROM MEEE?')
 

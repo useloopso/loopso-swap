@@ -13,7 +13,7 @@ const useGetLuksoNfts = (searchText: string) => {
             setNfts(_nfts)
             setLoadingNfts(false)
         }
-        else if(!searchText){
+        else if(!searchText && nfts){
             setNfts(null)
         }
     };
