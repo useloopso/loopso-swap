@@ -6,6 +6,7 @@ import '../globals.css'
 import { Web3OnboardProvider } from '@web3-onboard/react'
 import { onboard } from '@/components/apis/web3-onboard'
 import Navbar from '@/components/shared/Navbar'
+import { Toaster } from 'sonner'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,6 +25,13 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${inter.className} circles overflow-y-scroll overflow-x-hidden`}>
             <Navbar />
+            <Toaster 
+              richColors
+              position="bottom-left"
+              expand={true}
+              visibleToasts={5}
+              closeButton={true}
+            />
             {children}
         </body>
       </html>

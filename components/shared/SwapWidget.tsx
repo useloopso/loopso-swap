@@ -20,10 +20,10 @@ import { Network, Token } from "@/lib/types";
 import { useConnectWallet } from "@web3-onboard/react";
 import {  ethers } from "ethers";
 import { useWrappedTokensReleased } from "@/hooks/useWrappedTokensReleased";
-import { onboard } from "@/components/apis/web3-onboard";
 import { useTokensReleased } from "@/hooks/useReleasedTokens";
 import { useSameNetwork } from "@/hooks/useSameNetwork";
-
+import { toast } from 'sonner'
+import { getExplorerTransaction } from "@/helpers/getExplorerTransaction";
 
 const SwapWidget = () => {
   const [selectedSourceChainNetwork, setSelectedSourceChainNetwork] = useState<Network | undefined>(undefined);
@@ -54,6 +54,10 @@ const SwapWidget = () => {
 
   useSameNetwork(selectedSourceChainNetwork, selectedDestinationChainNetwork, handleSameNetwork);
 
+  const openNewTab = (url: any) => {
+    window.open(url, '_blank');
+  };
+
   useEffect(() => {
 
   }, [txHash, wrappedTokensReleased, tokensReleased]);
@@ -78,28 +82,33 @@ const SwapWidget = () => {
         wallet?.accounts[0].address,
         selectedDestinationChainNetwork.chainId
       );
+      
       if (_txHash) {
         setTxHash(_txHash?.hash);
-        onboard.state.actions.customNotification({
-          eventCode: 'txPool',
-          type: 'hint',
-          message: '👉🏼 Click here to view your transaction.',
-          autoDismiss: 100000,
-          onClick: () => {
-            //TODO: scale this, create a helper function to find explorers based on chainId
-            if(selectedSourceChainNetwork.chainId === 80001) {
-              window.open(`https://mumbai.polygonscan.com/tx/${_txHash?.hash}`)
-            } 
-          }
-        })
+
+        // TODO: complete the promise when the wrappedTokensReleased & tokensReleased is fired
+        const promise = () => new Promise((resolve) => setTimeout(resolve, 10000));
+        toast.promise(promise, {
+          loading: '⏳ Transaction in progress...',
+          // success: '✅ Successfully bridged!',
+          // error: '🛑 Error. Please try again.',
+        });
+        toast.info(
+          <div onClick={() => openNewTab(getExplorerTransaction(selectedSourceChainNetwork.chainId, _txHash.hash))} className='cursor-pointer'>
+            <span className='font-semibold'>🍻 Transaction Created 🍻</span>
+            <br />
+            Click here to view your transaction.
+          </div>,
+          { duration: 8000 }
+        );
       } else {
         setTxHash("ERROR: No tx hash");
-        onboard.state.actions.customNotification({
-          eventCode: 'txError',
-          type: 'error',
-          message: '🛑 Error! Transaction failed.',
-          autoDismiss: 10000
-        })
+        toast.error(
+          <div>
+            🛑 Something went wrong. Please try again.
+          </div>, 
+          { duration: 8000 }
+        );
       }
     }
   };

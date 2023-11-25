@@ -1,29 +1,32 @@
 import { getProviderBasedOnChainId } from "@/lib/utils";
 import { getLoopsoContractFromChainId } from "loopso-bridge-sdk";
 import { useEffect, useState } from "react";
-import { onboard } from "../components/apis/web3-onboard";
-import { getExplorerUrl } from "@/helpers/getExplorerUrl";
+import { getExplorerAddress } from "@/helpers/getExplorerAddress";
+import { toast } from "sonner";
 
 export function useTokensReleased(dstChainId: number | undefined) {
   const [tokensReleased, setTokensReleased] = useState<any | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const openNewTab = (url: any) => {
+    window.open(url, '_blank');
+  };
+
   const loopsoListener = (amount: any, to: any, token: any) => {
     setTokensReleased({ to, amount, token });
     console.log(to, amount, token, "Event fired! Tokens released");
 
-    onboard.state.actions.customNotification({
-      eventCode: 'txConfirmed',
-      type: 'hint',
-      message: `🍾 Tokens Released! 🍾 Click here to view your wallet transactions.`,
-      autoDismiss: 100000,
-      onClick: () => {
-        const explorerUrl = getExplorerUrl(dstChainId, to);
-        if (explorerUrl) {
-          window.open(explorerUrl);
-        }
-      }
-    })
+    if (to) {
+      console.log("to:", to);
+      toast.success(
+        <div onClick={() => openNewTab(getExplorerAddress(dstChainId, to))} className='cursor-pointer'>
+          <span className='font-semibold'>🍾 Unwrapped Tokens Released 🍾</span>
+          <br />
+          Click here to view your transaction.
+        </div>,
+        { duration: 8000 }
+      );
+    }
   };
 
   useEffect(() => {

@@ -1,33 +1,34 @@
+import { getExplorerAddress } from "@/helpers/getExplorerAddress";
 import { getProviderBasedOnChainId } from "@/lib/utils";
 import {
   getLoopsoContractFromChainId,
 } from "loopso-bridge-sdk";
 import { useEffect, useState } from "react";
-import { onboard } from "../components/apis/web3-onboard";
+import { toast } from "sonner";
 
 export function useWrappedNonFungibleTokensReleased(dstChainId: number | undefined) {
   const [wrappedNonFungibleTokensReleased, setWrappedNonFungibleTokensReleased] = useState<
     any | null
   >(null);
 
-  
+  const openNewTab = (url: any) => {
+    window.open(url, '_blank');
+  };
 
   // Set up the event listener
   const loopsoListener = (amount: any, to: any, attestationId: any) => {
     setWrappedNonFungibleTokensReleased({ to, amount, attestationId });
     console.log(to, amount, attestationId, "Event fired! Wrapped Non Fungible Tokens Released");
-    onboard.state.actions.customNotification({
-      eventCode: 'txConfirmed',
-      type: 'hint',
-      message: '👉🏼 Click here to view your transaction.',
-      autoDismiss: 100000,
-      onClick: () => {
-        //TODO: scale this, create a helper function to find explorers based on chainId
-        if(dstChainId === 4201) {
-          window.open(`https://explorer.execution.testnet.lukso.network/address/${wrappedNonFungibleTokensReleased?.to}?tab=token_transfers`)
-        } 
-      }
-    }); 
+    if (to) {
+      toast.success(
+        <div onClick={() => openNewTab(getExplorerAddress(dstChainId, to))} className='cursor-pointer'>
+          <span className='font-semibold'>🍾 Wrapped NFT Released 🍾</span>
+          <br />
+          Click here to view your transaction.
+        </div>,
+        { duration: 8000 }
+      );
+    }
   };
 
   useEffect(() => {

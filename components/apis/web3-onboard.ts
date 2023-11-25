@@ -166,17 +166,19 @@ const accountCenter: AccountCenterOptions = {
   mobile: {
     position: 'bottomRight',
     enabled: true,
-    minimal: false
+    minimal: true
   }
 }
 
+
 const notify: Notify = {
-  enabled: true,
+  enabled: false,
   transactionHandler: transaction => {
-    false
+    return false;
   },
   position: 'bottomLeft',
-}
+};
+
 
 const connect: ConnectModalOptions = {
   iDontHaveAWalletLink:

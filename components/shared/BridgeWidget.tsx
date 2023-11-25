@@ -19,6 +19,8 @@ import { getProviderBasedOnChainId } from '@/lib/utils'
 import { onboard } from '@/components/apis/web3-onboard'
 import { useWrappedNonFungibleTokensReleased } from '@/hooks/useWrappedNonFungibleTokensReleased'
 import { useSameNetwork } from '@/hooks/useSameNetwork'
+import { toast } from 'sonner'
+import { getExplorerTransaction } from '@/helpers/getExplorerTransaction'
 
 async function checkNftApproval(signer: ethers.Signer, erc721Contract: ethers.Contract, contractAddressSrc: string, tokenId: number): Promise<string | null> {
   const hasApproved = await erc721Contract.getApproved(tokenId)
@@ -211,6 +213,10 @@ const BridgeWidget = () => {
     selectedDstNetwork?.chainId
   );
 
+  const openNewTab = (url: any) => {
+    window.open(url, '_blank');
+  };
+
   console.log(selectedNft, 'SELECTED NFT ONCLICK')
 
   useEffect(() => {
@@ -248,25 +254,28 @@ const BridgeWidget = () => {
         console.log(txHash, 'txHash FROM MEEE?')
 
         if (_txHash) {
-          onboard.state.actions.customNotification({
-            eventCode: 'txPool',
-            type: 'hint',
-            message: '👉🏼 Click here to view your transaction.',
-            autoDismiss: 100000,
-            onClick: () => {
-              //TODO: scale this, create a helper function to find explorers based on chainId
-              if(selectedSrcNetwork.chainId === 80001) {
-                window.open(`https://mumbai.polygonscan.com/tx/${_txHash?.hash}`)
-              } 
-            }
-          })
+          // TODO: complete the promise when the wrappedTokensReleased & tokensReleased is fired
+          const promise = () => new Promise((resolve) => setTimeout(resolve, 10000));
+          toast.promise(promise, {
+            loading: '⏳ Transaction in progress...',
+            // success: '✅ Successfully bridged!',
+            // error: '🛑 Error. Please try again.',
+          });
+          toast.info(
+            <div onClick={() => openNewTab(getExplorerTransaction(selectedSrcNetwork.chainId, _txHash.hash))} className='cursor-pointer'>
+              <span className='font-semibold'>🍻 Transaction Created 🍻</span>
+              <br />
+              Click here to view your transaction.
+            </div>,
+            { duration: 8000 }
+          );
         } else {
-          onboard.state.actions.customNotification({
-            eventCode: 'txError',
-            type: 'error',
-            message: '🛑 Error! Transaction failed.',
-            autoDismiss: 10000
-          })
+          toast.error(
+            <div>
+              🛑 Something went wrong. Please try again.
+            </div>, 
+            { duration: 8000 }
+          );
         }
       }
     }

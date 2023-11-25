@@ -1,4 +1,4 @@
-export function getExplorerUrl(chainId: number | undefined, address: string) {
+export function getExplorerAddress(chainId: number | undefined, address: string) {
     switch (chainId) {
         case 4201: // Lukso Testnet
             return `https://explorer.execution.testnet.lukso.network/address/${address}`;
