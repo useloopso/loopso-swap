@@ -26,7 +26,7 @@ const _txHash = await bridgeTokens(
     }, []);
 
     return (
-        <div className='flex flex-col gap-5 w-[700px] h-[300px] start-0'>
+        <div className='flex flex-col gap-5 w-[600px] h-[300px] start-0'>
             <div className='relative group bg-[#3D426B] text-[13px] p-5 rounded-3xl'>
                 <CodeAnimation code={sdkPackageCode} animated={true} show={show >= 1} />
             </div>
