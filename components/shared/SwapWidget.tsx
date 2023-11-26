@@ -77,10 +77,11 @@ const SwapWidget = () => {
     const signer = await ethersProvider.getSigner();
   
     let _txHash: TransactionResponse | null = null; 
+	let convertedAmount = BigInt(Number(amount) * (10 ** 18))
   
     try {
       if (selectedSourceToken.isNative) {
-        const wrappedTx = await wrapNativeToken(signer, selectedSourceChainNetwork.chainId, BigInt(amount));
+        const wrappedTx = await wrapNativeToken(signer, selectedSourceChainNetwork.chainId, convertedAmount);
         if (!wrappedTx) {
           throw new Error("Failed to wrap native token");
         }
@@ -90,7 +91,7 @@ const SwapWidget = () => {
         selectedSourceChainNetwork.loopsoContractAddress,
         signer,
         selectedSourceToken.token_address,
-        BigInt(amount),
+        convertedAmount,
         wallet?.accounts[0].address,
         selectedDestinationChainNetwork.chainId
       );

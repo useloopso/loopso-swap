@@ -167,24 +167,24 @@ export const networkList = [
     chainId: 80001,
     loopsoContractAddress: ADDRESSES.LOOPSO_MUMBAI_CONTRACT_ADDRESS,
   },
-  {
-    network: "Lukso Mainnet",
-    img: "/assets/tokens/lukso.svg",
-    chainId: 42,
-    loopsoContractAddress: "Not yet supported",
-  },
-  {
-    network: "Ethereum Mainnet",
-    img: "/assets/tokens/eth.svg",
-    chainId: 1,
-    loopsoContractAddress: "Not yet supported",
-  },
-  {
-    network: "Polygon Mainnet",
-    img: "/assets/tokens/matic.svg",
-    chainId: 137,
-    loopsoContractAddress: "Not yet supported",
-  },
+//   {
+//     network: "Lukso Mainnet",
+//     img: "/assets/tokens/lukso.svg",
+//     chainId: 42,
+//     loopsoContractAddress: "Not yet supported",
+//   },
+//   {
+//     network: "Ethereum Mainnet",
+//     img: "/assets/tokens/eth.svg",
+//     chainId: 1,
+//     loopsoContractAddress: "Not yet supported",
+//   },
+//   {
+//     network: "Polygon Mainnet",
+//     img: "/assets/tokens/matic.svg",
+//     chainId: 137,
+//     loopsoContractAddress: "Not yet supported",
+//   },
 ];
 
 // export const whyLoopso = [

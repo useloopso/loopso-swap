@@ -52,24 +52,24 @@ export const chains = [
     label: 'Mumbai Testnet',
     rpcUrl: `https://polygon-mumbai.infura.io/v3/${INFURA_KEY}`,
   },
-  {
-    id: 42,
-    token: 'LYX',
-    label: 'Lukso Mainnet',
-    rpcUrl: "https://rpc.mainnet.lukso.network/",
-  },
-  {
-    id: 1,
-    token: 'ETH',
-    label: 'Ethereum Mainnet',
-    rpcUrl: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
-  },
-  {
-    id: 137,
-    token: 'MATIC',
-    label: 'Polygon Mainnet',
-    rpcUrl: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
-  },
+//   {
+//     id: 42,
+//     token: 'LYX',
+//     label: 'Lukso Mainnet',
+//     rpcUrl: "https://rpc.mainnet.lukso.network/",
+//   },
+//   {
+//     id: 1,
+//     token: 'ETH',
+//     label: 'Ethereum Mainnet',
+//     rpcUrl: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
+//   },
+//   {
+//     id: 137,
+//     token: 'MATIC',
+//     label: 'Polygon Mainnet',
+//     rpcUrl: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
+//   },
 ]
 
 const LoopsoIcon = "/assets/logos/logo.svg"
