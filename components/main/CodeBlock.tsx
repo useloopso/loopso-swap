@@ -21,7 +21,7 @@ const CodeBlock = () => {
           variants={fadeIn("right", "tween", 0.2, 1)}
           className="flex-[0.95] flex justify-center flex-col"
         >
-          <div className="sparkles-box py-[10px] px-[10px] border border-white opacity-[0.9]">
+          <div className="sparkles-box py-[10px] px-[10px] border border-white opacity-[0.9] lg:ml-10 md:ml-8 sm:ml-4 ml-2">
             <SparklesIcon className="text-white mr-[10px] h-5 w-5" />
             <h1 className="text-[13px] text-white font-semibold">
               Public Beta
@@ -42,10 +42,10 @@ const CodeBlock = () => {
                 </span>
               </>
             }
-            textStyles=""
+            textStyles="lg:ml-10 md:ml-8 sm:ml-4 ml-2"
           />
           <div className="flex flex-wrap justify-between gap-[24px]">
-            <p className="text-[23px] text-white my-5 max-w-[600px] font-semibold drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.5)]">
+            <p className="text-[23px] text-white my-5 max-w-[600px] font-semibold drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.5)] lg:ml-10 md:ml-8 sm:ml-4 ml-2">
               {/* Effortlessly bridge to
               <span className="text-[#FE005B] uppercase">
                 &nbsp;Lukso&nbsp;
