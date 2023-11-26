@@ -4,15 +4,15 @@ import CodeAnimation from './CodeAnimation'
 const Code = () => {
     const sdkPackageCode = `npm install --save loopso-bridge-sdk`
 
-    const sdkCode = `import { fetchQuote, bridgeTokens } from 'loopso-bridge-sdk';
+    const sdkCode = `import { bridgeTokens, getFee } from 'loopso-bridge-sdk';
     
 const _txHash = await bridgeTokens(
-    selectedSourceChainNetwork.loopsoContractAddress,
-    signer,
-    await getContractAddressFromChainId(selectedSourceChainNetwork.chainId),
-    BigInt(amount),
-    wallet.accounts[0].address,
-    selectedDestinationChainNetwork.chainId
+	contractAddressSrc,
+	signer,
+	srcChainId,
+	amount,
+	dstAddress,
+	dstChain
 );`
 
     const [show, setShow] = useState<number>(0);
