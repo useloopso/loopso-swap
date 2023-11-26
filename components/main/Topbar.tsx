@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import React from 'react'
-import { FileText, GithubIcon, Menu, MoreHorizontal, Rocket, TwitterIcon } from 'lucide-react'
+import { GithubIcon, LibraryBig, Rocket, TwitterIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion';
 import { navVariants } from '@/utils/motion';
@@ -36,8 +36,8 @@ const Topbar = () => {
                 />
             </a>
             <div className="flex md:order-2 space-x-2 md:space-x-0 rtl:space-x-reverse lg:gap-5 md:gap-3 items-center justify-center ">
-              <FileText 
-                onClick={() => openNewTab('https://github.com/useloopso/.github/blob/prod/profile/README.md')}
+              <LibraryBig 
+                onClick={() => openNewTab('https://www.npmjs.com/package/loopso-bridge-sdk')}
                 className='cursor-pointer rounded-2xl w-11 h-11 bg-[#85A0FF]/70 text-white hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70 p-3'
               />
               <GithubIcon 

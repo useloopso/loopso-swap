@@ -4,9 +4,9 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { footerVariants } from '@/utils/motion'
 import { Button } from '../ui/button'
-import { FileText, GithubIcon, Rocket, SparklesIcon, TwitterIcon } from 'lucide-react'
+import { GithubIcon, LibraryBig, Rocket, SparklesIcon, TwitterIcon } from 'lucide-react'
 import { Separator } from '../ui/separator'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 const Footer = () => {
     const router = useRouter();
@@ -50,8 +50,8 @@ const Footer = () => {
             Copyright © 2023 LOOPSO. All rights reserved.
         </p>
           <div className="flex gap-4">
-          <FileText 
-            onClick={() => openNewTab('')}
+          <LibraryBig 
+            onClick={() => openNewTab('https://www.npmjs.com/package/loopso-bridge-sdk')}
             className='cursor-pointer rounded-2xl w-11 h-11 bg-[#85A0FF]/70 text-white hover:bg-[#E1E1FF] hover:text-[#85A0FF]/70 p-3'
         />
         <GithubIcon 
