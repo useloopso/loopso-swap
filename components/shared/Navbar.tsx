@@ -1,10 +1,10 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
-import { FileText, GithubIcon, Menu, MoreHorizontal, TwitterIcon } from 'lucide-react'
+import { GithubIcon, LibraryBig, Menu, MoreHorizontal, TwitterIcon } from 'lucide-react'
 import { navbarLinks } from '@/constants'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import ConnectWalletButton from './ConnectWalletButton'
 import { motion } from 'framer-motion';
 import { navVariants } from '@/utils/motion';
@@ -39,8 +39,8 @@ const Navbar = () => {
                         <MoreHorizontal className='w-10 h-10 p-2'/>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className='bg-[#E1E1FF]'>
+                        <DropdownMenuItem className='px-5  gap-3 font-semibold cursor-pointer' onClick={() => openNewTab('https://www.npmjs.com/package/loopso-bridge-sdk')}><LibraryBig />SDK</DropdownMenuItem>
                         <DropdownMenuItem className='px-5 gap-3 font-semibold cursor-pointer' onClick={() => openNewTab('https://github.com/useloopso')}><GithubIcon />Github</DropdownMenuItem>
-                        <DropdownMenuItem className='px-5  gap-3 font-semibold cursor-pointer'><FileText />Docs</DropdownMenuItem>
                         <DropdownMenuItem className='px-5  gap-3 font-semibold cursor-pointer'onClick={() => openNewTab('https://twitter.com/loopso_xyz')}><TwitterIcon />Twitter</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
