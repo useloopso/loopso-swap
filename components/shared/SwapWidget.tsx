@@ -24,8 +24,6 @@ import { useTokensReleased } from "@/hooks/useTokensReleased";
 import { useSameNetwork } from "@/hooks/useSameNetwork";
 import { toast } from 'sonner'
 import { getExplorerTransaction } from "@/helpers/getExplorerTransaction";
-import Moralis from "moralis";
-import MoralisTokenService from "../apis/moralis-token";
 import SelectTokenModalV2 from "../modal/SelectTokenModalV2";
 
 
@@ -81,6 +79,12 @@ const SwapWidget = () => {
     let _txHash: TransactionResponse | null = null; 
   
     try {
+      if (selectedSourceToken.isNative) {
+        const wrappedTx = await wrapNativeToken(signer, selectedSourceChainNetwork.chainId, BigInt(amount));
+        if (!wrappedTx) {
+          throw new Error("Failed to wrap native token");
+        }
+      }
   
       _txHash = await bridgeTokens(
         selectedSourceChainNetwork.loopsoContractAddress,

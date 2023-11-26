@@ -92,6 +92,7 @@ const SelectTokenModalV2 = (props: SelectTokenModalProps) => {
           symbol: 'LYXT',
           token_address: '',
           image: '/assets/tokens/lukso.svg',
+          isNative: true
         }
 
         const result = await LuksoTokenService.fetchLuksoTokens(address);
@@ -101,7 +102,10 @@ const SelectTokenModalV2 = (props: SelectTokenModalProps) => {
           name: item.token.name,
           symbol: item.token.symbol,
           balance: item.value,
+          image: "",
+          isNative: false
         }));
+
         setErc20TokenList(formattedTokens);
         setNativeTokenList([nativeToken]);
         console.log("formattedTokens", formattedTokens);
@@ -118,6 +122,7 @@ const SelectTokenModalV2 = (props: SelectTokenModalProps) => {
               symbol: 'GETH',
               token_address: '0xdD69DB25F6D620A7baD3023c5d32761D353D3De9',
               image: '/assets/tokens/eth.svg',
+              isNative: true
             }
             const erc20 = await MoralisTokenService.fetchGoerliTokens(address);
             return { nativeToken, erc20 };
@@ -131,6 +136,7 @@ const SelectTokenModalV2 = (props: SelectTokenModalProps) => {
               symbol: 'SETH',
               token_address: '0x7daf26D64a62e2e1dB838C84bCAc5bdDb3b5D926',
               image: '/assets/tokens/eth.svg',
+              isNative: true
             }
             const erc20 = await MoralisTokenService.fetchSepoliaTokens(address);
             return { nativeToken, erc20 };
@@ -144,6 +150,7 @@ const SelectTokenModalV2 = (props: SelectTokenModalProps) => {
               symbol: 'MATIC',
               token_address: '0x0000000000000000000000000000000000001010',
               image: '/assets/tokens/matic.svg',
+              isNative: true
             }
             const erc20 = await MoralisTokenService.fetchMumbaiTokens(address);
             return { nativeToken, erc20 };
@@ -157,6 +164,7 @@ const SelectTokenModalV2 = (props: SelectTokenModalProps) => {
               symbol: 'ETH',
               token_address: '0x73bFE136fEba2c73F441605752b2B8CAAB6843Ec',
               image: '/assets/tokens/eth.svg',
+              isNative: true
             }
             const erc20 = await MoralisTokenService.fetchEthereumTokens(address);
             return { nativeToken, erc20 };
@@ -170,6 +178,7 @@ const SelectTokenModalV2 = (props: SelectTokenModalProps) => {
               symbol: 'MATIC',
               token_address: '0x0000000000000000000000000000000000001010',
               image: '/assets/tokens/matic.svg',
+              isNative: true
             }
             const erc20 = await MoralisTokenService.fetchPolygonTokens(address);
             return { nativeToken, erc20 };

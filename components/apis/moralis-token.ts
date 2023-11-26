@@ -18,7 +18,8 @@ const MoralisTokenService = {
             name: token.name,
             symbol: token.symbol,
             token_address: token.token_address,
-            image: ""
+            image: "",
+            isNative: false
           }));
       
           console.log('Parsed Tokens', parsedTokens);
@@ -44,7 +45,8 @@ const MoralisTokenService = {
             name: token.name,
             symbol: token.symbol,
             token_address: token.token_address,
-            image: ""
+            image: "",
+            isNative: false
           }));
       
           console.log('Parsed Tokens', parsedTokens);
@@ -70,7 +72,8 @@ const MoralisTokenService = {
             name: token.name,
             symbol: token.symbol,
             token_address: token.token_address,
-            image: ""
+            image: "",
+            isNative: false
           }));
       
           console.log('Parsed Tokens', parsedTokens);
@@ -96,7 +99,8 @@ const MoralisTokenService = {
             name: token.name,
             symbol: token.symbol,
             token_address: token.token_address,
-            image: ""
+            image: "",
+            isNative: false
           }));
       
           console.log('Parsed Tokens', parsedTokens);
@@ -122,7 +126,8 @@ const MoralisTokenService = {
             name: token.name,
             symbol: token.symbol,
             token_address: token.token_address,
-            image: ""
+            image: "",
+            isNative: false
           }));
       
           console.log('Parsed Tokens', parsedTokens);
