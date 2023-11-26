@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "@/utils/motion";
 import { BadgeInfo, InfinityIcon, MoveDown, Repeat2 } from "lucide-react";
-import { bridgeTokens} from "loopso-bridge-sdk";
+import { ERC20_ABI, checkTokenAllowance, getAttestationIDHash, getContractAddressFromChainId, getLoopsoContractFromContractAddr, getWrappedTokenInfo, wrapNativeToken } from "loopso-bridge-sdk";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SelectTokenModal from "../modal/SelectTokenModal";
@@ -18,12 +18,79 @@ import SelectSourceChainModal from "../modal/SelectSourceChainModal";
 import SelectDestinationChainModal from "../modal/SelectDestinationChainModal";
 import { Network, Token } from "@/lib/types";
 import { useConnectWallet } from "@web3-onboard/react";
-import {  ethers } from "ethers";
+import {  TransactionResponse, ethers } from "ethers";
 import { useWrappedTokensReleased } from "@/hooks/useWrappedTokensReleased";
 import { useTokensReleased } from "@/hooks/useTokensReleased";
 import { useSameNetwork } from "@/hooks/useSameNetwork";
 import { toast } from 'sonner'
 import { getExplorerTransaction } from "@/helpers/getExplorerTransaction";
+
+
+async function bridgeTokens(
+	contractAddressSrc: string,
+	signer: ethers.Signer,
+	tokenAddress: string,
+	amount: bigint,
+	dstAddress: string,
+	dstChain: number
+): Promise<TransactionResponse | null> {
+	const loopsoContractOnSrc = getLoopsoContractFromContractAddr(
+		contractAddressSrc,
+		signer
+	);
+	const tokenContract = new ethers.Contract(tokenAddress, ERC20_ABI, signer);
+	const contractAddressDst = getContractAddressFromChainId(dstChain);
+	let convertedAmount = amount * BigInt(10 ** 18);
+	await checkTokenAllowance(
+		signer,
+		tokenContract,
+		contractAddressSrc,
+		convertedAmount
+	);
+	try {
+		if (loopsoContractOnSrc && contractAddressDst) {
+			const isWrappedTokenInfo = await getWrappedTokenInfo(
+				contractAddressSrc,
+				signer,
+				tokenAddress
+			);
+			const attestationId = getAttestationIDHash(
+				isWrappedTokenInfo.tokenAddress,
+				isWrappedTokenInfo.srcChain
+			);
+			if (isWrappedTokenInfo.name) {
+				const bridgeTx = await loopsoContractOnSrc.bridgeTokensBack(
+					convertedAmount,
+					dstAddress,
+					attestationId
+				);
+
+				if (bridgeTx) {
+					const waitedTx = await bridgeTx.wait();
+					return waitedTx;
+				} else {
+					throw new Error("Bridge transaction failed");
+				}
+			} else {
+				const bridgeTx = await loopsoContractOnSrc.bridgeTokens(
+					tokenAddress,
+					convertedAmount,
+					dstChain,
+					dstAddress
+				);
+				if (bridgeTx) {
+					const waitedTx = await bridgeTx.wait();
+					return waitedTx;
+				} else {
+					throw new Error("Bridge transaction failed");
+				}
+			}
+		} else return null;
+	} catch (error) {
+		console.error("Error bridging tokens:", error);
+		return null;
+	}
+}
 
 const SwapWidget = () => {
   const [selectedSourceChainNetwork, setSelectedSourceChainNetwork] = useState<Network | undefined>(undefined);
@@ -63,18 +130,26 @@ const SwapWidget = () => {
   }, [txHash, wrappedTokensReleased, tokensReleased]);
 
   const handleSubmitAndBridge = async () => {
-    //TODO: how to handle if the source network is from Lukso UP wallet?
-    if (
-      wallet &&
-      selectedSourceToken &&
-      selectedSourceChainNetwork &&
-      selectedDestinationChainNetwork
-    ) {
-      let isOnLukso = connectedWallet?.label === "Universal Profiles"
-      const ethersProvider = new ethers.BrowserProvider(isOnLukso ? window.lukso : wallet.provider);
-      const signer = await ethersProvider.getSigner();
-     
-      const _txHash = await bridgeTokens(
+    if (!wallet || !selectedSourceToken || !selectedSourceChainNetwork || !selectedDestinationChainNetwork) {
+      // Handle missing values or conditions
+      return;
+    }
+  
+    let isOnLukso = connectedWallet?.label === "Universal Profiles";
+    const ethersProvider = new ethers.BrowserProvider(isOnLukso ? window.lukso : wallet.provider);
+    const signer = await ethersProvider.getSigner();
+  
+    let _txHash: TransactionResponse | null = null; 
+  
+    try {
+      if (selectedSourceToken.isNative) {
+        const wrappedTx = await wrapNativeToken(signer, selectedSourceChainNetwork.chainId, BigInt(amount));
+        if (!wrappedTx) {
+          throw new Error("Failed to wrap native token");
+        }
+      }
+  
+      _txHash = await bridgeTokens(
         selectedSourceChainNetwork.loopsoContractAddress,
         signer,
         selectedSourceToken.address,
@@ -82,36 +157,44 @@ const SwapWidget = () => {
         wallet?.accounts[0].address,
         selectedDestinationChainNetwork.chainId
       );
+    } catch (error) {
+      console.error("Error bridging tokens:", error);
+    }
+  
+    if (_txHash) {
+      setTxHash(_txHash.hash);
       
-      if (_txHash) {
-        setTxHash(_txHash?.hash);
-
-        // TODO: complete the promise when the wrappedTokensReleased & tokensReleased is fired
-        const promise = () => new Promise((resolve) => setTimeout(resolve, 10000));
-        toast.promise(promise, {
-          loading: '⏳ Transaction in progress...',
-          // success: '✅ Successfully bridged!',
-          // error: '🛑 Error. Please try again.',
-        });
-        toast.info(
-          <div onClick={() => openNewTab(getExplorerTransaction(selectedSourceChainNetwork.chainId, _txHash.hash))} className='cursor-pointer'>
-            <span className='font-semibold'>🍻 Transaction Created 🍻</span>
-            <br />
-            Click here to view your transaction.
-          </div>,
-          { duration: 8000 }
-        );
-      } else {
-        setTxHash("ERROR: No tx hash");
-        toast.error(
-          <div>
-            🛑 Something went wrong. Please try again.
-          </div>, 
-          { duration: 8000 }
-        );
-      }
+      // TODO: complete the promise when the wrappedTokensReleased & tokensReleased is fired
+      const promise = () => new Promise((resolve) => setTimeout(resolve, 10000));
+      toast.promise(promise, {
+        loading: '⏳ Transaction in progress...',
+        // success: '✅ Successfully bridged!',
+        // error: '🛑 Error. Please try again.',
+      });
+      toast.info(
+        <div onClick={() => openNewTab(getExplorerTransaction(selectedSourceChainNetwork.chainId, _txHash!.hash ))} className='cursor-pointer'>
+          <span className='font-semibold'>🍻 Transaction Created 🍻</span>
+          <br />
+          Click here to view your transaction.
+        </div>,
+        { duration: 8000 }
+      );
+    } else {
+      setTxHash("ERROR: No tx hash");
+      toast.error(
+        <div>
+          🛑 Something went wrong. Please try again.
+        </div>,
+        { duration: 8000 }
+      );
     }
   };
+  
+    
+  
+  
+
+    
 
   return (
     <motion.div
@@ -235,7 +318,7 @@ const SwapWidget = () => {
             Swap
           </Button>
         </div>
-      </motion.div>
+    </motion.div>
     </motion.div>
   );
 };

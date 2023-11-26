@@ -4,6 +4,7 @@ export type Token = {
     name: string;
     address: string;
     decimals: number;
+    isNative: boolean
 };
 
 

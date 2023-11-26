@@ -20,15 +20,17 @@ export const tokenListForMumbai = [
     name: "Lajos Token",
     decimals: 18,
     address: ADDRESSES.LAJOS_TOKEN_ADDRESS_MUMBAI,
-    //chainId:
-  },
+    isNative: false
 
+  },
   {
     ticker: "USDC",
     img: "/assets/tokens/usdc.svg",
     name: "USD Coin",
     address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
     decimals: 6,
+    isNative: false
+
   },
   {
     ticker: "USDT",
@@ -36,6 +38,8 @@ export const tokenListForMumbai = [
     name: "Tether USD",
     address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
     decimals: 6,
+    isNative: false
+
   },
   {
     ticker: "WETH",
@@ -43,19 +47,32 @@ export const tokenListForMumbai = [
     name: "Wrapped Ethereum",
     address: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
     decimals: 18,
+    isNative: false
+
   },
   {
     ticker: "LYX",
     img: "/assets/tokens/lukso.svg",
-    name: "Lukso Mainnet Token",
+    name: "Lukso Testnet Token",
     address: "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
     decimals: 18,
+    isNative: true
+
+  },
+  {
+    ticker: "WMATIC",
+    img: "/assets/tokens/matic.svg",
+    name: "Wrapped Matic Token",
+    address: ADDRESSES.WRAPPED_MATIC_ADDRESS_MUMBAI,
+    decimals: 18,
+    isNative: false
   },
   {
     ticker: "MATIC",
     img: "/assets/tokens/matic.svg",
     name: "Matic Token",
-    address: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
+    address: ADDRESSES.WRAPPED_MATIC_ADDRESS_MUMBAI,
+    isNative: true,
     decimals: 18,
   },
 ];
@@ -67,7 +84,7 @@ export const tokenListForLukso = [
     name: "Wrapped Lajos Token",
     decimals: 18,
     address: ADDRESSES.LAJOS_TOKEN_ADDRESS_WRAPPED_LUKSO,
-    //chainId:
+    isNative: false
   },
 
   {
@@ -76,6 +93,8 @@ export const tokenListForLukso = [
     name: "USD Coin",
     address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
     decimals: 6,
+    isNative: false
+
   },
   {
     ticker: "USDT",
@@ -83,6 +102,8 @@ export const tokenListForLukso = [
     name: "Tether USD",
     address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
     decimals: 6,
+    isNative: false
+
   },
   {
     ticker: "WETH",
@@ -90,21 +111,35 @@ export const tokenListForLukso = [
     name: "Wrapped Ethereum",
     address: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
     decimals: 18,
+    isNative: false
+
   },
   {
-    ticker: "LYX",
+    ticker: "WLYXt",
     img: "/assets/tokens/lukso.svg",
-    name: "Lukso Mainnet Token",
-    address: "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+    name: "Lukso Wrapped Testnet Token",
+    address: ADDRESSES.WRAPPED_LYX_ADDRESS_LUKSO,
     decimals: 18,
+    isNative: false
+
   },
   {
-    ticker: "MATIC",
-    img: "/assets/tokens/matic.svg",
-    name: "Matic Token",
-    address: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
+    ticker: "LYXt",
+    img: "/assets/tokens/lukso.svg",
+    name: "Lukso Testnet Token",
+    address: ADDRESSES.WRAPPED_LYX_ADDRESS_LUKSO,
     decimals: 18,
+    isNative: true
   },
+  {
+    ticker: "WMATIC",
+    img: "/assets/tokens/matic.svg",
+    name: "Wrapped Matic Token",
+    address: ADDRESSES.WRAPPED_MATIC_ADDRESS_MUMBAI,
+    decimals: 18,
+    isNative: false
+  },
+
 ];
 
 export const networkList = [
