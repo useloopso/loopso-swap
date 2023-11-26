@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "@/utils/motion";
 import { BadgeInfo, InfinityIcon, MoveDown, Repeat2 } from "lucide-react";
-import { ERC20_ABI, checkTokenAllowance, getAttestationIDHash, getContractAddressFromChainId, getLoopsoContractFromContractAddr, getWrappedTokenInfo, wrapNativeToken } from "loopso-bridge-sdk";
+import { ERC20_ABI, bridgeTokens, checkTokenAllowance, getAttestationIDHash, getContractAddressFromChainId, getLoopsoContractFromContractAddr, getWrappedTokenInfo, wrapNativeToken } from "loopso-bridge-sdk";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SelectTokenModal from "../modal/SelectTokenModal";
@@ -26,71 +26,7 @@ import { toast } from 'sonner'
 import { getExplorerTransaction } from "@/helpers/getExplorerTransaction";
 
 
-async function bridgeTokens(
-	contractAddressSrc: string,
-	signer: ethers.Signer,
-	tokenAddress: string,
-	amount: bigint,
-	dstAddress: string,
-	dstChain: number
-): Promise<TransactionResponse | null> {
-	const loopsoContractOnSrc = getLoopsoContractFromContractAddr(
-		contractAddressSrc,
-		signer
-	);
-	const tokenContract = new ethers.Contract(tokenAddress, ERC20_ABI, signer);
-	const contractAddressDst = getContractAddressFromChainId(dstChain);
-	let convertedAmount = amount * BigInt(10 ** 18);
-	await checkTokenAllowance(
-		signer,
-		tokenContract,
-		contractAddressSrc,
-		convertedAmount
-	);
-	try {
-		if (loopsoContractOnSrc && contractAddressDst) {
-			const isWrappedTokenInfo = await getWrappedTokenInfo(
-				contractAddressSrc,
-				signer,
-				tokenAddress
-			);
-			const attestationId = getAttestationIDHash(
-				isWrappedTokenInfo.tokenAddress,
-				isWrappedTokenInfo.srcChain
-			);
-			if (isWrappedTokenInfo.name) {
-				const bridgeTx = await loopsoContractOnSrc.bridgeTokensBack(
-					convertedAmount,
-					dstAddress,
-					attestationId
-				);
 
-				if (bridgeTx) {
-					const waitedTx = await bridgeTx.wait();
-					return waitedTx;
-				} else {
-					throw new Error("Bridge transaction failed");
-				}
-			} else {
-				const bridgeTx = await loopsoContractOnSrc.bridgeTokens(
-					tokenAddress,
-					convertedAmount,
-					dstChain,
-					dstAddress
-				);
-				if (bridgeTx) {
-					const waitedTx = await bridgeTx.wait();
-					return waitedTx;
-				} else {
-					throw new Error("Bridge transaction failed");
-				}
-			}
-		} else return null;
-	} catch (error) {
-		console.error("Error bridging tokens:", error);
-		return null;
-	}
-}
 
 const SwapWidget = () => {
   const [selectedSourceChainNetwork, setSelectedSourceChainNetwork] = useState<Network | undefined>(undefined);
