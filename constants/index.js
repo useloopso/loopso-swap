@@ -187,43 +187,43 @@ export const networkList = [
   },
 ];
 
-export const whyLoopso = [
-  {
-    id: 'reason-1',
-    iconUrl: '/assets/main/reason-1.png',
-    imgUrl: '/assets/main/bg-1.png',
-    title: 'Permissionless 🤫',
-    content: 'Loopso offers a frictionless and open interoperability experience between blockchains.'
-  },
-  {
-    id: 'reason-2',
-    iconUrl: '/assets/main/reason-2.png',
-    imgUrl: '/assets/main/bg-2.png',
-    title: 'Token Agnostic 🤝',
-    content: 'Swap flexibly to all token standards only at Loopso.'
-  },
-  {
-    id: 'reason-3',
-    iconUrl: '/assets/main/reason-3.png',
-    imgUrl: '/assets/main/bg-3.png',
-    title: 'Best Rate 🤑',
-    content: 'Loopso offers the best swap rate for all tokens.'
-  },
-  {
-    id: 'reason-4',
-    iconUrl: '/assets/main/reason-4.png',
-    imgUrl: '/assets/main/bg-4.png',
-    title: 'Cross-chain 🔗',
-    content: 'Seamlessly swap your assets across different blockchains.'
-  },
-  {
-    id: 'reason-5',
-    iconUrl: '/assets/main/reason-5.png',
-    imgUrl: '/assets/main/bg-5.png',
-    title: 'Fast Transactions ⚡️',
-    content: 'Transactions are confirmed and sent withing 30 seconds.'
-  },
-];
+// export const whyLoopso = [
+//   {
+//     id: 'reason-1',
+//     iconUrl: '/assets/main/reason-1.png',
+//     imgUrl: '/assets/main/bg-1.png',
+//     title: 'Permissionless 🤫',
+//     content: 'Loopso offers a frictionless and open interoperability experience between blockchains.'
+//   },
+//   {
+//     id: 'reason-2',
+//     iconUrl: '/assets/main/reason-2.png',
+//     imgUrl: '/assets/main/bg-2.png',
+//     title: 'Token Agnostic 🤝',
+//     content: 'Swap flexibly to all token standards only at Loopso.'
+//   },
+//   {
+//     id: 'reason-3',
+//     iconUrl: '/assets/main/reason-3.png',
+//     imgUrl: '/assets/main/bg-3.png',
+//     title: 'Best Rate 🤑',
+//     content: 'Loopso offers the best swap rate for all tokens.'
+//   },
+//   {
+//     id: 'reason-4',
+//     iconUrl: '/assets/main/reason-4.png',
+//     imgUrl: '/assets/main/bg-4.png',
+//     title: 'Cross-chain 🔗',
+//     content: 'Seamlessly swap your assets across different blockchains.'
+//   },
+//   {
+//     id: 'reason-5',
+//     iconUrl: '/assets/main/reason-5.png',
+//     imgUrl: '/assets/main/bg-5.png',
+//     title: 'Fast Transactions ⚡️',
+//     content: 'Transactions are confirmed and sent withing 30 seconds.'
+//   },
+// ];
 
 export const howItWorks = [
   'Transfer tokens between Sepolia, Lukso Testnet, and Mumbai by locking them on the source chain',
