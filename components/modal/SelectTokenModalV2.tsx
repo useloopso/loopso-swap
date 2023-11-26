@@ -155,33 +155,33 @@ const SelectTokenModalV2 = (props: SelectTokenModalProps) => {
             const erc20 = await MoralisTokenService.fetchMumbaiTokens(address);
             return { nativeToken, erc20 };
 
-          } else if (e.chains[0].id === `0x${ethereumMainnetChainId?.toString(16)}`) {
-            const native = await MoralisNativeService.fetchEthereumNative(address);
-            const nativeToken : NativeToken = {
-              balance: formatTokenBalance(native.balance, 18),
-              decimals: 18,
-              name: 'Ethereum Mainnet Token',
-              symbol: 'ETH',
-              token_address: '0x73bFE136fEba2c73F441605752b2B8CAAB6843Ec',
-              image: '/assets/tokens/eth.svg',
-              isNative: true
-            }
-            const erc20 = await MoralisTokenService.fetchEthereumTokens(address);
-            return { nativeToken, erc20 };
+        //   } else if (e.chains[0].id === `0x${ethereumMainnetChainId?.toString(16)}`) {
+        //     const native = await MoralisNativeService.fetchEthereumNative(address);
+        //     const nativeToken : NativeToken = {
+        //       balance: formatTokenBalance(native.balance, 18),
+        //       decimals: 18,
+        //       name: 'Ethereum Mainnet Token',
+        //       symbol: 'ETH',
+        //       token_address: '0x73bFE136fEba2c73F441605752b2B8CAAB6843Ec',
+        //       image: '/assets/tokens/eth.svg',
+        //       isNative: true
+        //     }
+        //     const erc20 = await MoralisTokenService.fetchEthereumTokens(address);
+        //     return { nativeToken, erc20 };
 
-          } else if (e.chains[0].id === `0x${polygonMainnetChainId?.toString(16)}`) {
-            const native = await MoralisNativeService.fetchPolygonNative(address);
-            const nativeToken : NativeToken = {
-              balance: formatTokenBalance(native.balance, 18),
-              decimals: 18,
-              name: 'Polygon Mainnet Token',
-              symbol: 'MATIC',
-              token_address: '0x0000000000000000000000000000000000001010',
-              image: '/assets/tokens/matic.svg',
-              isNative: true
-            }
-            const erc20 = await MoralisTokenService.fetchPolygonTokens(address);
-            return { nativeToken, erc20 };
+        //   } else if (e.chains[0].id === `0x${polygonMainnetChainId?.toString(16)}`) {
+        //     const native = await MoralisNativeService.fetchPolygonNative(address);
+        //     const nativeToken : NativeToken = {
+        //       balance: formatTokenBalance(native.balance, 18),
+        //       decimals: 18,
+        //       name: 'Polygon Mainnet Token',
+        //       symbol: 'MATIC',
+        //       token_address: '0x0000000000000000000000000000000000001010',
+        //       image: '/assets/tokens/matic.svg',
+        //       isNative: true
+        //     }
+        //     const erc20 = await MoralisTokenService.fetchPolygonTokens(address);
+        //     return { nativeToken, erc20 };
 
           }
         });
