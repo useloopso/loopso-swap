@@ -33,112 +33,42 @@ export const chains = [
     token: 'LYXt',
     label: 'Lukso Testnet',
     rpcUrl: "https://rpc.testnet.lukso.gateway.fm",
-    secondaryTokens: [
-      {
-        address: ADDRESSES.LAJOS_TOKEN_ADDRESS_MUMBAI,
-        icon: "/assets/tokens/lajosToken.png",
-      },
-      {
-        address: ADDRESSES.LAJOS_TOKEN_ADDRESS_WRAPPED_LUKSO,
-        icon: "/assets/tokens/wrappedLajosToken.png"
-      }
-    ]
   },
   {
     id: 5,
     token: 'GoerliETH',
     label: 'Goerli Testnet',
     rpcUrl: `https://goerli.infura.io/v3/${INFURA_KEY}`,
-    secondaryTokens: [
-      {
-        address: ADDRESSES.LAJOS_TOKEN_ADDRESS_MUMBAI,
-        icon: "/assets/tokens/lajosToken.png",
-      },
-      {
-        address: ADDRESSES.LAJOS_TOKEN_ADDRESS_WRAPPED_LUKSO,
-        icon: "/assets/tokens/wrappedLajosToken.png"
-      }
-    ]
   },
   {
     id: 11155111,
     token: 'SepoliaETH',
     label: 'Sepolia Testnet',
     rpcUrl: `https://sepolia.infura.io/v3/${INFURA_KEY}`,
-    secondaryTokens: [
-      {
-        address: ADDRESSES.LAJOS_TOKEN_ADDRESS_MUMBAI,
-        icon: "/assets/tokens/lajosToken.png",
-      },
-      {
-        address: ADDRESSES.LAJOS_TOKEN_ADDRESS_WRAPPED_LUKSO,
-        icon: "/assets/tokens/wrappedLajosToken.png"
-      }
-    ]
   },
   {
     id: 80001,
     token: 'MATIC',
     label: 'Mumbai Testnet',
     rpcUrl: `https://polygon-mumbai.infura.io/v3/${INFURA_KEY}`,
-    secondaryTokens: [
-      {
-        address: ADDRESSES.LAJOS_TOKEN_ADDRESS_MUMBAI,
-        icon: "/assets/tokens/lajosToken.png",
-      },
-      {
-        address: ADDRESSES.LAJOS_TOKEN_ADDRESS_WRAPPED_LUKSO,
-        icon: "/assets/tokens/wrappedLajosToken.png"
-      }
-    ]
   },
   {
     id: 42,
     token: 'LYX',
     label: 'Lukso Mainnet',
     rpcUrl: "https://rpc.mainnet.lukso.network/",
-    secondaryTokens: [
-      {
-        address: ADDRESSES.LAJOS_TOKEN_ADDRESS_MUMBAI,
-        icon: "/assets/tokens/lajosToken.png",
-      },
-      {
-        address: ADDRESSES.LAJOS_TOKEN_ADDRESS_WRAPPED_LUKSO,
-        icon: "/assets/tokens/wrappedLajosToken.png"
-      }
-    ]
   },
   {
     id: 1,
     token: 'ETH',
     label: 'Ethereum Mainnet',
     rpcUrl: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
-    secondaryTokens: [
-      {
-        address: ADDRESSES.LAJOS_TOKEN_ADDRESS_MUMBAI,
-        icon: "/assets/tokens/lajosToken.png",
-      },
-      {
-        address: ADDRESSES.LAJOS_TOKEN_ADDRESS_WRAPPED_LUKSO,
-        icon: "/assets/tokens/wrappedLajosToken.png"
-      }
-    ]
   },
   {
     id: 137,
     token: 'MATIC',
     label: 'Polygon Mainnet',
     rpcUrl: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
-    secondaryTokens: [
-      {
-        address: ADDRESSES.LAJOS_TOKEN_ADDRESS_MUMBAI,
-        icon: "/assets/tokens/lajosToken.png",
-      },
-      {
-        address: ADDRESSES.LAJOS_TOKEN_ADDRESS_WRAPPED_LUKSO,
-        icon: "/assets/tokens/wrappedLajosToken.png"
-      }
-    ]
   },
 ]
 

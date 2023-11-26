@@ -16,14 +16,17 @@ import {
 } from "../ui/tooltip";
 import SelectSourceChainModal from "../modal/SelectSourceChainModal";
 import SelectDestinationChainModal from "../modal/SelectDestinationChainModal";
-import { Network, Token } from "@/lib/types";
-import { useConnectWallet } from "@web3-onboard/react";
+import { ERC20Token, NativeToken, Network, Token } from "@/lib/types";
+import { useConnectWallet, useWallets } from "@web3-onboard/react";
 import {  TransactionResponse, ethers } from "ethers";
 import { useWrappedTokensReleased } from "@/hooks/useWrappedTokensReleased";
 import { useTokensReleased } from "@/hooks/useTokensReleased";
 import { useSameNetwork } from "@/hooks/useSameNetwork";
 import { toast } from 'sonner'
 import { getExplorerTransaction } from "@/helpers/getExplorerTransaction";
+import Moralis from "moralis";
+import MoralisTokenService from "../apis/moralis-token";
+import SelectTokenModalV2 from "../modal/SelectTokenModalV2";
 
 
 
@@ -31,7 +34,7 @@ import { getExplorerTransaction } from "@/helpers/getExplorerTransaction";
 const SwapWidget = () => {
   const [selectedSourceChainNetwork, setSelectedSourceChainNetwork] = useState<Network | undefined>(undefined);
   const [selectedDestinationChainNetwork, setSelectedDestinationChainNetwork] = useState<Network | undefined>(undefined);
-  const [selectedSourceToken, setSelectedSourceToken] = useState<Token | undefined>(undefined);
+  const [selectedSourceToken, setSelectedSourceToken] = useState<ERC20Token | NativeToken | undefined>(undefined);
 
   const [amount, setAmount] = useState<string>("");
   const [txHash, setTxHash] = useState<string>("");
@@ -78,17 +81,11 @@ const SwapWidget = () => {
     let _txHash: TransactionResponse | null = null; 
   
     try {
-      if (selectedSourceToken.isNative) {
-        const wrappedTx = await wrapNativeToken(signer, selectedSourceChainNetwork.chainId, BigInt(amount));
-        if (!wrappedTx) {
-          throw new Error("Failed to wrap native token");
-        }
-      }
   
       _txHash = await bridgeTokens(
         selectedSourceChainNetwork.loopsoContractAddress,
         signer,
-        selectedSourceToken.address,
+        selectedSourceToken.token_address,
         BigInt(amount),
         wallet?.accounts[0].address,
         selectedDestinationChainNetwork.chainId
@@ -99,14 +96,6 @@ const SwapWidget = () => {
   
     if (_txHash) {
       setTxHash(_txHash.hash);
-      
-      // TODO: complete the promise when the wrappedTokensReleased & tokensReleased is fired
-      const promise = () => new Promise((resolve) => setTimeout(resolve, 10000));
-      toast.promise(promise, {
-        loading: '⏳ Transaction in progress...',
-        // success: '✅ Successfully bridged!',
-        // error: '🛑 Error. Please try again.',
-      });
       toast.info(
         <div onClick={() => openNewTab(getExplorerTransaction(selectedSourceChainNetwork.chainId, _txHash!.hash ))} className='cursor-pointer'>
           <span className='font-semibold'>🍻 Transaction Created 🍻</span>
@@ -125,12 +114,6 @@ const SwapWidget = () => {
       );
     }
   };
-  
-    
-  
-  
-
-    
 
   return (
     <motion.div
@@ -183,7 +166,12 @@ const SwapWidget = () => {
               }
             />
             <div className={selectedSourceChainNetwork ? '' : 'disabled-modal'}>
-              <SelectTokenModal
+              {/* <SelectTokenModal
+                network={selectedSourceChainNetwork}
+                selectedToken={selectedSourceToken}
+                setSelectedToken={setSelectedSourceToken}
+              /> */}
+              <SelectTokenModalV2 
                 network={selectedSourceChainNetwork}
                 selectedToken={selectedSourceToken}
                 setSelectedToken={setSelectedSourceToken}

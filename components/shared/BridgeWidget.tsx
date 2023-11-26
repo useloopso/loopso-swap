@@ -170,13 +170,6 @@ const BridgeWidget = () => {
         const _txHash = await bridgeNonFungibleTokens(selectedSrcNetwork.loopsoContractAddress, signer, tokenAddress, wallet.accounts[0].address, selectedDstNetwork.chainId, Number(tokenId), tokenUri)
         
         if (_txHash) {
-          // TODO: complete the promise when the wrappedTokensReleased & tokensReleased is fired
-          const promise = () => new Promise((resolve) => setTimeout(resolve, 10000));
-          toast.promise(promise, {
-            loading: '⏳ Transaction in progress...',
-            // success: '✅ Successfully bridged!',
-            // error: '🛑 Error. Please try again.',
-          });
           toast.info(
             <div onClick={() => openNewTab(getExplorerTransaction(selectedSrcNetwork.chainId, _txHash.hash))} className='cursor-pointer'>
               <span className='font-semibold'>🍻 Transaction Created 🍻</span>
