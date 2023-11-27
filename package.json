@@ -39,7 +39,7 @@
     "dotenv": "^16.3.1",
     "ethers": "^6.8.1",
     "gsap": "^3.12.2",
-    "loopso-bridge-sdk": "^1.0.31",
+    "loopso-bridge-sdk": "^1.0.32",
     "lucide-react": "^0.292.0",
     "maath": "^0.10.4",
     "moralis": "^2.23.2",
